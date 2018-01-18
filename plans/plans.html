@@ -41,20 +41,11 @@
                             <input ng-disabled="vm.activePlanPaneIndex == 1" flex ng-model="vm.search" type="text" ng-keypress="searchKeyPress($event,vm.search,vm.search.length)" ng-change="loadByKeywordPlan(vm.search,3)" placeholder="Search for Plans">
                         </div>
                     </div>
-                    <md-button class="md-raised font-accent mr-15 ml-10 main-app-create animate-fade-in-out" layout="row" layout-align="center center"
-                               ng-click="getMultipleEmbedPlans('true', $event)"
-                               ng-if="!isLoading"
-                               ng-disabled="selectMultiplePlansForEmbedForm"> <i class="material-icons font-accent fs-18 mr-5">receipt</i> Public page</md-button>
-                    <md-button class="md-raised md-accent main-app-create" layout="row" layout-align="center center" aria-label="compose"
-                               ng-disabled="vm.activePlanPaneIndex == 1"
-                               ng-click="toggleEdit('Base-Plan')"
-                               ng-if="!inpageReadPaneEdit"><span class="fs-18 mr-10">+</span> Plan
+                    <md-button class="md-raised md-accent main-app-create" layout="row" layout-align="center center" aria-label="compose" ng-disabled="vm.activePlanPaneIndex == 1" ng-click="toggleEdit('Base-Plan')" ng-if="!inpageReadPaneEdit && !selectMultiplePlansForEmbedForm"><span class="fs-18 mr-10">+</span> Plan
                     </md-button>
-                    <md-button class="md-raised md-accent main-app-create" layout="row" layout-align="center center" aria-label="compose"
-                               ng-disabled="vm.activePlanPaneIndex == 1"
-                               ng-click="toggleEdit('Add-on')"
-                               ng-if="!inpageReadPaneEdit"><span class="fs-18 mr-10">+</span> Add-on
+                    <md-button class="md-raised md-accent main-app-create" layout="row" layout-align="center center" aria-label="compose" ng-disabled="vm.activePlanPaneIndex == 1" ng-click="toggleEdit('Add-on')" ng-if="!inpageReadPaneEdit && !selectMultiplePlansForEmbedForm"><span class="fs-18 mr-10">+</span> Add-on
                     </md-button>
+                    <md-button ng-click="getPlansForEmbed(vm.plans)" class="embed-btn md-raised font-accent h-30 lh-32" layout="row" layout-align="center center" ng-if="selectMultiplePlansForEmbedForm">Embed <md-icon md-font-icon="icon-share" class="fs-20 font-accent w-20 h-20 m-0 lh-18"></md-icon><md-tooltip>Get embeddable form</md-tooltip></md-button>
                 </div>
             </div>
             <!--<div class="v-nav">-->
@@ -118,24 +109,8 @@
             <div class="content-card" layout="column" ng-class="{'flex-30':showInpageReadpane}" flex>
 
                 <!-- CONTENT TOOLBAR -->
-                <div class="toolbar list-header" layout="row" layout-align="space-between center"
-                     ng-if="vm.activePlanPaneIndex === 0"
-                     ng-class="{'no-shadow':selectMultiplePlansForEmbedForm}">
+                <div class="toolbar list-header" layout="row" layout-align="space-between center" ng-if="vm.activePlanPaneIndex === 0">
                     <div ng-include="'app/main/plans/views/list/list-header.html'" layout="row" flex layout-align="start center"></div>
-                </div>
-                <div class="inner-list-controls-block" layout="row" layout-align="space-between center" ng-if="selectMultiplePlansForEmbedForm">
-                    <div layout="row">
-                        <i class="material-icons">receipt</i>
-                        <div>
-                            <h4 class="m-0 mb-10">Get embeddable content of your plan</h4>
-                            <p class="m-0">Select what plans you want in your embeddable form</p>
-                        </div>
-                    </div>
-                    <div layout="row" layout-align="start center">
-                        <md-progress-circular ng-if="embedPreview"></md-progress-circular>
-                        <md-button ng-click="getMultipleEmbedPlans('false')">cancel</md-button>
-                        <md-button ng-click="getPlansForEmbed(vm.plans)" ng-disabled="embedPreview" class="embed-btn md-raised font-accent h-30 lh-32" layout="row" layout-align="center center" ng-if="selectMultiplePlansForEmbedForm">Embed <md-icon md-font-icon="icon-share" class="fs-20 font-accent w-20 h-20 m-0 lh-18"></md-icon><md-tooltip>Get embeddable form</md-tooltip></md-button>
-                    </div>
                 </div>
                 <div class="toolbar" layout="row" layout-align="space-between center" ng-if="vm.activePlanPaneIndex === 1">
                     <h3>New {{content.type}}</h3>
@@ -175,6 +150,36 @@
                         </md-tab>
                         <!-- / INVOICE DISPLAY PANE -->
                     </md-tabs>
+
+                  <div id="stop-subscription" layout="column" ng-if="showEmbedForm" fill-width class="animate-slide-down" md-whiteframe="3dp">
+                    <div class="header-bar text-right" layout="row" layout-align="space-between center">
+                      <h3><b>Embed form</b></h3>
+                      <md-button class="md-icon-button" ng-click="closeEmbedForm()"><md-icon md-font-icon="icon-close"></md-icon> </md-button>
+                    </div>
+                    <div class="p-20">
+                      <div>
+                        <div class="mb-10">1. <b>Copy</b> the content below.</div>
+                        <div class="mb-20">2. Paste (insert) the copied content into your own.</div>
+                      </div>
+                      <div layout="row" layout-align="start start" ng-show="embededFormEnabled" flex>
+                        <div class="pos-rel of-h" flex>
+                          <label class="copied animate-fade-in-out" md-whiteframe="3dp" ng-if="embedFormCopied" ng-hide="coppiedTimeout">Copied</label>
+                          <div>
+                            <pre id="embededCode" class="custom-scroll embeded-code prettyprint">{{fullEmbededPlanForm}}</pre>
+                          </div>
+                          <!--<textarea id="embededCode" class="embeded-code" type="textarea" name="planName" fill-width ng-model="fullEmbededPlanForm" rows="15"></textarea>-->
+                        </div>
+                        <!--<md-content class="embeded-code" ms-scroll>-->
+                        <!--<pre>{{fullEmbededPlanForm}}</pre>-->
+                        <!--</md-content>-->
+                        <!--<script type="text/ng-template" id="embed-form">-->
+                        <!--<div></div>-->
+                        <!--</script>-->
+                        <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+                        <md-button class="md-icon-button md-accent" ng-click="copyToClipboard()"><md-icon md-font-icon="icon-content-copy" class="md-accent"></md-icon><md-tooltip>Copy to clipboard</md-tooltip></md-button>
+                      </div>
+                    </div>
+                  </div>
 
                 </div>
                 <!-- / CONTENT WRAPPER -->
@@ -654,15 +659,6 @@
                                             <md-checkbox ng-model="vm.editSelectedPlan.apply_tax" aria-label="Apply Tax" class="md-primary dep-checkbox" style="top:0;width: 100px;">Apply Tax</md-checkbox>
                                         </div>
                                     </div>
-									<div flex="5" ng-if="vm.usingAvalaraTax"></div>
-									<div layout="row" flex="30" ng-if="vm.usingAvalaraTax">
-										<div layout="column" flex>
-											<md-input-container>
-												<label>Avalara tax code</label>
-												<input ng-required="false" type="text" min="" name="avalaraTaxCode" ng-model="vm.editSelectedPlan.avaTaxCode">
-											</md-input-container>
-										</div>
-									</div>
                                     <!--<div flex="5"></div>-->
                                     <!--<div flex="30" layout="row">-->
                                     <!--<md-input-container flex>-->
