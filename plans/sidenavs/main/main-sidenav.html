@@ -1,0 +1,27 @@
+<!-- SIDENAV HEADER -->
+<div class="header" layout="column" layout-align="space-between start">
+
+    <div class="logo" layout="row" layout-align="start center">
+        <span class="logo-icon">
+          <img src="app/core/app_icons/report_app_icon.png" alt=""/>
+        </span>
+        <span class="logo-text">Plans</span>
+    </div>
+
+</div>
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT -->
+<md-content ms-scroll class="content" layout="row" flex>
+
+    <div class="compose-button">
+        <md-button class="md-accent md-raised" aria-label="compose"
+                   ng-click="toggleEdit()" ng-if="!inpageReadPaneEdit">{{vm.pageTitle}}
+        </md-button>
+    </div>
+
+    <div class="navigation-simple" layout="column" ng-if="showFilers">
+    </div>
+
+</md-content>
+<!-- / SIDENAV CONTENT -->

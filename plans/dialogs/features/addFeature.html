@@ -1,0 +1,247 @@
+<md-dialog class="prompt-dialog" style="width: 60%">
+    <md-toolbar>
+        <div layout="row" layout-align="space-between center">
+            <div layout="row" layout-align="start center">
+                <i class="material-icons">stars</i> <h3>New feature</h3>
+            </div>
+            <md-button class="md-icon-button" ng-click="closeDialog()" aria-label="Close dialog">
+                <md-icon md-font-icon="icon-close"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <form name="vm.addFeatureForm" id="addFeatureForm" ng-submit="submitAddFeature()" flex>
+        <div style="z-index: 1">
+            <div class="p-16">
+                <div layout="row" class="h-80">
+                    <div flex="30">
+                        <md-input-container class="md-block" id="invProdQty">
+                            <label>Feature</label>
+                            <input type="text" ng-required="true" min="1" ng-model="vm.features.feature">
+                        </md-input-container>
+                    </div>
+
+                    <div flex="5"></div>
+
+                    <div flex="30">
+                        <md-input-container class="md-block" id="invProdQty8">
+                            <label>Feature code</label>
+                            <input type="text" ng-required="true" min="1" ng-model="vm.features.featureCode">
+                        </md-input-container>
+                    </div>
+
+                    <div flex="5"></div>
+
+                    <div flex="20" layout="row" layout-align="start center">
+                        <md-button layout="row" layout-align="start center" ng-if="!vm.showAdvanceFeatures" ng-click="vm.setAdvanceFeatures(vm.features);" class="md-accent fs-14">
+                            <md-icon md-font-icon="icon-plus-circle" class="md-primary fs-18 mr-5" ng-class=""></md-icon>
+                            Add rating
+                        </md-button>
+                    </div>
+
+                    <div id="stop-subscription" layout="column" ng-if="vm.featuresInit" ng-hide="vm.advancedFeaturesConfirmed" class="w-480 animate-slide-down" md-whiteframe="4dp">
+                        <div class="header-bar text-right" layout="row" layout-align="space-between center">
+                            <h3>Rating</h3>
+                            <md-button class="md-icon-button" ng-click="vm.closeAdvanceFeatures(vm.features)"><md-icon md-font-icon="icon-close"></md-icon> </md-button>
+                        </div>
+                        <div class="pt-40 pb-10 ph-15">
+                            <md-button class="md-icon-button content-close" ng-click="vm.closeAdvanceFeatures(vm.features)"><md-icon md-font-icon="icon-close"></md-icon> </md-button>
+                            <div>
+                                <div layout="row" layout-align="space-between center">
+                                    <div layout="column" layout-align="start start">
+                                        <div layout="row" layout-align="start center" class="title">
+                                            <md-icon md-font-icon="icon-book"></md-icon> <span flex>Fixed</span>
+                                        </div>
+                                        <div class="mt-10">Fixed rating will be added</div>
+                                    </div>
+                                    <md-button class="md-accent md-raised" ng-click="setFeature(vm.features, 'FIXED')">Choose this</md-button>
+                                </div>
+                            </div>
+                            <md-divider class="mt-20 mb-10"></md-divider>
+                            <div>
+                                <div layout="row" layout-align="space-between center">
+                                    <div layout="column" layout-align="start start">
+                                        <div layout="row" layout-align="start center" class="title">
+                                            <md-icon md-font-icon="icon-book-multiple"></md-icon> <span flex>Slab</span>
+                                        </div>
+                                        <div class="mt-10">Slab ratings will be added</div>
+                                    </div>
+                                    <md-button class="md-accent md-raised" ng-click="setFeature(vm.features, 'SLAB')">Choose this</md-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="stop-subscription" layout="column" ng-if="vm.addNewUOM" class="w-480 animate-slide-down" md-whiteframe="4dp" style="bottom: 0;height: 180px;">
+            <div class="header-bar text-right" layout="row" layout-align="space-between center">
+                <h3>New UOM</h3>
+                <md-button class="md-icon-button" ng-click="closeAddUOM()"><md-icon md-font-icon="icon-close"></md-icon> </md-button>
+            </div>
+            <div class="p-10">
+                <div>
+                    <md-input-container class="md-block mb-0" flex>
+                        <label>UOM</label>
+                        <input type="text" ng-required="true" min="" ng-model="vm.newUOM">
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-align="end center">
+                    <md-button ng-click="addUOM()" class="md-accent">Add</md-button>
+                    <md-button ng-click="closeAddUOM()" class="md-accent md-raised">Cancel</md-button>
+                </div>
+            </div>
+        </div>
+
+        <md-content ms-scroll>
+            <div ng-show="vm.showAdvanceFeatures">
+                <div flex layout="row" layout-align="space-between center">
+                    <!--<div flex ng-hide="row.showAdvanceFeatures"></div>-->
+                    <div flex class="light-gray ph-15 pos-rel" layout="row" layout-align="center center" md-whiteframe="2dp">
+                        <md-input-container class="mv-5">
+                            <md-radio-group name="planType" ng-required ng-model="vm.featureType" layout="row" class="cc-switch-buttons-group">
+                                <md-radio-button value="FIXED" class="cc-switch-buttons" md-ink-ripple ng-disabled="vm.featureType == 'FIXED'" ng-style="vm.featureType == 'SLAB' ? {'z-index':'1'} : {'z-index':'0'}">FIXED</md-radio-button>
+                                <md-radio-button value="SLAB" class="cc-switch-buttons" md-ink-ripple ng-disabled="vm.featureType == 'SLAB'" ng-style="vm.featureType == 'FIXED' ? {'z-index':'1'} : {'z-index':'0'}">SLAB</md-radio-button>
+                            </md-radio-group>
+                        </md-input-container>
+                        <!--<md-radio-group layout="row" layout-align="start center" ng-change="closeAddUOM()" ng-required="true" id="createFeatureType" ng-model="vm.featureType">-->
+                            <!--<md-radio-button value="optional" ng-hide="true" class="md-primary">Optional</md-radio-button>-->
+                            <!--<md-radio-button value="FIXED" class="md-primary">Fixed</md-radio-button>-->
+                            <!--<md-radio-button value="SLAB" class="md-primary">Slab</md-radio-button>-->
+                        <!--</md-radio-group>-->
+                        <md-button layout="row" layout-align="start center" ng-if="vm.showAdvanceFeatures" ng-click="vm.closeAdvanceFeatures(vm.features);" class="md-primary fs-12 pos-abs" style="right: 10px;top: 0;bottom: 0;margin: auto;"> <md-icon md-font-icon="icon-close" class="md-primary fs-16" ng-class=""></md-icon> Close rating</md-button>
+                    </div>
+                    <!--<md-input-container class="animate-fade-in-out" ng-show="showAdvanceFeatures" flex="30">-->
+                    <!--<label>Type</label>-->
+                    <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
+                    <!--<md-select ng-required="true" id="createFeatureType" flex ng-model="row.type" ng-init="row.type=''">-->
+                    <!--&lt;!&ndash;<md-option value="optional" selected>&#45;&#45;Select Type&#45;&#45;</md-option>&ndash;&gt;-->
+                    <!--<md-option value="optional" ng-hide="true" selected>optional</md-option>-->
+                    <!--<md-option value="FIXED">FIXED</md-option>-->
+                    <!--<md-option value="SLAB">SLAB</md-option>-->
+                    <!--</md-select>-->
+                    <!--</md-input-container>-->
+                    <!--<md-button layout="row" layout-align="start center" ng-if="showAdvanceFeatures" ng-click="closeAdvanceFeatures(row);" class="md-primary fs-12"> <md-icon md-font-icon="icon-close" class="md-primary fs-16" ng-class=""></md-icon> Close rating</md-button>-->
+                </div>
+                <!--<div class="p-15" layout="row" ng-if="vm.addNewUOM">-->
+                  <!--<div layout-align="start center" layout="row" flex>-->
+                    <!--<md-input-container class="md-block mb-0" id="invProdQty2" flex="30">-->
+                      <!--<label>New UOM</label>-->
+                      <!--<input type="text" ng-required="true" min="" ng-model="vm.newUOM">-->
+                    <!--</md-input-container>-->
+                    <!--<div flex="5"></div>-->
+                    <!--<md-input-container>-->
+
+                    <!--</md-input-container>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <div class="p-15" layout="row" ng-if="vm.featureType=='FIXED' && vm.showAdvanceFeatures">
+                    <div layout-align="start center" layout="row" flex>
+                        <md-input-container class="md-block mb-0" id="invProdQty2" flex="30">
+                            <label>Unit Quantity</label>
+                            <input type="number" ng-required="true" min="1" ng-model="vm.features.unitsTo">
+                        </md-input-container>
+                        <div flex="5"></div>
+                        <md-input-container class="md-block" id="invProdQty3" flex="30">
+                            <label>Unit UOM</label>
+                            <!--<input type="text" ng-required="true" min="1" ng-model="row.unitUom">-->
+                            <md-select ng-required="true" flex ng-model="vm.features.unitUom">
+                                <md-option ng-repeat="uom in vm.uoms" value="{{uom.UOMCode}}">{{uom.UOMCode}}</md-option>
+                                <!--<md-option value="Units" selected>Units</md-option>-->
+                                <!--<md-option value="GB">GB</md-option>-->
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container>
+                          <md-button ng-click="showAddUOMPrompt()" class="md-icon-button md-accent"><md-icon md-font-icon="icon-plus-circle"></md-icon><md-tooltip>Add new</md-tooltip> </md-button>
+                        </md-input-container>
+                    </div>
+                    <!--<div flex="5"></div>-->
+                    <!--<div layout-align-md="start center" layout-md="column" flex="30">-->
+                        <!--<div flex>-->
+                            <!--<md-input-container class="md-block" id="invProdQty4">-->
+                                <!--<label>Unit Price</label>-->
+                                <!--<input type="number" ng-required="true" min="1" ng-change="" ng-model="vm.features.price">-->
+                            <!--</md-input-container>-->
+                        <!--</div>-->
+                        <!--<div flex>-->
+                            <!--<md-input-container class="md-block" id="invProdQty5">-->
+                                <!--<label>UOM</label>-->
+                                <!--<!--<input type="text" ng-required="true" min="1" ng-model="row.unitUom">-->
+                                <!--<md-select ng-required="true" flex ng-model="vm.features.uom">-->
+                                    <!--<md-option value="OneTime" selected>One time</md-option>-->
+                                    <!--<md-option value="Months">Months</md-option>-->
+                                    <!--<md-option value="Years">Years</md-option>-->
+                                    <!--<md-option value="Days">Days</md-option>-->
+                                <!--</md-select>-->
+                            <!--</md-input-container>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div flex="5"></div>-->
+                    <!--<div flex layout="column" layout-align="center start" flex="30">-->
+                        <!--<md-input-container fill-width class="mt-0" id="invProdQty7" ng-if="!vm.features.autoTermination">-->
+                            <!--<label>Additional charge per unit</label>-->
+                            <!--<input type="number" ng-disabled="vm.features.autoTermination" ng-required="true" min="1" ng-model="vm.features.costPerUnitAdd">-->
+                        <!--</md-input-container>-->
+                        <!--<md-checkbox ng-model="vm.features.autoTermination" aria-label="Auto Terminate" class="md-primary dep-checkbox" ng-class="{'offset-top':!vm.features.autoTermination}">Auto terminate</md-checkbox>-->
+                    <!--</div>-->
+                </div>
+                <div ng-if="vm.featureType=='SLAB' && vm.showAdvanceFeatures" layout="column" class="p-10">
+                    <div layout="row" ng-repeat="slab in vm.features.scheme" class="highlight-blue solid p-5">
+                        <md-input-container class="mb-0" flex="30">
+                            <label>Starting quantity</label>
+                            <input type="number" ng-required="true" min="0" ng-model="slab.unitsFrom">
+                        </md-input-container>
+                        <div flex="5"></div>
+                        <md-input-container class="mb-0" flex="30">
+                            <label>Ending Quantity</label>
+                            <input type="number" ng-required="true" min="1" ng-model="slab.unitsTo">
+                        </md-input-container>
+                        <div flex="5"></div>
+                        <md-input-container class="mb-0" flex="30">
+                            <label>Unit UOM</label>
+                            <!--<input type="text" ng-required="true" min="1" ng-model="row.unitUom">-->
+                            <md-select ng-required="true" flex ng-model="slab.unitUom">
+                                <md-option ng-repeat="uom in vm.uoms" value="{{uom.UOMCode}}">{{uom.UOMCode}}</md-option>
+                                <!--<md-option value="Units" selected>Units</md-option>-->
+                                <!--<md-option value="GB">GB</md-option>-->
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container>
+                          <md-button ng-click="showAddUOMPrompt()" class="md-icon-button md-accent"><md-icon md-font-icon="icon-plus-circle"></md-icon><md-tooltip>Add new</md-tooltip> </md-button>
+                        </md-input-container>
+                        <!--<div flex="5"></div>-->
+                        <!--<div flex="30" layout="column" layout-align="center start">-->
+                            <!--<md-input-container fill-width class="mt-40" id="invProdQty7" ng-if="slab.autoTermination==false">-->
+                                <!--<label>Additional charge per unit</label>-->
+                                <!--<input type="number" ng-required="true" min="1" ng-model="slab.costPerUnitAdd">-->
+                            <!--</md-input-container>-->
+                            <!--<md-checkbox ng-model="slab.autoTermination" aria-label="Auto Terminate" class="md-primary dep-checkbox" ng-class="{'offset-top':!slab.autoTermination}">Auto terminate</md-checkbox>-->
+                        <!--</div>-->
+                        <div class="w-5"></div>
+                        <div layout="column" layout-align="center center" class="v-rule-gray">
+                            <md-button ng-click="removerow($index,vm.features.scheme);" class="md-icon-button md-warn"><md-icon md-font-icon="icon-close-circle"></md-icon><md-tooltip>Remove slab</md-tooltip> </md-button>
+                        </div>
+                    </div>
+
+                    <div layout="row" layout-align="end center">
+                        <md-button ng-click="addNewSlab(vm.features);" class="md-accent md-icon-button mr-10"><md-icon md-font-icon="icon-plus-circle"></md-icon><md-tooltip>Add slab</md-tooltip></md-button>
+                    </div>
+                </div>
+            </div>
+        </md-content>
+
+        <md-divider></md-divider>
+        <md-dialog-actions layout="row" class="bg-gray">
+            <div layout="row" class="layout-row" ng-if="vm.mode=='Add'">
+                <md-progress-circular class="gen-save-indicator" ng-if="vm.addFeatureSubmitted"></md-progress-circular>
+                <md-button ng-disabled="vm.addFeatureSubmitted" type="submit" class="md-raised md-accent" form="addFeatureForm">Save</md-button>
+            </div>
+            <div layout="row" class="layout-row" ng-if="vm.mode=='Update'">
+                <md-progress-circular class="gen-save-indicator" ng-if="vm.addFeatureSubmitted"></md-progress-circular>
+                <md-button ng-click="resetFeature();">Reset</md-button>
+                <md-button ng-disabled="vm.addFeatureSubmitted" type="submit" class="md-raised md-accent" form="addFeatureForm">Update</md-button>
+            </div>
+        </md-dialog-actions>
+    </form>
+
+</md-dialog>

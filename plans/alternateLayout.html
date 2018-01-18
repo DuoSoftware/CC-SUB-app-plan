@@ -1,0 +1,292 @@
+<!-- CENTER -->
+    <div ng-switch="vm.appInnerState" class="center" layout="column" flex>
+
+        <div class="innerViews" ng-switch-when="default">
+            <!-- CONTENT HEADER -->
+            <div class="header" layout="row" layout-align="start center">
+
+                <div class="search-wrapper md-whiteframe-4dp" layout="row" layout-align="start center" flex>
+                    <md-button class="md-icon-button sidenav-toggle" ng-click="vm.toggleSidenav('main-sidenav')" hide-gt-md
+                               aria-label="Toggle Sidenav">
+                        <md-icon class="icon" md-font-icon="icon-menu"></md-icon>
+                    </md-button>
+
+                    <div class="search" flex layout="row" layout-align="start center">
+                        <md-icon md-font-icon="icon-magnify" class="icon s24"></md-icon>
+                        <input flex ng-model="vm.search" type="text" placeholder="Search for invoice">
+                    </div>
+                </div>
+
+            </div>
+            <!-- / CONTENT HEADER -->
+
+            <!-- CONTENT CARD -->
+            <div class="content-card" layout="column" flex>
+
+                <!-- INVOICE VIEW PANE TOOLBAR -->
+                <div class="toolbar" layout="row" layout-align="space-between center" ng-if="vm.activeInvoicePaneIndex === 1">
+                    <md-button class="md-icon-button"
+                               ng-click="vm.closeReadPane()"
+                               aria-label="Back">
+                        <md-icon md-font-icon="icon-keyboard-backspace"></md-icon>
+                    </md-button>
+                </div>
+                <!-- / INVOICE VIEW PANE TOOLBAR -->
+
+                <!-- CONTENT TOOLBAR -->
+                <div class="toolbar" layout="row" layout-align="space-between center" ng-if="vm.activeInvoicePaneIndex === 0">
+
+                    <div layout="row" layout-align="start center">
+                        <md-checkbox class="no-label" aria-label="{{vm.allChecked?'Uncheck All':'Check All'}}"
+                                     ng-checked="vm.allChecked" ng-click="vm.checkAll()"></md-checkbox>
+                        <md-menu>
+                            <md-button class="md-icon-button"
+                                       ng-click="$mdOpenMenu($event)"
+                                       aria-label="Filters">
+                                <md-icon md-font-icon="icon-menu-down"></md-icon>
+                            </md-button>
+                            <md-menu-content width="3">
+                                <md-menu-item>
+                                    <md-button aria-label="All">
+                                        All
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button aria-label="None">None
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button aria-label="Starred">Starred
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button aria-label="Unstarred">Unstarred
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+
+                        <div class="divider-vertical" hide show-gt-sm></div>
+
+                        <md-button class="md-icon-button" aria-label="Archive" hide show-gt-sm>
+                            <md-icon md-font-icon="icon-archive"></md-icon>
+                            <md-tooltip><span>Archive</span></md-tooltip>
+                        </md-button>
+
+                        <md-button class="md-icon-button" aria-label="Clear" hide show-gt-sm>
+                            <md-icon md-font-icon="icon-alert-octagon"></md-icon>
+                            <md-tooltip><span>Clear</span></md-tooltip>
+                        </md-button>
+
+                        <md-button class="md-icon-button" aria-label="Delete" hide show-gt-sm>
+                            <md-icon md-font-icon="icon-delete"></md-icon>
+                            <md-tooltip><span>Delete</span></md-tooltip>
+                        </md-button>
+
+
+                        <md-menu hide-gt-sm>
+                            <md-button class="md-icon-button"
+                                       ng-click="$mdOpenMenu($event)">
+                                <md-icon md-font-icon="icon-dots-vertical"></md-icon>
+                            </md-button>
+                            <md-menu-content width="3">
+                                <md-menu-item>
+                                    <md-button aria-label="Archive">
+                                        <md-icon md-font-icon="icon-archive"></md-icon>
+                                        <span>Archive</span>
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button aria-label="Clear">
+                                        <md-icon md-font-icon="icon-alert-octagon"></md-icon>
+                                        <span>Clear</span>
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button aria-label="Delete">
+                                        <md-icon md-font-icon="icon-delete"></md-icon>
+                                        <span>Delete</span>
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                    </div>
+
+                    <div layout="row" layout-align="start center">
+                        <span class="page-info" hide-sm>1 - 100 of 980</span>
+
+                        <md-button class="md-icon-button arrow" aria-label="Previous">
+                            <md-icon md-font-icon="icon-chevron-left"></md-icon>
+                            <md-tooltip><span>Previous</span></md-tooltip>
+                        </md-button>
+
+                        <md-button class="md-icon-button arrow" aria-label="Next">
+                            <md-icon md-font-icon="icon-chevron-right"></md-icon>
+                            <md-tooltip><span>Next</span></md-tooltip>
+                        </md-button>
+                    </div>
+                </div>
+                <!-- / CONTENT TOOLBAR -->
+
+                <!-- CONTENT WRAPPER -->
+                <div class="content-wrapper" layout="row" flex>
+
+                    <md-tabs md-selected="vm.activeInvoicePaneIndex" class="invoice-tabs" md-dynamic-height="{{vm.dynamicHeight}}" flex>
+                        <!-- INVOICE LIST PANE -->
+                        <md-tab>
+                            <md-tab-label>Invoice List Pane</md-tab-label>
+                            <md-tab-body>
+                                <div class="content invoice-list-pane"
+                                     ng-include="'app/main/invoice/views/list/list-view.html'" ms-scroll>
+                                </div>
+                            </md-tab-body>
+                        </md-tab>
+                        <!-- / INVOICE LIST PANE -->
+
+                        <!-- INVOICE DISPLAY PANE -->
+                        <md-tab>
+                            <md-tab-label>Invoice Display Pane</md-tab-label>
+                            <md-tab-body>
+                                <div class="content invoice-display-pane"
+                                     ng-include="'app/main/invoice/views/read/read-view.html'" ms-scroll>
+                                </div>
+                            </md-tab-body>
+                        </md-tab>
+                        <!-- / INVOICE DISPLAY PANE -->
+                    </md-tabs>
+
+                </div>
+                <!-- / CONTENT WRAPPER -->
+
+            </div>
+            <!-- / CONTENT CARD -->
+        </div>
+
+        <div class="innerViews" ng-switch-when="add">
+            <div class="header" layout="row" layout-align="start center">
+
+            </div>
+            <!-- / CONTENT HEADER -->
+
+            <!-- CONTENT CARD -->
+            <div class="content-card" layout="column" flex>
+
+                <!-- INVOICE VIEW PANE TOOLBAR -->
+                <div class="toolbar" layout="row" layout-align="space-between center" ng-if="vm.activeInvoicePaneIndex === 1">
+                    <md-button class="md-icon-button"
+                               ng-click="vm.closeReadPane()"
+                               aria-label="Back">
+                        <md-icon md-font-icon="icon-keyboard-backspace"></md-icon>
+                    </md-button>
+                </div>
+                <!-- / INVOICE VIEW PANE TOOLBAR -->
+
+                <!-- CONTENT TOOLBAR -->
+                <div class="toolbar" layout="row" layout-align="space-between center" ng-if="vm.activeInvoicePaneIndex === 0">
+
+                    <div layout="row" layout-align="start center">
+                        <md-checkbox class="no-label" aria-label="{{vm.allChecked?'Uncheck All':'Check All'}}"
+                                     ng-checked="vm.allChecked" ng-click="vm.checkAll()"></md-checkbox>
+                        <md-menu>
+                            <md-button class="md-icon-button"
+                                       ng-click="$mdOpenMenu($event)"
+                                       aria-label="Filters">
+                                <md-icon md-font-icon="icon-menu-down"></md-icon>
+                            </md-button>
+                            <md-menu-content width="3">
+                                <md-menu-item>
+                                    <md-button aria-label="All">
+                                        All
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button aria-label="None">None
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button aria-label="Starred">Starred
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button aria-label="Unstarred">Unstarred
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+
+                        <div class="divider-vertical" hide show-gt-sm></div>
+
+                        <md-button class="md-icon-button" aria-label="Archive" hide show-gt-sm>
+                            <md-icon md-font-icon="icon-archive"></md-icon>
+                            <md-tooltip><span>Archive</span></md-tooltip>
+                        </md-button>
+
+                        <md-button class="md-icon-button" aria-label="Clear" hide show-gt-sm>
+                            <md-icon md-font-icon="icon-alert-octagon"></md-icon>
+                            <md-tooltip><span>Clear</span></md-tooltip>
+                        </md-button>
+
+                        <md-button class="md-icon-button" aria-label="Delete" hide show-gt-sm>
+                            <md-icon md-font-icon="icon-delete"></md-icon>
+                            <md-tooltip><span>Delete</span></md-tooltip>
+                        </md-button>
+
+
+                        <md-menu hide-gt-sm>
+                            <md-button class="md-icon-button"
+                                       ng-click="$mdOpenMenu($event)">
+                                <md-icon md-font-icon="icon-dots-vertical"></md-icon>
+                            </md-button>
+                            <md-menu-content width="3">
+                                <md-menu-item>
+                                    <md-button aria-label="Archive">
+                                        <md-icon md-font-icon="icon-archive"></md-icon>
+                                        <span>Archive</span>
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button aria-label="Clear">
+                                        <md-icon md-font-icon="icon-alert-octagon"></md-icon>
+                                        <span>Clear</span>
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button aria-label="Delete">
+                                        <md-icon md-font-icon="icon-delete"></md-icon>
+                                        <span>Delete</span>
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                    </div>
+
+                    <div layout="row" layout-align="start center">
+                        <span class="page-info" hide-sm>1 - 100 of 980</span>
+
+                        <md-button class="md-icon-button arrow" aria-label="Previous">
+                            <md-icon md-font-icon="icon-chevron-left"></md-icon>
+                            <md-tooltip><span>Previous</span></md-tooltip>
+                        </md-button>
+
+                        <md-button class="md-icon-button arrow" aria-label="Next">
+                            <md-icon md-font-icon="icon-chevron-right"></md-icon>
+                            <md-tooltip><span>Next</span></md-tooltip>
+                        </md-button>
+                    </div>
+                </div>
+                <!-- / CONTENT TOOLBAR -->
+
+                <!-- CONTENT WRAPPER -->
+                <div class="content-wrapper" layout="row" flex>
+
+                    <h1>Add Invoice Panel</h1>
+                
+                </div>
+                <!-- / CONTENT WRAPPER -->
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- / CENTER -->
