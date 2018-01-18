@@ -641,7 +641,6 @@
 			}else {
 				if (state == 'show') {
 					$scope.showInpageReadpane = true;
-					$scope.editOff = false;
 					$scope.showEmbedForm = false;
 					$scope.$watch(function () {
 						//vm.selectedPlan = plan;
@@ -1499,7 +1498,6 @@
 		}
 		// Kasun_Wijeratne_8_5_2017
 		$scope.closeDialog = vm.closeDialog = function () {
-			vm.showEmbedMarkup = false;
 			$mdDialog.hide();
 		}
 
@@ -2233,16 +2231,12 @@
 
 		}
 
-		vm.clearSelectedEmbed = function (leave) {
+		vm.clearSelectedEmbed = function () {
 			$mdDialog.hide();
-			vm.showEmbedMarkup = false;
 			for(var i=0; i<vm.plans.length; i++){
 				vm.plans[i].selectForEmbed = false;
 			}
-			if(leave){
-				$scope.selectMultiplePlansForEmbedForm=false;
-			}
-		};
+		}
 
 		$scope.fullEmbededPlanForm="";
 		$scope.embededFormEnabled=false;
@@ -2265,17 +2259,8 @@
 			//	planDetailView = planDetailView.replace("<!-- end ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 -->", "");
 			//	planDetailView = planDetailView.replace('ng-if="vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0" class="ng-scope"', "");
 			//});
-			$scope.planBodyHeight = 0;
 			for(var i=0;i<plans.length;i++){
-				// var tempHeight = 60 + (25*plans[i].priceScheme.length);
-				// if($scope.planBodyHeight == 0 && plans[i].priceScheme.length == 0){
-				// 	$scope.planBodyHeight = 60;
-				// }else if(tempHeight > $scope.planBodyHeight){
-				// 	$timeout(function(){
-				// 		$scope.planBodyHeight = tempHeight;
-				// 	},0);
-				// }
-				var planIndiViewStart = "<div style='border: solid 1px #ccc;border-radius: 5px;margin: 0 auto;'> <div class='ab' style='padding: 15px;text-align: center;font-size: 25px;background: "+vm.embedPlanAccent+";color: #fff;border-top-left-radius: 5px;border-top-right-radius: 5px' class='ng-binding'>"+plans[i].name+"</div> <div style='overflow: hidden;text-align: center;background: #fafafa;border-bottom: solid 1px #eee;padding: 25px 0;'> <div class='af' style='display: inline-block;font-size: 25px;font-weight: bold;color: "+vm.embedPlanAccent+"' class='ng-binding'>"+plans[i].unitPrice+" "+plans[i].currency+"</div> <div style='display: inline-block;font-size: 14px;font-weight: 400;color: #AAA;' class='ng-binding'>/ "+plans[i].billingInterval+" "+plans[i].billEvery+"</div> </div> <div class='package-body' style='overflow: hidden;padding: 10px 0'> <div style='text-align: center;margin-bottom: 20px;'><span style='font-size: 14px;color: #000;text-align: left' class='ng-binding'>"+plans[i].trailDays+" trail day<span ng-if='vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0' class='ng-scope' style=''>s</span><!-- end ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 --> </span> </div>";
+				var planIndiViewStart = "<div style='border: solid 1px #ccc;border-radius: 5px;margin: 0 auto;'> <div class='ab' style='padding: 15px;text-align: center;font-size: 25px;background: "+vm.embedPlanAccent+";color: #fff;border-top-left-radius: 5px;border-top-right-radius: 5px' class='ng-binding'>"+plans[i].name+"</div> <div style='overflow: hidden;text-align: center;background: #fafafa;border-bottom: solid 1px #eee;padding: 25px 0;'> <div class='af' style='display: inline-block;font-size: 30px;font-weight: bold;color: "+vm.embedPlanAccent+"' class='ng-binding'>"+plans[i].unitPrice+" "+plans[i].currency+"</div> <div style='display: inline-block;font-size: 17px;font-weight: 400;color: #AAA;' class='ng-binding'>/ "+plans[i].billingInterval+" "+plans[i].billEvery+"</div> </div> <div style='overflow: hidden;padding: 10px 0'> <div style='text-align: center;margin-bottom: 5px;'><span style='font-size: 16px;color: rgba(0, 0, 0, 0.5);text-align: left' class='ng-binding'>"+plans[i].trailDays+" trail day<span ng-if='vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0' class='ng-scope' style=''>s</span><!-- end ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 --> </span> </div>";
 				var featurecode = "";
 				for(var j=0;j<plans[i].priceScheme.length;j++){
 					var featurecodeObj = "<div style='text-align: center;margin-bottom: 5px;'> <span style='margin-right: 10px;color: #a5d4ea;' class='feature-row'>✔</span><span style='color: rgba(0, 0, 0, 0.5);text-align: left' class='ng-binding'>"+plans[i].priceScheme[j].featureCode +"</span> </div>";
@@ -2296,7 +2281,6 @@
 					"<input type='hidden' name='paymentOption' id='paymentOption"+i+"' value='"+plans[i].paymentOption+"'>" +
 					"<input type='hidden' name='subscriptionKey' id='subscriptionKey"+i+"' value='"+$scope.subscriptionKey+"'>" +
 					"<input type='hidden' name='mode' id='mode"+i+"' value='"+getDomainExtension()+"'>" +
-					"<input type='hidden' name='theme' id='theme"+i+"' value='"+vm.embedPlanAccent.split('#')[1]+"'>" +
 					"<button name='subscriptionButton' type='submit' value='submit' class='ab' style='width: 95%;height: 37px;font-size: 17px;padding: 8px 20px;color: #fff;background-color: "+vm.embedPlanAccent+";box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);border: none;border-radius: 5px;'>Subscribe</button></div></body></form>";
 
 				planDetailSelectView=planDetailSelectView+startForm+planIndiView+endForm;
@@ -2311,7 +2295,6 @@
 				"var paymentOption=document.getElementById('paymentOption').value;" +
 				"var subscriptionKey=document.getElementById('subscriptionKey').value;" +
 				"var mode=document.getElementById('mode').value;" +
-				"var theme=document.getElementById('theme').value;" +
 				//"window.alert(planCode+' '+subscriptionKey);" +
 				"}" +
 				"</script>";
@@ -2342,8 +2325,6 @@
 			}else{
 				vm.planInjected = true;
 				vm.showEmbedMarkup = true;
-				var codee = document.getElementById('embededCode');
-				hljs.highlightBlock(codee);
 			}
 
 		}
@@ -2354,18 +2335,7 @@
 				var embedPreCnt = angular.element('#embedPreview');
 				embedPreCnt.append(vm.fullEmbedMarkup);
 				vm.planInjected = true;
-			}, 500);
-
-			$timeout(function(){
-				var packs = document.getElementsByClassName('package-body');
-				var tempHeight = 0;
-				angular.forEach(packs, function (pack) {
-					if(pack.clientHeight>tempHeight ){
-						tempHeight = pack.clientHeight;
-					};
-				});
-				$('.package-body').css('height',tempHeight);
-			}, 510);
+			}, 1000);
 		}
 
 		$scope.nothingSelected = true;

@@ -41,10 +41,10 @@
                             <input ng-disabled="vm.activePlanPaneIndex == 1" flex ng-model="vm.search" type="text" ng-keypress="searchKeyPress($event,vm.search,vm.search.length)" ng-change="loadByKeywordPlan(vm.search,3)" placeholder="Search for Plans">
                         </div>
                     </div>
-                    <md-button class="md-raised font-accent mr-15 ml-10 main-app-create animate-fade-in-out" layout="row" layout-align="center center"
+                    <md-button class="md-raised font-accent mr-15 main-app-create animate-fade-in-out" layout="row" layout-align="center center"
                                ng-click="getMultipleEmbedPlans('true', $event)"
                                ng-if="!isLoading"
-                               ng-disabled="selectMultiplePlansForEmbedForm"> <i class="material-icons font-accent fs-18 mr-5">receipt</i> Public page</md-button>
+                               ng-disabled="selectMultiplePlansForEmbedForm">Embed <md-icon md-font-icon="icon-share" class="font-accent fs-18"></md-icon></md-button>
                     <md-button class="md-raised md-accent main-app-create" layout="row" layout-align="center center" aria-label="compose"
                                ng-disabled="vm.activePlanPaneIndex == 1"
                                ng-click="toggleEdit('Base-Plan')"

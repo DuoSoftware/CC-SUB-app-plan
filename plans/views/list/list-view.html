@@ -10,42 +10,44 @@
 </div>
 
 <!-- INVOICE LIST ITEMS -->
-<div class="list-item p-0" layout="row" layout-align="center center" flex md-ink-ripple
+<div class="list-item" layout="row" layout-align="center center" flex md-ink-ripple
      ng-repeat="plan in vm.plans | filter:vm.search | filter: global.search"
+     ng-click="switchInfoPane('show',plan)"
      ng-class="{'selected': vm.selectedPlanName === plan.name && showInpageReadpane,
                 'embedThis': plan.selectForEmbed}">
-    <md-checkbox class="item-check" ng-model="plan.selectForEmbed" ng-if="selectMultiplePlansForEmbedForm" aria-label="EmbedCheckbox"></md-checkbox>
-    <div ng-click="switchInfoPane('show',plan)" layout="row" layout-align="start center" class="ph-16 pv-10" flex>
-        <div class="dual-info" layout="column" layout-align="center start" flex="30" style="max-width: 275px">
-            <span>{{plan.name}}</span>
-            <div class="dual-info-sub">
-                {{plan.type}}
-            </div>
-        </div>
 
-        <div flex layout="column" layout-align="center start" ng-if="!showInpageReadpane">
-            {{plan.code}}
-        </div>
+    <div flex="5" ng-if="selectMultiplePlansForEmbedForm">
+        <md-checkbox class="m-0" ng-model="plan.selectForEmbed" aria-label="EmbedCheckbox"></md-checkbox>
+    </div>
 
-        <div flex="10" layout="column" layout-align="center start" ng-if="!showInpageReadpane">
-            <span>{{plan.createdDate}}</span>
-        </div>
-
-        <div flex layout="column" layout-align="center start" ng-if="!showInpageReadpane">
-            <span>{{plan.billEvery}}</span>
-        </div>
-
-        <div flex layout="column" layout-align="center end" ng-if="!showInpageReadpane">
-            <span>{{plan.unitPrice | isoCurrency:plan.currency :decimalPoint}}</span>
-        </div>
-
-        <div flex="5"></div>
-
-        <div class="status" layout="column" layout-align="center start" ng-class="{'flex-30':showInpageReadpane == true,'flex-10': showInpageReadpane == false}">
-            <span class="pill" layout="row" layout-align="center center" ng-class="{'negative':plan.status==='Inactive','positive':plan.status==='Active'}">{{plan.status}}</span>
+    <div class="dual-info" layout="column" layout-align="center start" flex="30" style="max-width: 275px">
+        <span>{{plan.name}}</span>
+        <div class="dual-info-sub">
+            {{plan.type}}
         </div>
     </div>
 
+    <div flex layout="column" layout-align="center start" ng-if="!showInpageReadpane">
+        {{plan.code}}
+    </div>
+
+    <div flex="10" layout="column" layout-align="center start" ng-if="!showInpageReadpane">
+        <span>{{plan.createdDate}}</span>
+    </div>
+
+    <div flex layout="column" layout-align="center start" ng-if="!showInpageReadpane">
+        <span>{{plan.billEvery}}</span>
+    </div>
+
+    <div flex layout="column" layout-align="center end" ng-if="!showInpageReadpane">
+        <span>{{plan.unitPrice | isoCurrency:plan.currency :decimalPoint}}</span>
+    </div>
+
+    <div flex="5"></div>
+
+    <div class="status" layout="column" layout-align="center start" ng-class="{'flex-30':showInpageReadpane == true,'flex-10': showInpageReadpane == false}">
+        <span class="pill" layout="row" layout-align="center center" ng-class="{'negative':plan.status==='Inactive','positive':plan.status==='Active'}">{{plan.status}}</span>
+    </div>
 </div>
 <div class="invoice-list-item" ng-hide="hideSearchMore || vm.searchMoreInit" layout="row" layout-align="center center">
     <md-button ng-click="loadByKeywordPlan(vm.search,vm.search.length)" class="md-primary" style="font-size: 12px;font-weight: 400"><md-icon md-font-icon="icon-magnify"></md-icon> More</md-button>
