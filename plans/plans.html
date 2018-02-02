@@ -134,6 +134,7 @@
                     <div layout="row" layout-align="start center">
                         <md-progress-circular ng-if="embedPreview"></md-progress-circular>
                         <md-button ng-click="getMultipleEmbedPlans('false')">cancel</md-button>
+                        <!--<md-button ng-click="getPlansForEmbed(vm.plans)" ng-disabled="embedPreview" class="embed-btn md-raised font-accent h-30 lh-32" layout="row" layout-align="center center" ng-if="selectMultiplePlansForEmbedForm">Embed <md-icon md-font-icon="icon-share" class="fs-20 font-accent w-20 h-20 m-0 lh-18"></md-icon><md-tooltip>Get embeddable form</md-tooltip></md-button>-->
                         <md-button ng-click="getPlansForEmbed(vm.plans)" ng-disabled="embedPreview" class="embed-btn md-raised font-accent h-30 lh-32" layout="row" layout-align="center center" ng-if="selectMultiplePlansForEmbedForm">Embed <md-icon md-font-icon="icon-share" class="fs-20 font-accent w-20 h-20 m-0 lh-18"></md-icon><md-tooltip>Get embeddable form</md-tooltip></md-button>
                     </div>
                 </div>
@@ -315,14 +316,15 @@
                             </div>
                         </div>
                         <div class="plan-portion" flex="40" layout="row" layout-align="center start">
-                            <div flex class="subscription-plan autoheight m-0 ml-10" ng-class="{'embed-content':embedHovered}">
+                            <div flex class="subscription-plan autoheight m-0 ml-10" >
+                                 <!--ng-class="{'embed-content':embedHovered}"-->
                                 <!--<div class="selected-plan-ico" ng-if="plan.code == selectedPlan.code"></div>-->
 
                                 <md-card-title flex layout="row" layout-align="center center" class="solid-washer-blue">
                                     <h3 class="white-text">{{vm.selectedPlan.name}}</h3>
                                 </md-card-title>
 
-                                <md-card-content flex class="p-0 text-center" layout="column" style="border: solid 1px #addcf3;">
+                                <md-card-content flex class="p-0 text-center" layout="column">
                                     <div class="rate-container tinted" layout="column" layout-align="center center">
                                         <div layout="row" layout-align="center end" ng-if="vm.selectedPlan.unitPrice != '0'"><span>{{vm.selectedPlan.unitPrice / vm.selectedPlan.billingInterval | isoCurrency:vm.selectedPlan.currency :decimalPoint}} </span> <span class="forplan">
                                             <span class="duration">

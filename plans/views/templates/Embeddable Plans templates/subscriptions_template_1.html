@@ -1,0 +1,287 @@
+<style>
+    .embed-temp-preview .embed-temp-preview {
+        font-size: 14px!important;
+        font-family: sans-serif; }
+
+    .embed-temp-preview .text-center {
+        text-align: center; }
+
+    .embed-temp-preview .wrapper {
+        border-radius: 5px;
+        background: #f5f5f5;
+        border: solid 1px #ddd; }
+
+    .embed-temp-preview .row {
+        display: table-row;
+        width: 100%; }
+    .embed-temp-preview .row .mid {
+        width: 35%;
+        display: table-cell;
+        vertical-align: top; }
+    .embed-temp-preview .row .mid.light {
+        background: #ffffff; }
+    .embed-temp-preview .row .extra-mid {
+        display: table-cell;
+        vertical-align: top;
+        width: calc(65% - 1px); }
+    .embed-temp-preview .row .left {
+        float: left; }
+    .embed-temp-preview .row .right {
+        float: right; }
+    .embed-temp-preview .row .bordered {
+        border-left: solid 1px #eeeeee; }
+    .embed-temp-preview .row .row-block {
+        vertical-align: top; }
+
+    .embed-temp-preview .plan {
+        /*background: #039be5;*/
+        margin: 20px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0 0 5px #aaa;
+        -moz-box-shadow: 0 0 5px #aaa;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        position: relative;
+        max-width: 450px; }
+    .embed-temp-preview .plan.vertical {
+        vertical-align: middle; }
+    .embed-temp-preview .plan.vertical .p-control input[type="radio"]:checked,
+    .embed-temp-preview .plan.vertical .p-control input[type="radio"]:not(:checked) {
+        position: absolute;
+        left: -9999px; }
+    .embed-temp-preview .plan.vertical .p-control input[type="radio"]:checked + label,
+    .embed-temp-preview .plan.vertical .p-control input[type="radio"]:not(:checked) + label {
+        position: relative;
+        padding: 30px 30px 30px 60px;
+        cursor: pointer;
+        line-height: 25px;
+        display: block;
+        font-size: 20px;
+        color: #ffffff; }
+    .embed-temp-preview .plan.vertical .p-control input[type="radio"]:checked + label:before,
+    .embed-temp-preview .plan.vertical .p-control input[type="radio"]:not(:checked) + label:before {
+        content: '';
+        position: absolute;
+        left: 20px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: 25px;
+        height: 25px;
+        border: 2px solid #aaa;
+        border-radius: 100%;
+        background: #fff; }
+    .embed-temp-preview .plan.vertical .p-control input[type="radio"]:checked + label:after,
+    .embed-temp-preview .plan.vertical .p-control input[type="radio"]:not(:checked) + label:after {
+        content: '';
+        width: 13px;
+        height: 13px;
+        background: #aaa;
+        position: absolute;
+        left: 26px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        border-radius: 100%;
+        transition: all 0.2s ease; }
+    .embed-temp-preview .plan.vertical .p-control input[type="radio"]:not(:checked) + label:after {
+        opacity: 0;
+        -webkit-transform: scale(0);
+        transform: scale(0); }
+    .embed-temp-preview .plan.vertical .p-control input[type="radio"]:checked + label:after {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1); }
+    .embed-temp-preview .plan.vertical .p-body {
+        display: inline-block;
+        width: calc(100% - 25px);
+        padding-right: 20px;
+        position: absolute;
+        right: 10px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        pointer-events: none; }
+    .embed-temp-preview .plan.vertical .p-body .p-name {
+        display: inline-block;
+        font-size: 25px;
+        font-weight: bold;
+        width: 60%;
+        color: #fff; }
+    .embed-temp-preview .plan.vertical .p-body .p-value {
+        display: inline-block;
+        float: right;
+        width: 40%;
+        height: 40px;
+        text-align: right;
+        position: absolute;
+        right: 10px;
+        top: 0;
+        bottom: 0;
+        margin: auto; }
+    .embed-temp-preview .plan.vertical .p-body .p-value .p-price {
+        font-weight: bold;
+        color: #fff; }
+    .embed-temp-preview .plan.vertical .p-body .p-value .p-billfrq {
+        color: rgba(255, 255, 255, 0.8); }
+    .embed-temp-preview .plan.vertical .p-body .p-value .p-tax {
+        font-size: 12px;
+        margin-top: 5px;
+        color: rgba(255, 255, 255, 0.8); }
+    .embed-temp-preview .plan:hover {
+        cursor: pointer; }
+
+    .embed-temp-preview .p-details-block {
+        padding: 20px; }
+    .embed-temp-preview .p-details-block .p-details-heading {
+        font-weight: bold;
+        margin-bottom: 20px; }
+    .embed-temp-preview .p-details-block .p-details-body ul {
+        list-style: none;
+        margin: 0;
+        padding: 0; }
+    .embed-temp-preview .p-details-block .p-details-body ul li {
+        margin: 0 0 10px 10px; }
+    .embed-temp-preview .p-details-block .p-details-body ul.p-features {
+        display: none; }
+    .embed-temp-preview .p-details-block .p-details-body ul.p-features li span.list-icon {
+        /* color: #039be5; */
+        margin-right: 15px;
+        font-weight: bold; }
+    .embed-temp-preview .p-details-block .p-details-body ul.p-addons {
+        display: none; }
+    .embed-temp-preview .p-details-block .p-details-body ul.p-addons li {
+        position: relative;
+        display: block;
+        background: #eaeaea;
+        max-width: 300px;
+        border-radius: 3px;
+        text-align: center;
+        height: 30px;
+        padding: 5px;}
+    .embed-temp-preview .p-details-block .p-details-body ul.p-addons li span.list-icon {
+        background: #fff;
+        color: #ffffff;
+        padding: 3px 6px;
+        display: inline-block;
+        font-size: 16px;
+        border: solid 1px #eee;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+        position: absolute;
+        left:0;
+        top:0;
+    }
+    .embed-temp-preview .p-details-block .p-details-body ul.p-addons li div.list-text {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        height: 15px;
+        text-align: center;
+        padding-left: 27px;
+        padding-right: 10px; }
+
+    .embed-temp-preview .form-table {
+        display: table;
+        width: 100%; }
+
+    .embed-temp-preview .form-footer {
+        padding: 20px;
+        border-top: solid 1px #eeeeee; }
+
+    .embed-temp-preview button {
+        outline: none;
+        align-items: inherit; }
+    .embed-temp-preview button.primary {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 3px;
+        /*background: #039be5;*/
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: bold; }
+    .embed-temp-preview button.primary.shadowed {
+        -webkit-box-shadow: 0 1px 5px #aaa;
+        -moz-box-shadow: 0 1px 5px #aaa;
+        box-shadow: 0 1px 5px #aaa; }
+    .embed-temp-preview button:hover {
+        cursor: pointer; }
+</style>
+<section class="clearfix embed-temp-preview">
+    <form name="" id="" class="planEmbededSubscriptionForm">
+        <div class="form-table">
+            <div class="row">
+                <div class="plans mid light">
+                    <div class="row-block">
+                        <div class="plan vertical ab">
+                            <div class="p-control">
+                                <input id="" type="radio" name="planRadio" class="p-check">
+                                <label class="p-name" for="" data-id="" data-pay="" data-code=""></label>
+                            </div>
+                            <div class="p-body">
+                                <div class="p-value">
+                                    <div>
+                                        <span class="p-price"></span>
+                                        <span class="p-billfrq"></span>
+                                    </div>
+                                    <div class="p-tax"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="extra-mid bordered">
+                    <section class="p-details-block">
+                        <div class="p-details-heading">Package features</div>
+                        <div class="p-details-body p-features-body">
+                            <!--<ul class="p-features" data-id="plan1"></ul>-->
+                        </div>
+                    </section>
+                    <section class="p-details-block addons-block">
+                        <div class="p-details-heading">Add-ons</div>
+                        <div class="p-details-body p-addons-body">
+                            <!--<ul class="p-addons" data-id="plan2"></ul>-->
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer text-center">
+            <div class="row-block"><button type="submit" class="primary shadowed ab">Subscribe</button></div>
+        </div>
+        <div class="hiddenFields"></div>
+    </form>
+</section>
+<script>
+	$('.p-name').click(function (e) {
+		var plan = $(this);
+		var rb = $('.p-name');
+		$(this).siblings('input').checked = true;
+		$('.planEmbededSubscriptionForm')
+			.attr('name', 'planEmbededSubscriptionForm'+ rb.index(plan))
+			.attr('id', 'form'+ rb.index(plan));
+
+		var features = $('.p-features');
+		var addons = $('.p-addons');
+
+        $('[name="planCode"]').attr('value', plan.data('code'));
+        $('[name="paymentOption"]').attr('value', plan.data('pay'));
+
+		$.each(features, function (index, value) {
+			if($(value).attr("data-id") == plan.attr("data-id")){
+				$(value).css('display','block');
+			}else{
+				$(value).css('display','none');
+			}
+		});
+		$.each(addons, function (index, value) {
+			if($(value).attr("data-id") == plan.attr("data-id")){
+				$(value).css('display','block');
+			}else{
+				$(value).css('display','none');
+			}
+		});
+	})
+</script>
