@@ -2397,7 +2397,7 @@
 				if(isOpen){
 					vm.updateTemplate(1);
 					vm.planInjected = true;
-					if(counter==1)$interval.cancel(initialTemplateWatcher);
+					if(counter==2)$interval.cancel(initialTemplateWatcher);
 				}
 				counter++;
 			}, 100);
