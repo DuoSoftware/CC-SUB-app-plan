@@ -1,0 +1,96 @@
+<md-dialog class="prompt-dialog" style="width: 80%;height: 90%;max-height: 90%">
+
+    <md-toolbar>
+        <div layout="row" layout-align="space-between center">
+            <div layout="row" layout-align="start center">
+                <i class="material-icons">receipt</i> <h3>Embeddable plans</h3>
+            </div>
+            <md-button class="md-icon-button" ng-click="ctrl.closeDialog()" aria-label="Close dialog">
+                <md-icon md-font-icon="icon-close"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <div class="preloader animate-fade-in-out" ng-if="!ctrl.planInjected">
+        <md-progress-circular></md-progress-circular>
+    </div>
+    <div class="preloader animate-fade-in-out" ng-if="ctrl.loadingEmbedMarkup">
+        <md-progress-circular></md-progress-circular>
+    </div>
+    <md-content ms-scroll flex>
+
+        <div ng-if="!ctrl.showEmbedMarkup">
+            <div class="embed-accent-palate" layout="row" layout-align="space-between center">
+                <div layout="row" layout-align="start center">
+                    <span>COLOR : </span>
+                    <div class="swatch green" ng-click="ctrl.updateMainAccentInEmbed('#4CAF50')"></div>
+                    <div class="swatch red" ng-click="ctrl.updateMainAccentInEmbed('#E53935')"></div>
+                    <div class="swatch orange" ng-click="ctrl.updateMainAccentInEmbed('#F57C00')"></div>
+                    <div class="swatch blue" ng-click="ctrl.updateMainAccentInEmbed('#039be5')"></div>
+                    <div class="swatch purple" ng-click="ctrl.updateMainAccentInEmbed('#BA68C8')"></div>
+                </div>
+                <md-button class="md-accent animate-fade-in-out" ng-if="ctrl.currentTemplate == 4" ng-click="ctrl.updateIsolatedPlan('plus')">
+                    <md-icon md-font-icon="icon-chevron-left"></md-icon> Change Plan prominence <md-icon md-font-icon="icon-chevron-right"></md-icon>
+                </md-button>
+                <div layout="row" layout-align="start center">
+                    <span>TEMPLATE : </span>
+                    <div class="plan-count" ng-click="ctrl.updateTemplate(1)">1</div>
+                    <div class="plan-count" ng-click="ctrl.updateTemplate(2)">2</div>
+                    <div class="plan-count" ng-click="ctrl.updateTemplate(3)">3</div>
+                    <div class="plan-count" ng-click="ctrl.updateTemplate(4)">4</div>
+                </div>
+            </div>
+            <i class="fs-12 ml-20">Embed preview</i>
+            <!--<div layout="row" layout-align="start center">-->
+            <!--<span>PLANS PER ROW: </span>-->
+            <!--<div class="plan-count" ng-click="ctrl.updateLayout(3)">3</div>-->
+            <!--<div class="plan-count" ng-click="ctrl.updateLayout(4)">4</div>-->
+            <!--<div class="plan-count" ng-click="ctrl.updateLayout(5)">5</div>-->
+            <!--</div>-->
+            <div id="embedPreview" class="p-10 mb-20 ml-20 mr-20 mt-10" style="overflow: auto;border: dashed 2px #ccc;background: #ffffff"></div>
+        </div>
+
+        <div ng-if="ctrl.showEmbedMarkup" class="p-20">
+            <div>
+                <div class="mb-10">1. <b>Copy</b> the content below.</div>
+                <div class="mb-20">2. Paste (insert) the copied content into your own.</div>
+            </div>
+            <div class="group-sub-head mt-0"><b>URL</b></div>
+            <div layout="row" layout-align="start start" flex>
+                <div class="pos-rel of-h" flex>
+                    <label class="copied animate-fade-in-out" md-whiteframe="3dp" ng-show="ctrl.urlCopied && ctrl.copyStarted">Copied</label>
+                    <div>
+                        <pre id="embededCodeURL" class="custom-scroll embeded-code prettyprint" style="word-wrap:break-word;height: auto;overflow-x: inherit">{{ctrl.embedablePlansURL}}</pre>
+                    </div>
+                    <!--<div id="embededCode" style="word-wrap:break-word;padding: 10px;border-radius:  3px;border: solid 1px #ddd;background:  #fafafa">{{ctrl.embedablePlansURL}}</div>-->
+                </div>
+                <div class="text-right">
+                    <md-button class="md-icon-button md-accent" ng-click="ctrl.copyToClipboard('embededCodeURL')"><md-icon md-font-icon="icon-content-copy" class="md-accent"></md-icon><md-tooltip>Copy to clipboard</md-tooltip></md-button>
+                </div>
+            </div>
+
+            <div class="group-sub-head"><b>Iframe</b></div>
+            <div layout="row" layout-align="start start" flex>
+                <div class="pos-rel of-h" flex>
+                    <label class="copied animate-fade-in-out" md-whiteframe="3dp" ng-show="ctrl.copyStarted && ctrl.iframeCopied">Copied</label>
+                    <div>
+                        <pre id="embededCodeIframe" class="custom-scroll embeded-code prettyprint iframeurl" style="word-wrap:break-word;height: auto;overflow-x: inherit">{{ctrl.embedablePlansIframe}}</pre>
+                    </div>
+                    <!--<div id="embededCode" style="word-wrap:break-word;padding: 10px;border-radius:  3px;border: solid 1px #ddd;background:  #fafafa">{{ctrl.embedablePlansURL}}</div>-->
+                </div>
+                <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+                <div class="text-right">
+                    <md-button class="md-icon-button md-accent" ng-click="ctrl.copyToClipboard('embededCodeIframe')"><md-icon md-font-icon="icon-content-copy" class="md-accent"></md-icon><md-tooltip>Copy to clipboard</md-tooltip></md-button>
+                </div>
+            </div>
+        </div>
+    </md-content>
+
+    <div layout="row" layout-align="start center" class="p-10">
+        <md-button ng-click="ctrl.goBackToPreview()" ng-if="ctrl.showEmbedMarkup">Back</md-button>
+        <div flex></div>
+        <md-button class="md-raised md-accent" ng-click="ctrl.continueToEmbedMarkup()" ng-if="!ctrl.showEmbedMarkup" ng-disabled="ctrl.loadingEmbedMarkup">Continue</md-button>
+        <md-button class="md-raised md-accent" ng-click="ctrl.clearSelectedEmbed(true)" ng-if="ctrl.showEmbedMarkup">Done</md-button>
+    </div>
+
+</md-dialog>

@@ -1,9 +1,9 @@
 //////////////////////////////////////
 // App : Plans						//
 // Owner  : Gihan Herath			//
-// Last changed date : 2017/12/04	//
-// Version : 6.1.0.28				//
-// Modified By : Gihan				//
+// Last changed date : 2017/01/29	//
+// Version : 6.1.0.31				//
+// Modified By : Kasun				//
 //////////////////////////////////////
 
 (function ()
@@ -22,8 +22,7 @@
 		mesentitlementProvider.setStateCheck("plans");
 
 		// State
-		$stateProvider
-			.state('app.plans', {
+		$stateProvider.state('app.plans', {
 				url    : '/plans',
 				views  : {
 					'plans@app': {
@@ -56,11 +55,10 @@
 				bodyClass: 'plans'
 			});
 
-//Api
+		//Api
 		msApiProvider.register('cc_invoice.invoices', ['app/data/cc_invoice/invoices.json']);
 
-// Navigation
-
+		// Navigation
 		msNavigationServiceProvider.saveItem('plans', {
 			title    : 'Plans',
 			icon     : 'icon-leaf',

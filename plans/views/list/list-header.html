@@ -1,6 +1,6 @@
-<div class="productName" layout="column" layout-align="center start" flex="5" ng-if="!showInpageReadpane && selectMultiplePlansForEmbedForm">
+<div class="productName w-50" layout="column" layout-align="center start" ng-if="!showInpageReadpane && selectMultiplePlansForEmbedForm">
   <div layout="row">
-    <span layout="column" layout-align="center center" class="header-text">Select</span>
+    <span layout="column" layout-align="center center" class="header-text"></span>
   </div>
 </div>
 
@@ -127,26 +127,26 @@
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
-        <md-menu>
-          <md-button class="md-icon-button h-30 w-30 pv-5 ph-0 m-0 op-5" ng-click="$mdOpenMenu($event)">
-            <i class="material-icons fs-20">sort</i>
-            <md-tooltip>EmbedForms</md-tooltip>
-          </md-button>
+        <!--<md-menu>-->
+          <!--<md-button class="md-icon-button h-30 w-30 pv-5 ph-0 m-0 op-5" ng-click="$mdOpenMenu($event)">-->
+            <!--<i class="material-icons fs-20">sort</i>-->
+            <!--<md-tooltip>EmbedForms</md-tooltip>-->
+          <!--</md-button>-->
 
-          <md-menu-content width="3" class="list-filter-menu">
-            <md-menu-item ng-if="!selectMultiplePlansForEmbedForm">
-              <md-button layout="row" layout-align="start center" ng-click="getMultipleEmbedPlans('true')">
-                <md-icon md-font-icon="icon-label" class="filter-label-positive s16"></md-icon>
-                <span>Create Embed Form</span>
-              </md-button>
-            </md-menu-item>
-            <md-menu-item ng-if="selectMultiplePlansForEmbedForm">
-              <md-button layout="row" layout-align="start center" ng-click="getMultipleEmbedPlans('false')">
-                <md-icon md-font-icon="icon-label" class="filter-label s16"></md-icon>
-                <span>Cancel</span>
-              </md-button>
-            </md-menu-item>
-          </md-menu-content>
-        </md-menu>
+          <!--<md-menu-content width="3" class="list-filter-menu">-->
+            <!--<md-menu-item ng-if="!selectMultiplePlansForEmbedForm">-->
+              <!--<md-button layout="row" layout-align="start center" ng-click="getMultipleEmbedPlans('true')">-->
+                <!--<md-icon md-font-icon="icon-label" class="filter-label-positive s16"></md-icon>-->
+                <!--<span>Create Embed Form</span>-->
+              <!--</md-button>-->
+            <!--</md-menu-item>-->
+            <!--<md-menu-item ng-if="selectMultiplePlansForEmbedForm">-->
+              <!--<md-button layout="row" layout-align="start center" ng-click="getMultipleEmbedPlans('false')">-->
+                <!--<md-icon md-font-icon="icon-label" class="filter-label s16"></md-icon>-->
+                <!--<span>Cancel</span>-->
+              <!--</md-button>-->
+            <!--</md-menu-item>-->
+          <!--</md-menu-content>-->
+        <!--</md-menu>-->
     </div>
 </div>

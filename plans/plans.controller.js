@@ -16,7 +16,7 @@
 		.controller('PlansController', PlansController);
 
 	/** @ngInject */
-	function PlansController($scope, $timeout, $mdDialog, $http, $mdMedia, $mdSidenav, $filter, $charge, $errorCheck, notifications, $azureSearchHandle, logHelper, $rootScope)
+	function PlansController($scope, $timeout, $mdDialog, $http, $mdMedia, $mdSidenav, $filter, $charge, $errorCheck, notifications, $azureSearchHandle, $rootScope, $interval)
 	{
 		var vm = this;
 
@@ -70,13 +70,13 @@
 				$scope.embedHovered = false;
 			});
 
-			if($scope.embedFormCopied){
-				$timeout(function(){
-					$scope.coppiedTimeout = true;
-				},2000);
-			}else{
-				$scope.coppiedTimeout = false;
-			}
+			// if($scope.embedFormCopied || vm.embedFormCopied){
+			// 	$timeout(function(){
+			// 		$scope.coppiedTimeout = vm.coppiedTimeout = true;
+			// 	},2000);
+			// }else{
+			// 	$scope.coppiedTimeout = vm.coppiedTimeout = false;
+			// }
 
 			var embedCode = document.getElementsByClassName('embed-code');
 			// if(embedCode != undefined){
@@ -113,7 +113,7 @@
 		}
 
 		function getDomainName() {
-      var _st = gst("currentDomain");
+			var _st = gst("currentDomain");
 			var __st = gst("domain");
 			return (_st != null) ? _st : __st; //"248570d655d8419b91f6c3e0da331707 51de1ea9effedd696741d5911f77a64f";
 		}
@@ -129,8 +129,7 @@
 		/**
 		 * Close read pane
 		 */
-		function closeReadPane()
-		{
+		function closeReadPane() {
 			if(vm.changePlanForm.$pristine && vm.changePlanForm.$dirty ){
 				var confirm = $mdDialog.confirm()
 					.title('Are you sure?')
@@ -185,8 +184,7 @@
 			}
 		}
 
-		function selectPlan(plan)
-		{
+		function selectPlan(plan){
 			$scope.openPlanLst(plan);
 			vm.showFilters=false;
 			$scope.showInpageReadpane = true;
@@ -384,7 +382,7 @@
 					$scope.infoJson= {};
 					$scope.infoJson.message =JSON.stringify(data);
 					$scope.infoJson.app ='plans';
-					logHelper.error( $scope.infoJson);
+					// logHelper.error( $scope.infoJson);
 				});
 
 				$scope.selectedPlanFeaturesList = [];
@@ -482,7 +480,7 @@
 			$scope.infoJson= {};
 			$scope.infoJson.message =JSON.stringify(data);
 			$scope.infoJson.app ='plans';
-			logHelper.error( $scope.infoJson);
+			// logHelper.error( $scope.infoJson);
 		})
 
 		function billingCycleHandler(selection){
@@ -567,6 +565,7 @@
 			$scope.content.type = planType;
 			vm.activePlanPaneIndex = 1;
 			$scope.showInpageReadpane = false;
+			$scope.selectMultiplePlansForEmbedForm = false;
 			// }
 		};
 
@@ -635,20 +634,25 @@
 
 		$scope.showInpageReadpane = false;
 		$scope.switchInfoPane = function (state, plan) {
-			if(state=='show'){
-				$scope.showInpageReadpane = true;
-				$scope.showEmbedForm=false;
-				$scope.$watch(function () {
-					//vm.selectedPlan = plan;
-				});
-				$scope.openPlanLst(plan);
-			}else if(state=='close'){
-				if($scope.inpageReadPaneEdit){
-					$scope.cancelEdit();
-					vm.selectedPlan = $scope.tempEditPlan;
-				}else{
-					$scope.showInpageReadpane = false;
-					$scope.inpageReadPaneEdit=false;
+			if($scope.selectMultiplePlansForEmbedForm){
+				plan.selectForEmbed = !plan.selectForEmbed;
+			}else {
+				if (state == 'show') {
+					$scope.showInpageReadpane = true;
+					$scope.editOff = false;
+					$scope.showEmbedForm = false;
+					$scope.$watch(function () {
+						//vm.selectedPlan = plan;
+					});
+					$scope.openPlanLst(plan);
+				} else if (state == 'close') {
+					if ($scope.inpageReadPaneEdit) {
+						$scope.cancelEdit();
+						vm.selectedPlan = $scope.tempEditPlan;
+					} else {
+						$scope.showInpageReadpane = false;
+						$scope.inpageReadPaneEdit = false;
+					}
 				}
 			}
 		}
@@ -658,8 +662,10 @@
 			$scope.tempEditPlan=angular.copy(plan);
 			vm.editSelectedPlan = plan;
 			//debugger;
-			if(vm.editSelectedPlan.addOnCodes.length > 0){
-				vm.editSelectedPlan.add_addons = true;
+			if(vm.editSelectedPlan.addOnCodes != undefined){
+				if(vm.editSelectedPlan.addOnCodes.length > 0){
+					vm.editSelectedPlan.add_addons = true;
+				}
 			}
 			vm.editSelectedPlan.rate = parseInt(plan.rate);
 			vm.editSelectedPlan.unitPrice = parseInt(plan.unitPrice);
@@ -729,7 +735,7 @@
 					$scope.infoJson= {};
 					$scope.infoJson.message =plan.guPlanID+' Plan Deactivated';
 					$scope.infoJson.app ='plans';
-					logHelper.info( $scope.infoJson);
+					// logHelper.info( $scope.infoJson);
 
 					skip = 0;
 					$scope.items = [];
@@ -743,7 +749,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =plan.guPlanID+' Plan Deactivate Failed';
 				$scope.infoJson.app ='plans';
-				logHelper.error( $scope.infoJson);
+				// logHelper.error( $scope.infoJson);
 			})
 		}
 
@@ -774,7 +780,7 @@
 					$scope.infoJson= {};
 					$scope.infoJson.message =plan.guPlanID+' Plan Activated';
 					$scope.infoJson.app ='plans';
-					logHelper.info( $scope.infoJson);
+					// logHelper.info( $scope.infoJson);
 
 					skip = 0;
 					$scope.items = [];
@@ -788,7 +794,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =plan.guPlanID+' Plan Activate Failed';
 				$scope.infoJson.app ='plans';
-				logHelper.error( $scope.infoJson);
+				// logHelper.error( $scope.infoJson);
 			})
 		}
 
@@ -924,7 +930,7 @@
 
 					for (var i = 0; i < Response.length; i++) {
 						Response[i].createdDate = $filter('date')(new Date(Response[i].createdDate), 'yyyy-MM-dd', false);
-            Response[i].selectForEmbed = false;
+						Response[i].selectForEmbed = false;
 						$scope.items.push(Response[i]);
 					}
 					$timeout(function () {
@@ -963,7 +969,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =JSON.stringify(data);
 				$scope.infoJson.app ='plans';
-				logHelper.error( $scope.infoJson);
+				// logHelper.error( $scope.infoJson);
 			});
 
 		};
@@ -1016,7 +1022,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =JSON.stringify(data);
 				$scope.infoJson.app ='plans';
-				logHelper.error( $scope.infoJson);
+				// logHelper.error( $scope.infoJson);
 			})
 		}
 		$scope.loadAllBasePlans();
@@ -1059,7 +1065,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =JSON.stringify(data);
 				$scope.infoJson.app ='plans';
-				logHelper.error( $scope.infoJson);
+				// logHelper.error( $scope.infoJson);
 			})
 		}
 		$scope.loadAllAddonPlans();
@@ -1111,7 +1117,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =JSON.stringify(data);
 				$scope.infoJson.app ='plans';
-				logHelper.error( $scope.infoJson);
+				// logHelper.error( $scope.infoJson);
 			})
 		}
 		$scope.loadAllPriceSchemeFeatures();
@@ -1134,7 +1140,7 @@
 			}
 		}
 
-		$scope.getCatLetter=function(catName){
+		$scope.getCatLetter=function(catName) {
 			try{
 				var catogeryLetter = "app/core/cloudcharge/img/material_alperbert/avatar_tile_"+catName.charAt(0).toLowerCase()+"_28.png";
 			}catch(exception){}
@@ -1218,7 +1224,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =JSON.stringify(data);
 				$scope.infoJson.app ='plans';
-				logHelper.error( $scope.infoJson);
+				// logHelper.error( $scope.infoJson);
 			})
 		}
 		$scope.getAllUOM();
@@ -1326,7 +1332,7 @@
 			});
 		};
 
-		$scope.showDeleteFeatureConfirm = function(ev,row) {
+		$scope.showDeleteFeatureConfirm = function (ev,row) {
 			// Appending dialog to document.body to cover sidenav in docs app
 			var confirm = $mdDialog.confirm()
 				.title('Would you like to delete this Feature?')
@@ -1355,7 +1361,7 @@
 					$scope.infoJson= {};
 					$scope.infoJson.message =featureCode+' Successfully Feature removed';
 					$scope.infoJson.app ='plans';
-					logHelper.info( $scope.infoJson);
+					// logHelper.info( $scope.infoJson);
 				}
 				else
 				{
@@ -1364,7 +1370,7 @@
 					$scope.infoJson= {};
 					$scope.infoJson.message =featureCode+' Feature remove Failed';
 					$scope.infoJson.app ='plans';
-					logHelper.error( $scope.infoJson);
+					// logHelper.error( $scope.infoJson);
 				}
 			}).error(function(data) {
 				//console.log(data);
@@ -1373,7 +1379,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =featureCode+' Feature remove Failed';
 				$scope.infoJson.app ='plans';
-				logHelper.error( $scope.infoJson);
+				// logHelper.error( $scope.infoJson);
 			});
 		}
 
@@ -1462,6 +1468,7 @@
 			$scope.showAdvanceFeatures = true;
 			// angular.element('#createFeatureType').triggerHandler('click');
 		}
+
 		$scope.closeAdvanceFeatures=function(row) {
 			// row.showAdvanceFeatures=false;
 			// row.advancedFeaturesConfirmed = false;
@@ -1479,19 +1486,45 @@
 			$scope.embedFormCopied = false;
 			window.getSelection().empty();
 			$scope.showEmbedForm = false;
+			vm.clearSelectedEmbed();
 		}
 		$scope.embedFormCopied = false;
-		$scope.copyToClipboard = function () {
+
+		vm.copyStarted = false;
+		$scope.copyToClipboard = vm.copyToClipboard = function (elem) {
+			if(elem == 'embededCodeURL'){
+				vm.urlCopied = true;
+				vm.iframeCopied = false;
+			}else{
+				vm.urlCopied = false;
+				vm.iframeCopied = true;
+			}
+			vm.copyStarted = true;
 			window.getSelection().empty();
-			var copyField = document.getElementById('embededCode');
+			var copyField = document.getElementById(elem);
 			var range = document.createRange();
 			range.selectNode(copyField);
 			window.getSelection().addRange(range);
 			document.execCommand('copy');
-			$scope.embedFormCopied = true;
+			$timeout(function(){
+				vm.copyStarted = false;
+				vm.urlCopied = false;
+				vm.iframeCopied = false;
+			},2000);
+
+			// window.getSelection().empty();
+			// var copyField = document.getElementById('embededCode');
+			// var range = document.createRange();
+			// range.selectNode(copyField);
+			// window.getSelection().addRange(range);
+			// document.execCommand('copy');
+			// $scope.embedFormCopied = vm.embedFormCopied = true;
 		}
+
+
 		// Kasun_Wijeratne_8_5_2017
-		$scope.closeDialog = function () {
+		$scope.closeDialog = vm.closeDialog = function () {
+			vm.showEmbedMarkup = false;
 			$mdDialog.hide();
 		}
 
@@ -1578,6 +1611,26 @@
 				}
 			}
 		};
+
+		vm.usingAvalaraTax = false;
+		$scope.loadAvalaraTaxes= function () {
+			$charge.ccapi().getAvalaraTax().success(function(data) {
+				//
+				if(data!=undefined && data!=null && data!="") {
+					vm.usingAvalaraTax = true;
+					$scope.avaTax=data;
+
+				}
+				else{
+					vm.usingAvalaraTax = false;
+				}
+			}).error(function(data) {
+				//console.log(data);
+				vm.usingAvalaraTax = false;
+				// $scope.isSpinnerShown=false;
+			})
+		}
+		$scope.loadAvalaraTaxes();
 
 		vm.submitted=false;
 
@@ -1703,7 +1756,7 @@
 							$scope.infoJson= {};
 							$scope.infoJson.message ='Successfully Plan Created';
 							$scope.infoJson.app ='plans';
-							logHelper.info( $scope.infoJson);
+							// logHelper.info( $scope.infoJson);
 
 							$scope.editOff = false;
 							vm.pageTitle = "Create Plan";
@@ -1739,7 +1792,7 @@
 								$scope.infoJson= {};
 								$scope.infoJson.message =result;
 								$scope.infoJson.app ='plans';
-								logHelper.error( $scope.infoJson);
+								// logHelper.error( $scope.infoJson);
 								//$scope.errorlist=Response;
 								//for(var i=0; i<$scope.errorlist.length; i++)
 								//{
@@ -1783,7 +1836,7 @@
 								$scope.infoJson= {};
 								$scope.infoJson.message =result;
 								$scope.infoJson.app ='plans';
-								logHelper.error( $scope.infoJson);
+								// logHelper.error( $scope.infoJson);
 								//$scope.errorlist=Response;
 								//for(var i=0; i<$scope.errorlist.length; i++)
 								//{
@@ -1933,7 +1986,7 @@
 							$scope.infoJson= {};
 							$scope.infoJson.message ='Successfully Plan Modified';//JSON.stringify(data);
 							$scope.infoJson.app ='plans';
-							logHelper.info( $scope.infoJson);
+							// logHelper.info( $scope.infoJson);
 
 							$scope.selectedBasePlans=[];
 							skipBasePlans=0;
@@ -1972,7 +2025,7 @@
 								$scope.infoJson= {};
 								$scope.infoJson.message =result;
 								$scope.infoJson.app ='plans';
-								logHelper.error( $scope.infoJson);
+								// logHelper.error( $scope.infoJson);
 							}).onError(function(data)
 							{
 								//console.log(data);
@@ -2005,7 +2058,7 @@
 								$scope.infoJson= {};
 								$scope.infoJson.message =result;
 								$scope.infoJson.app ='plans';
-								logHelper.error( $scope.infoJson);
+								// logHelper.error( $scope.infoJson);
 							}).onError(function(data)
 							{
 								//console.log(data);
@@ -2106,42 +2159,44 @@
 		//	//debugger;
 		//	return null;
 		//}
-    $scope.subscriptionKey="";
-    $charge.tenantEngine().getSubscriptionIdByTenantName(getDomainName()).success(function (response) {
+		$scope.subscriptionKey="";
+		$charge.tenantEngine().getSubscriptionIdByTenantName(getDomainName()).success(function (response) {
 
-      if(response.status) {
-        var subscriptionID = response.data["0"].subscriptionID;
+			if(response.status) {
+				var subscriptionID = response.data["0"].subscriptionID;
 
-        if (subscriptionID) {
+				if (subscriptionID) {
 
-          $charge.myAccountEngine().getSubscriptionInfoByID(subscriptionID).success(function (data) {
-            if(data.Result)
-            {
-              $scope.subscriptionKey = data.Result.primaryKey;
-            }
-          }).error(function (data) {
+					$charge.myAccountEngine().getSubscriptionInfoByID(subscriptionID).success(function (data) {
+						if(data.Result)
+						{
+							$scope.subscriptionKey = data.Result.primaryKey;
+						}
+					}).error(function (data) {
 
-          });
-        }
-      }
-    }).error(function (data) {
+					});
+				}
+			}
+		}).error(function (data) {
+		});
 
-    });
-
-    $scope.selectMultiplePlansForEmbedForm = false;
-    $scope.getMultipleEmbedPlans= function (option) {
-      if(option=='true')
-      {
-        for(var i=0; i<vm.plans.length; i++){
-          vm.plans[i].selectForEmbed = false;
-        }
-        $scope.selectMultiplePlansForEmbedForm = true;
-      }
-      else
-      {
-        $scope.selectMultiplePlansForEmbedForm = false;
-      }
-    }
+		$scope.selectMultiplePlansForEmbedForm = false;
+		$scope.getMultipleEmbedPlans= function (option) {
+			$scope.showInpageReadpane = false;
+			vm.activePlanPaneIndex = 0;
+			if(option=='true')
+			{
+				for(var i=0; i<vm.plans.length; i++){
+					vm.plans[i].selectForEmbed = false;
+				}
+				$scope.selectMultiplePlansForEmbedForm = true;
+			}
+			else
+			{
+				vm.clearSelectedEmbed();
+				$scope.selectMultiplePlansForEmbedForm = false;
+			}
+		}
 
 		$scope.baseUrl="";
 		$http.get('app/core/cloudcharge/js/config.json').then(function(data){
@@ -2160,107 +2215,335 @@
 			return (_st != null) ? _st : ""; //"248570d655d8419b91f6c3e0da331707 51de1ea9effedd696741d5911f77a64f";
 		}
 
-    $scope.selectedPlansForEmbed=[];
-    $scope.getPlansForEmbed= function (plans) {
-      var tempSelectedPlans=[];
-      $scope.selectedPlansForEmbed=[];
+		$scope.selectedPlansForEmbed=[];
+		$scope.embedPreview = false;
+		$scope.getPlansForEmbed= function (plans, ev) {
+			$scope.embedPreview = true;
+			var tempSelectedPlans=[];
+			$scope.selectedPlansForEmbed=[];
 
-      for(var i=0; i<plans.length; i++){
-        if(plans[i].selectForEmbed)
-        {
-          tempSelectedPlans.push(plans[i]);
-        }
-        else
-        {
-          if(plans[i]==plans[plans.length-1])
-          {
-            if(tempSelectedPlans.length==0)
-            {
-              notifications.toast("Select Plan(s) for Generate Embed Form","error");
-            }
-          }
-        }
-      }
+			for(var i=0; i<plans.length; i++){
+				if(plans[i].selectForEmbed)
+				{
+					tempSelectedPlans.push(plans[i]);
+				}
+				else
+				{
+					if(plans[i]==plans[plans.length-1])
+					{
+						if(tempSelectedPlans.length==0)
+						{
+							$scope.embedPreview = false;
+							notifications.toast("Select Plan(s) for Generate Embed Form","error");
+						}
+					}
+				}
+			}
 
-      for(var j=0; j<tempSelectedPlans.length; j++){
-        $charge.plan().getPlanByCode(tempSelectedPlans[j].code).success(function(data){
-          //console.log(data);
-          $scope.selectedPlansForEmbed.push(data);
-          if(tempSelectedPlans.length==$scope.selectedPlansForEmbed.length)
-          {
-            $scope.getEmbededPlanForm($scope.selectedPlansForEmbed);
-          }
-        }).error(function(data){
-          //basePlanCodes
-          //console.log(data);
-        })
-      }
+			for(var j=0; j<tempSelectedPlans.length; j++){
+				$charge.plan().getPlanByCode(tempSelectedPlans[j].code).success(function(data){
+					//console.log(data);
+					$scope.selectedPlansForEmbed.push(data);
+					if(tempSelectedPlans.length==$scope.selectedPlansForEmbed.length)
+					{
+						$scope.embedPreview = false;
+						$scope.getEmbededPlanForm($scope.selectedPlansForEmbed, ev, false);
+					}
+				}).error(function(data){
+					//basePlanCodes
+					//console.log(data);
+				})
+			}
 
-    }
+		}
+
+		vm.clearSelectedEmbed = function (leave) {
+			$mdDialog.hide();
+			vm.showEmbedMarkup = false;
+			for(var i=0; i<vm.plans.length; i++){
+				vm.plans[i].selectForEmbed = false;
+			}
+			if(leave){
+				$scope.selectMultiplePlansForEmbedForm=false;
+			}
+		};
 
 		$scope.fullEmbededPlanForm="";
 		$scope.embededFormEnabled=false;
-		$scope.getEmbededPlanForm= function (plans) {
-      $scope.selectMultiplePlansForEmbedForm = false;
-			$scope.embededFormEnabled=true;
+		vm.embedPlanAccent = '#039be5';
+		vm.embedPlanWidth = 33.3;
 
-			// Kasun_Wijeratne_8_5_2017
-			$scope.showEmbedForm = true;
-			// Kasun_Wijeratne_8_5_2017
+		// DEPRICATED - This method has been depricated since multiple Templates have been introduced for the user to select
 
-			//var planDetailView = document.getElementById("plan-detail-view").innerHTML;
-      var planDetailSelectView="";
-			//var planDetailView = "<div style='border: solid 1px #addcf3;border-radius: 5px'> <div style='padding: 20px;text-align: center;font-size: 25px;background: #039be5;color: #fff;border-top-left-radius: 5px;border-top-right-radius: 5px' class='ng-binding'>planfeature001</div> <div style='overflow: hidden;text-align: center;background: #fafafa;border-bottom: solid 1px #eee;padding: 36px 0;'> <div style='display: inline-block;font-size: 40px;font-weight: bold;color: #039be5;' class='ng-binding'>$10</div> <div style='display: inline-block;font-size: 22px;font-weight: 400;color: #AAA;' class='ng-binding'>/ 1 Months</div> </div> <div style='overflow: hidden;padding: 10px 0'> <div style='text-align: center;margin-bottom: 5px;'> <span style='margin-right: 10px;color: #a5d4ea;' class='feature-row'>✔</span><span style='color: rgba(0, 0, 0, 0.5);text-align: left' class='ng-binding'> /Unit</span> </div> <div style='text-align: center;margin-bottom: 5px;'> <span style='margin-right: 10px;color: #a5d4ea;' class='feature-row'>✔</span><span style='color: rgba(0, 0, 0, 0.5);text-align: left' class='ng-binding'>Rate 1</span> </div> <div style='text-align: center;margin-bottom: 5px;'> <span style='margin-right: 10px;color: #a5d4ea;' class='feature-row'>✔</span><span style='color: rgba(0, 0, 0, 0.5);text-align: left' class='ng-binding'>0 trail day<!-- ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 --><span ng-if='vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0' class='ng-scope' style=''>s</span><!-- end ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 --> </span> </div> </div> </div>";
-			//angular.forEach([1,1,1], function () {
-			//	planDetailView = planDetailView.toString().replace("✔", "&#10004");
-			//	planDetailView = planDetailView.replace("<!-- ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 -->", "");
-			//	planDetailView = planDetailView.replace("<!-- end ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 -->", "");
-			//	planDetailView = planDetailView.replace('ng-if="vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0" class="ng-scope"', "");
-			//});
-      for(var i=0;i<plans.length;i++){
-        var planIndiViewStart = "<div style='width: 33.3%;border: solid 1px #addcf3;border-radius: 5px;margin: 0 auto;'> <div style='padding: 20px;text-align: center;font-size: 25px;background: #039be5;color: #fff;border-top-left-radius: 5px;border-top-right-radius: 5px' class='ng-binding'>"+plans[i].name+"</div> <div style='overflow: hidden;text-align: center;background: #fafafa;border-bottom: solid 1px #eee;padding: 36px 0;'> <div style='display: inline-block;font-size: 40px;font-weight: bold;color: #039be5;' class='ng-binding'>"+plans[i].unitPrice+" "+plans[i].currency+"</div> <div style='display: inline-block;font-size: 22px;font-weight: 400;color: #AAA;' class='ng-binding'>/ "+plans[i].billingInterval+" "+plans[i].billEvery+"</div> </div> <div style='overflow: hidden;padding: 10px 0'> <div style='text-align: center;margin-bottom: 5px;'><span style='font-size: 20px;color: rgba(0, 0, 0, 0.5);text-align: left' class='ng-binding'>"+plans[i].trailDays+" trail day<span ng-if='vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0' class='ng-scope' style=''>s</span><!-- end ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 --> </span> </div>";
-        var featurecode = "";
-        for(var j=0;j<plans[i].priceScheme.length;j++){
-          var featurecodeObj = "<div style='text-align: center;margin-bottom: 5px;'> <span style='margin-right: 10px;color: #a5d4ea;' class='feature-row'>✔</span><span style='color: rgba(0, 0, 0, 0.5);text-align: left' class='ng-binding'>"+plans[i].priceScheme[j].featureCode +"</span> </div>";
-          featurecode = featurecode + featurecodeObj;
-        }
-        var IndiViewEnd = "</div> </div>";
-        var planIndiView = planIndiViewStart+featurecode+IndiViewEnd;
-        angular.forEach([1,1,1], function () {
-          planIndiView = planIndiView.toString().replace("✔", "&#10004");
-          planIndiView = planIndiView.replace("<!-- ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 -->", "");
-          planIndiView = planIndiView.replace("<!-- end ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 -->", "");
-          planIndiView = planIndiView.replace('ng-if="vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0" class="ng-scope"', "");
-        });
+		// $scope.getEmbededPlanForm= function (plans, ev, innerCall) {
+		// 	// $scope.selectMultiplePlansForEmbedForm = false;
+		// 	$scope.embededFormEnabled=true;
+		//
+		// 	// Kasun_Wijeratne_8_5_2017
+		// 	$scope.showEmbedForm = true;
+		// 	// Kasun_Wijeratne_8_5_2017
+		//
+		// 	//var planDetailView = document.getElementById("plan-detail-view").innerHTML;
+		// 	var planDetailSelectView="";
+		// 	//var planDetailView = "<div style='border: solid 1px #addcf3;border-radius: 5px'> <div style='padding: 20px;text-align: center;font-size: 25px;background: #039be5;color: #fff;border-top-left-radius: 5px;border-top-right-radius: 5px' class='ng-binding'>planfeature001</div> <div style='overflow: hidden;text-align: center;background: #fafafa;border-bottom: solid 1px #eee;padding: 36px 0;'> <div style='display: inline-block;font-size: 40px;font-weight: bold;color: #039be5;' class='ng-binding'>$10</div> <div style='display: inline-block;font-size: 22px;font-weight: 400;color: #AAA;' class='ng-binding'>/ 1 Months</div> </div> <div style='overflow: hidden;padding: 10px 0'> <div style='text-align: center;margin-bottom: 5px;'> <span style='margin-right: 10px;color: #a5d4ea;' class='feature-row'>✔</span><span style='color: rgba(0, 0, 0, 0.5);text-align: left' class='ng-binding'> /Unit</span> </div> <div style='text-align: center;margin-bottom: 5px;'> <span style='margin-right: 10px;color: #a5d4ea;' class='feature-row'>✔</span><span style='color: rgba(0, 0, 0, 0.5);text-align: left' class='ng-binding'>Rate 1</span> </div> <div style='text-align: center;margin-bottom: 5px;'> <span style='margin-right: 10px;color: #a5d4ea;' class='feature-row'>✔</span><span style='color: rgba(0, 0, 0, 0.5);text-align: left' class='ng-binding'>0 trail day<!-- ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 --><span ng-if='vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0' class='ng-scope' style=''>s</span><!-- end ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 --> </span> </div> </div> </div>";
+		// 	//angular.forEach([1,1,1], function () {
+		// 	//	planDetailView = planDetailView.toString().replace("✔", "&#10004");
+		// 	//	planDetailView = planDetailView.replace("<!-- ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 -->", "");
+		// 	//	planDetailView = planDetailView.replace("<!-- end ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 -->", "");
+		// 	//	planDetailView = planDetailView.replace('ng-if="vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0" class="ng-scope"', "");
+		// 	//});
+		// 	$scope.planBodyHeight = 0;
+		// 	for(var i=0;i<plans.length;i++) {
+		// 		// var tempHeight = 60 + (25*plans[i].priceScheme.length);
+		// 		// if($scope.planBodyHeight == 0 && plans[i].priceScheme.length == 0){
+		// 		// 	$scope.planBodyHeight = 60;
+		// 		// }else if(tempHeight > $scope.planBodyHeight){
+		// 		// 	$timeout(function(){
+		// 		// 		$scope.planBodyHeight = tempHeight;
+		// 		// 	},0);
+		// 		// }
+		// 		var planIndiViewStart = "<div style='border: solid 1px #ccc;border-radius: 5px;margin: 0 auto;'> <div class='ab' style='padding: 15px;text-align: center;font-size: 25px;background: "+vm.embedPlanAccent+";color: #fff;border-top-left-radius: 5px;border-top-right-radius: 5px' class='ng-binding'>"+plans[i].name+"</div> <div style='overflow: hidden;text-align: center;background: #fafafa;border-bottom: solid 1px #eee;padding: 25px 0;'> <div class='af' style='display: inline-block;font-size: 25px;font-weight: bold;color: "+vm.embedPlanAccent+"' class='ng-binding'>"+plans[i].unitPrice+" "+plans[i].currency+"</div> <div style='display: inline-block;font-size: 14px;font-weight: 400;color: #AAA;' class='ng-binding'>/ "+plans[i].billingInterval+" "+plans[i].billEvery+"</div> </div> <div class='package-body' style='overflow: hidden;padding: 10px 0'> <div style='text-align: center;margin-bottom: 20px;'><span style='font-size: 14px;color: #000;text-align: left' class='ng-binding'>"+plans[i].trailDays+" trail day<span ng-if='vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0' class='ng-scope' style=''>s</span><!-- end ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 --> </span> </div>";
+		// 		var featurecode = "";
+		// 		for(var j=0;j<plans[i].priceScheme.length;j++){
+		// 			var featurecodeObj = "<div style='text-align: center;margin-bottom: 5px;'> <span style='margin-right: 10px;color: #a5d4ea;' class='feature-row'>✔</span><span style='color: rgba(0, 0, 0, 0.5);text-align: left' class='ng-binding'>"+plans[i].priceScheme[j].featureCode +"</span> </div>";
+		// 			featurecode = featurecode + featurecodeObj;
+		// 		}
+		// 		var IndiViewEnd = "</div> </div>";
+		// 		var planIndiView = planIndiViewStart+featurecode+IndiViewEnd;
+		// 		angular.forEach([1,1,1], function () {
+		// 			planIndiView = planIndiView.toString().replace("✔", "&#10004");
+		// 			planIndiView = planIndiView.replace("<!-- ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 -->", "");
+		// 			planIndiView = planIndiView.replace("<!-- end ngIf: vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0 -->", "");
+		// 			planIndiView = planIndiView.replace('ng-if="vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0" class="ng-scope"', "");
+		// 		});
+		//
+		// 		var startForm = "<form name='planEmbededSubscriptionForm"+i+"' action='https://"+$scope.baseUrl+"/planEmbededForm/planSubscriptionScript.php/?method=subscriptionPlan' method='post' id='form"+i+"' style='display: inline-block;width:"+vm.embedPlanWidth+"%;padding: 10px;float: left'>";
+		// 		var endForm = "<div style='text-align: center'><input type='hidden' name='emailAddress' placeholder='Email' style='width: 90%;height: 25px;padding: 5px;border-radius:5px;border: solid 1px #bbb;' /><br>" +
+		// 			"<input type='hidden' name='planCode' id='planCode"+i+"' value='"+plans[i].code+"'>" +
+		// 			"<input type='hidden' name='paymentOption' id='paymentOption"+i+"' value='"+plans[i].paymentOption+"'>" +
+		// 			"<input type='hidden' name='subscriptionKey' id='subscriptionKey"+i+"' value='"+$scope.subscriptionKey+"'>" +
+		// 			"<input type='hidden' name='mode' id='mode"+i+"' value='"+getDomainExtension()+"'>" +
+		// 			"<input type='hidden' name='theme' id='theme"+i+"' value='"+vm.embedPlanAccent.split('#')[1]+"'>" +
+		// 			"<button name='subscriptionButton' type='submit' value='submit' class='ab' style='width: 95%;height: 37px;font-size: 17px;padding: 8px 20px;color: #fff;background-color: "+vm.embedPlanAccent+";box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);border: none;border-radius: 5px;'>Subscribe</button></div></body></form>";
+		//
+		// 		planDetailSelectView=planDetailSelectView+startForm+planIndiView+endForm;
+		// 	}
+		//
+		// 	var scriptSubmit= "<script type='text/javascript'>" +
+		// 		"submitFormData = function(){" +
+		// 		//"var planCode=$post->planCode;" +
+		// 		//"var emailAdress=$post->emailAddress;" +
+		// 		//"var subscriptionKey=$post->subscriptionKey;" +
+		// 		"var planCode=document.getElementById('planCode').value;" +
+		// 		"var emailAdress=document.getElementById('emailAddress').value;" +
+		// 		"var paymentOption=document.getElementById('paymentOption').value;" +
+		// 		"var subscriptionKey=document.getElementById('subscriptionKey').value;" +
+		// 		"var mode=document.getElementById('mode').value;" +
+		// 		"var theme=document.getElementById('theme').value;" +
+		// 		//"window.alert(planCode+' '+subscriptionKey);" +
+		// 		"}" +
+		// 		"</script>";
+		// 	//'models/portalservice.php/?method=payment&&data='+data+'&&meta='+queryString[1]
+		//
+		// 	var fullEmbededForm = planDetailSelectView + scriptSubmit;
+		//
+		// 	vm.fullEmbedMarkup = fullEmbededForm;
+		// 	$scope.fullEmbededPlanForm=fullEmbededForm;
+		//
+		// 	if(!innerCall){
+		// 		$scope.injectMarkup();
+		// 		$mdDialog.show({
+		// 			controller: function () {
+		// 				return vm;
+		// 			},
+		// 			controllerAs: 'ctrl',
+		// 			templateUrl: 'app/main/plans/dialogs/embed/embed-preview.html',
+		// 			parent: angular.element(document.body),
+		// 			targetEvent: ev,
+		// 			clickOutsideToClose:false // Only for -xs, -sm breakpoints.
+		// 		}).then(function(confirmation) {
+		// 		}, function() {
+		// 			$mdDialog.hide();
+		// 		});
+		//
+		// 	}else{
+		// 		vm.planInjected = true;
+		// 		vm.showEmbedMarkup = true;
+		// 		var codee = document.getElementById('embededCode');
+		// 		hljs.highlightBlock(codee);
+		// 	}
+		//
+		// }
 
-        var startForm = "<form name='planEmbededSubscriptionForm"+i+"' action='https://"+$scope.baseUrl+"/planEmbededForm/planSubscriptionScript.php/?method=subscriptionPlan' method='post' id='form"+i+"'>";
-        var endForm = "<div style='padding: 20px 0;margin: 0 auto;overflow: hidden;max-width: 300px;width: 100%;text-align: center'><input type='hidden' name='emailAddress' placeholder='Email' style='width: 90%;height: 25px;padding: 5px;border-radius:5px;border: solid 1px #bbb;' /><br>" +
-          "<input type='hidden' name='planCode' id='planCode"+i+"' value='"+plans[i].code+"'><br>" +
-          "<input type='hidden' name='paymentOption' id='paymentOption"+i+"' value='"+plans[i].paymentOption+"'><br>" +
-          "<input type='hidden' name='subscriptionKey' id='subscriptionKey"+i+"' value='"+$scope.subscriptionKey+"'><br>" +
-          "<input type='hidden' name='mode' id='mode"+i+"' value='"+getDomainExtension()+"'><br>" +
-          "<button name='subscriptionButton' type='submit' value='submit' style='width: 95%;height: 37px;font-size: 17px;padding: 8px 20px;color: #fff;background-color: rgb(3,155,229);box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);border: none;border-radius: 5px;top: -45px;position: relative;'>Subscribe</button></div></body></form>";
+		// DEPRICATED
 
-        planDetailSelectView=planDetailSelectView+startForm+planIndiView+endForm;
-      }
-			var scriptSubmit= "<script type='text/javascript'>" +
-				"submitFormData = function(){" +
-				//"var planCode=$post->planCode;" +
-				//"var emailAdress=$post->emailAddress;" +
-				//"var subscriptionKey=$post->subscriptionKey;" +
-				"var planCode=document.getElementById('planCode').value;" +
-				"var emailAdress=document.getElementById('emailAddress').value;" +
-				"var paymentOption=document.getElementById('paymentOption').value;" +
-				"var subscriptionKey=document.getElementById('subscriptionKey').value;" +
-				"var mode=document.getElementById('mode').value;" +
-				//"window.alert(planCode+' '+subscriptionKey);" +
-				"}" +
-				"</script>";
-			//'models/portalservice.php/?method=payment&&data='+data+'&&meta='+queryString[1]
+		$scope.getEmbededPlanForm= function (plans, ev, innerCall) {
+			var isOpen = $mdDialog.show({
+				controller: function () {
+					return vm;
+				},
+				controllerAs: 'ctrl',
+				templateUrl: 'app/main/plans/dialogs/embed/embed-templates-preview.html',
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				clickOutsideToClose:false // Only for -xs, -sm breakpoints.
+			}).then(function(confirmation) {
+			}, function() {
+				$mdDialog.hide();
+			});
 
-			var fullEmbededForm = planDetailSelectView + scriptSubmit;
+			var counter = 0;
+			var initialTemplateWatcher = $interval(function () {
+				if(isOpen){
+					vm.updateTemplate(1);
+					vm.planInjected = true;
+					if(counter==2)$interval.cancel(initialTemplateWatcher);
+				}
+				counter++;
+			}, 100);
 
-			$scope.fullEmbededPlanForm=fullEmbededForm;
+		}
+
+		vm.planEmbedName = null;
+		var isolateindex = 0;
+		vm.updateTemplate = function (temp) {
+			$('#embedPreview').empty();
+			vm.currentTemplate = temp;
+			vm.templatesubval = null;
+			vm.planEmbedName = "";
+
+			$.get( "app/main/plans/views/templates/Embeddable Plans templates/subscriptions_template_"+temp+".html", function( template ) {
+
+				isolateindex = 0;
+				var selectedTemplate = $(template),
+					planUIString = "",
+					planindex = 0;
+
+				angular.forEach($scope.selectedPlansForEmbed, function (plan) {
+					var planUI = $(template).find('.plans').find('.row-block');
+
+					planUI.find('.p-name').html(plan.name);
+					planUI.find('.p-price').html('$'+plan.unitPrice);
+					planUI.find('.p-billfrq').html(' / '+plan.billEvery);
+					if(temp == 1 || temp == 2){
+						planUI.find('.p-check').attr('id', 'plan'+planindex);
+						planUI.find('.p-name').attr('for', 'plan'+planindex);
+						planUI.find('.p-name').attr('data-id', 'plan'+planindex);
+						planUI.find('.p-name').attr('data-code', 'plan'+planindex);
+					}
+
+					if(plan.priceScheme.length != 0){
+						var tempFeat = "";
+						angular.forEach(plan.priceScheme, function (feat) {
+							tempFeat = tempFeat + '<li><span class="list-icon af">✓</span>'+feat.featureCode+'</li>';
+						});
+						if(temp == 1 || temp == 2){
+							selectedTemplate.find('.p-features-body').append('<ul class="p-features" data-id="plan'+planindex+'">'+tempFeat+'</ul>');
+						}else{
+							planUI.find('.p-features').empty();
+							planUI.find('.p-features').append(tempFeat);
+						}
+					}
+
+					if(plan.type == 'Base-Plan'){
+						if(plan.addOnCodes.length != 0){
+							var tempAddon = "";
+							angular.forEach(plan.addOnCodes, function (addon) {
+								tempAddon = tempAddon + '<li><span class="list-icon af">✪</span>'+addon+'</li>';
+							});
+							if(temp == 1 || temp == 2){
+								selectedTemplate.find('.p-addons-body').append('<ul class="p-addons" data-id="plan'+planindex+'">'+tempAddon+'</ul>');
+							}else{
+								planUI.find('.p-addons').append(tempAddon);
+							}
+						}else{
+							planUI.find('.addons-block .p-details-heading').empty();
+						}
+					}
+
+					if(plan.taxID != ""){
+						$charge.tax().getTaxGrpByIDs(plan.taxID).success(function(data) {
+							var taxid=data.groupDetail[0].taxid;
+							$charge.tax().getTaxByIDs(taxid).success(function(data) {
+								planUI.find('.p-tax').html(data[0].amount + data[0].amounttype);
+
+								var stringifiedDom = $scope.stringigyDOM(planUI);
+								planUIString = planUIString + stringifiedDom;
+							}).error(function(data) {
+							})
+						}).error(function(data) {
+						});
+					}
+					else{
+						var stringifiedDom = $scope.stringigyDOM(planUI);
+						planUIString = planUIString + stringifiedDom;
+					}
+
+					if(planindex != $scope.selectedPlansForEmbed.length-1){
+						vm.planEmbedName = vm.planEmbedName+plan.code+"_";
+					}
+					else{
+						vm.planEmbedName = vm.planEmbedName+plan.code;
+					}
+
+					planindex ++;
+
+				});
+
+				selectedTemplate.find('.plans').html(planUIString);
+				$('#embedPreview').append(selectedTemplate);
+
+				vm.updateMainAccentInEmbed(vm.embedPlanAccent);
+				if(temp == 1 || temp == 2){
+					var initplans = $('.p-name');
+					$(initplans[0]).trigger("click");
+				}
+
+			});
+		}
+
+		vm.templatesubval = null;
+		vm.updateIsolatedPlan = function(state){
+			$('.embed-temp-preview').find('.row-block').removeClass('isolated');
+			var plans = document.getElementsByClassName('row-block');
+
+			if(isolateindex < plans.length-1){
+				isolateindex++;
+			}else{
+				isolateindex = 0;
+			}
+			for(var i=0;i<plans.length;i++){
+				if(i == isolateindex){
+					plans[isolateindex].classList.add('isolated');
+					vm.templatesubval = isolateindex;
+				}
+			}
+		}
+
+		$scope.stringigyDOM = function (domtostring) {
+			var tempNode = document.createElement('div');
+			$(tempNode).append(domtostring);
+			return $(tempNode).html();
+		}
+
+		vm.planInjected = false;
+		$scope.injectMarkup = function () {
+			$timeout(function(){
+				var embedPreCnt = angular.element('#embedPreview');
+				embedPreCnt.append(vm.fullEmbedMarkup);
+				vm.planInjected = true;
+			}, 500);
+
+			$timeout(function(){
+				var packs = document.getElementsByClassName('package-body');
+				var tempHeight = 0;
+				angular.forEach(packs, function (pack) {
+					if(pack.clientHeight>tempHeight ){
+						tempHeight = pack.clientHeight;
+					};
+				});
+				$('.package-body').css('height',tempHeight);
+			}, 510);
 		}
 
 		$scope.nothingSelected = true;
@@ -2276,5 +2559,82 @@
 
 		});
 
+		vm.updateMainAccentInEmbed = function (color) {
+			vm.embedPlanAccent = color;
+			$('.af').css('color',vm.embedPlanAccent);
+			$('.ab').css('background',vm.embedPlanAccent);
+		}
+
+		vm.updateLayout = function (count) {
+			vm.embedPlanWidth = 100/count;
+			$('#embedPreview form').css('width',vm.embedPlanWidth+'%');
+		}
+
+		vm.showEmbedMarkup = false;
+		vm.embedablePlansURL = false;
+		vm.continueToEmbedMarkup = function () {
+			vm.loadingEmbedMarkup = true;
+			// $scope.getEmbededPlanForm($scope.selectedPlansForEmbed, null, true);
+			var encryptedData = null;
+			var embedData = {
+				"planCode":vm.planEmbedName,
+				"subscriptionKey":$scope.subscriptionKey,
+				"mode":getDomainExtension(),
+				"theme":vm.embedPlanAccent.split('#')[1],
+				"template":vm.currentTemplate,
+				"templatesubval":vm.templatesubval
+			};
+
+			var encryptObj = {
+				"value" : JSON.stringify(embedData)
+			}
+
+			// var encryptObj = {
+			// 	"value" : '{"planCode":'+JSON.stringify(vm.planEmbedName)+',"subscriptionKey":'+JSON.stringify($scope.subscriptionKey)+',"mode":'+JSON.stringify(getDomainExtension())+',"theme":'+JSON.stringify(vm.embedPlanAccent.split("#")[1])+',"template":'+vm.currentTemplate+',"templatesubval":'+vm.templatesubval+'}'
+			// };
+
+			$charge.storage().encryptString(encryptObj).success(function (data) {
+				if(data.status)
+				{
+					encryptedData = encodeURIComponent(data.encrypted);
+					vm.embedablePlansIframe =
+						"<iframe src='https://"
+						+ $scope.baseUrl
+						+ "/planEmbededForm/planSubscriptionScript.php/?method=generateEmbedForm&&embedData="
+						+ encryptedData
+						+"'></iframe>";
+					vm.embedablePlansURL = "https://"+ $scope.baseUrl+ "/planEmbededForm/planSubscriptionScript.php/?method=generateEmbedForm&&embedData="+ encryptedData;
+
+					vm.showEmbedMarkup = true;
+					vm.loadingEmbedMarkup = false;
+					//var decryptObj = {
+					//  "value" : $scope.subscriptionKeyEncrypt
+					//}
+					//$charge.storage().decryptString(decryptObj).success(function (data) {
+					//  if(data.status)
+					//  {
+					//    $scope.subscriptionKeyDecrypt = data.decrypted;
+					//  }
+					//
+					//}).error(function (data) {
+					//
+					//});
+				}
+
+			}).error(function (data) {
+				// $scope.subscriptionKeyEncrypt = $scope.subscriptionKey;
+				vm.loadingEmbedMarkup = false;
+			});
+
+		}
+
+		vm.goBackToPreview = function () {
+			vm.planInjected = false;
+			// vm.coppiedTimeout = false;
+			// vm.copyStarted = false;
+			$scope.injectMarkup();
+			vm.showEmbedMarkup = false;
+			vm.updateTemplate(1);
+		}
 	}
 })();

@@ -287,6 +287,15 @@
                                 <md-checkbox ng-model="content.apply_tax" aria-label="Apply Tax" class="md-primary dep-checkbox" style="top:0;width: 100px;">Apply Tax</md-checkbox>
                             </div>
                         </div>
+						<div flex="5" ng-if="vm.usingAvalaraTax"></div>
+                        <div layout="row" flex="30" ng-if="vm.usingAvalaraTax">
+                            <div layout="column" flex>
+								<md-input-container>
+									<label>Avalara tax code</label>
+									<input ng-required="false" type="text" min="" name="avalaraTaxCode" ng-model="content.avaTaxCode">
+								</md-input-container>
+                            </div>
+                        </div>
                     </div>
                 </md-card-content>
             </md-card>

@@ -1,0 +1,206 @@
+<style>
+    .embed-temp-preview {
+        font-size: 14px;
+        font-family: sans-serif; }
+
+    .embed-temp-preview .text-center {
+        text-align: center; }
+
+    .embed-temp-preview .row {
+        display: table-row;
+        width: 100%; }
+    .embed-temp-preview .row .row-block {
+        display: table-cell;
+        padding: 10px; }
+    .embed-temp-preview .row .row-block.mid {
+        width: 35%; }
+    .embed-temp-preview .row .row-block.equal {
+        width: 50%; }
+    .embed-temp-preview .row .row-block.extra-mid {
+        width: calc(65% - 1px); }
+    .embed-temp-preview .row .row-block.left {
+        float: left; }
+    .embed-temp-preview .row .row-block.right {
+        float: right; }
+    .embed-temp-preview .row .row-block.bordered {
+        border-left: solid 1px #eeeeee; }
+
+    .embed-temp-preview .plan {
+        border-radius: 5px;
+        -webkit-box-shadow: 0 0 5px #aaa;
+        -moz-box-shadow: 0 0 5px #aaa;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        position: relative;
+        max-width: 450px;
+        margin: 0 auto;
+        text-align: center; }
+    .embed-temp-preview .plan .p-name {
+        /* background: #039be5; */
+        padding: 10px;
+        text-align: center;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+        font-size: 25px;
+        font-weight: bold;
+        color: #fff; }
+    .embed-temp-preview .plan .p-body {
+        display: block; }
+    .embed-temp-preview .plan .p-body .p-value {
+        min-height: 50px;
+        padding: 30px;
+        text-align: center;
+        border-bottom: solid 1px #ddd; }
+    .embed-temp-preview .plan .p-body .p-value .p-price {
+        font-size: 25px;
+        font-weight: bold;
+        /* color: #039be5;  */
+    }
+    .embed-temp-preview .plan .p-body .p-value .p-billfrq {
+        color: rgba(0, 0, 0, 0.6); }
+    .embed-temp-preview .plan .p-body .p-value .p-tax {
+        font-size: 12px;
+        margin-top: 5px;
+        color: rgba(0, 0, 0, 0.6); }
+
+    .embed-temp-preview .p-details-block {
+        padding: 20px;
+        background: #f5f5f5; }
+    .embed-temp-preview .p-details-block .p-details-heading {
+        font-weight: bold;
+        margin-bottom: 20px; }
+    .embed-temp-preview .p-details-block .p-details-body ul {
+        list-style: none;
+        margin: 0;
+        padding: 0; }
+    .embed-temp-preview .p-details-block .p-details-body ul li {
+        margin: 0 0 10px 0px; }
+    .embed-temp-preview .p-details-block .p-details-body ul.p-features li span.list-icon {
+        /* color: #039be5; */
+        margin-right: 15px;
+        font-weight: bold; }
+    .embed-temp-preview .p-details-block .p-details-body ul.p-addons li {
+        position: relative;
+        display: block;
+        background: #eaeaea;
+        max-width: 300px;
+        border-radius: 3px;
+        text-align: center;
+        height: 30px;
+        padding: 5px;}
+    .embed-temp-preview .p-details-block .p-details-body ul.p-addons li span.list-icon {
+        background: #fff;
+        color: #ffffff;
+        padding: 3px 6px;
+        display: inline-block;
+        font-size: 16px;
+        border: solid 1px #eee;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+        position: absolute;
+        left:0;
+        top:0;
+    }
+    .embed-temp-preview .p-details-block .p-details-body ul.p-addons li div.list-text {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        height: 15px;
+        text-align: center;
+        padding-left: 27px;
+        padding-right: 10px; }
+
+    .embed-temp-preview form.form-table {
+        table-layout: fixed;
+        display: table;
+        width: 100%; }
+
+    .embed-temp-preview .form-footer {
+        padding: 20px;
+        border-top: solid 1px #eeeeee; }
+
+    .embed-temp-preview button {
+        outline: none;
+        align-items: inherit; }
+    .embed-temp-preview button.primary {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 3px;
+        /* background: #039be5; */
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: bold; }
+    .embed-temp-preview button.primary.shadowed {
+        -webkit-box-shadow: 0 1px 5px #aaa;
+        -moz-box-shadow: 0 1px 5px #aaa;
+        box-shadow: 0 1px 5px #aaa; }
+    .embed-temp-preview button:hover {
+        cursor: pointer; }
+</style>
+<section class="clearfix embed-temp-preview">
+    <form name="" id="" class="form-table" method="post">
+        <div class="row plans">
+            <div class="row-block">
+                <div class="plan">
+                    <div>
+                        <div class="p-name ab"></div>
+                        <div class="p-body">
+                            <div class="p-value">
+                                <div>
+                                    <span class="p-price af"></span>
+                                    <span class="p-billfrq"></span>
+                                </div>
+                                <div class="p-tax"></div>
+                            </div>
+
+                            <section class="p-details-block features-block">
+                                <div class="p-details-heading">Package features</div>
+                                <div class="p-details-body">
+                                    <ul class="p-features">
+                                    </ul>
+                                </div>
+                            </section>
+                            <section class="p-details-block addons-block">
+                                <div class="p-details-heading">Add-ons</div>
+                                <div class="p-details-body">
+                                    <ul class="p-addons">
+                                    </ul>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="form-footer text-center">
+                            <button type="submit" class="primary shadowed ab">Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hiddenFields"></div>
+    </form>
+</section>
+<script>
+	$(document).ready(function(){
+		console.log('Ready');
+		console.log($('.plan'));
+		var plansHeight = 0;
+		var featuresHeight = 75;
+		var addonsHeight = 75;
+		var plans = $('.plan');
+		if(plans.length > 0){
+			$.each(plans, function(index, value){
+				var tempFeaturesHeight = $(value).find('.features-block').height();
+				var tempAddonsHeight = $(value).find('.addons-block').height();
+				if(tempFeaturesHeight>featuresHeight){
+					featuresHeight = tempFeaturesHeight;console.log('tempF'+featuresHeight);
+				}
+				if(tempAddonsHeight>addonsHeight){
+					addonsHeight = tempAddonsHeight;console.log('tempF'+addonsHeight);
+				}
+			});
+			$('.features-block').height(featuresHeight);
+			$('.addons-block').height(addonsHeight);
+		}
+	});
+</script>
