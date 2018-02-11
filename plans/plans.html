@@ -22,7 +22,7 @@
         <!-- CONTENT HEADER- V NAV-->
         <div layout="column" layout-align="start start">
             <div class="v-header" layout="column" flex fill-width>
-                <div class="title" layout="column" layout-align="center start">
+                <div class="title" layout="column" layout-align="center start" ng-if="!themeDuoworld">
                     <div class="logo" layout="row" layout-align="start center">
                         <span class="logo-icon">
                           <img src="app/core/app_icons/plans_app_icon.png" alt=""/>
@@ -31,6 +31,14 @@
                     </div>
                 </div>
                 <div layout="row">
+                    <div class="title" layout="column" layout-align="center start" ng-if="themeDuoworld">
+                        <div class="logo" layout="row" layout-align="start center">
+                        <span class="logo-icon">
+                          <img src="app/core/app_icons/plans_app_icon_black.png" alt=""/>
+                        </span>
+                            <span class="logo-text">Plans</span>
+                        </div>
+                    </div>
                     <div class="search-wrapper md-whiteframe-4dp" layout="row" layout-align="start center" flex ng-class="{'op-5':vm.activePlanPaneIndex == 1}">
                         <md-button class="md-icon-button sidenav-toggle" ng-click="vm.toggleSidenav('main-sidenav')" hide-gt-md aria-label="Toggle Sidenav">
                             <md-icon class="icon" md-font-icon="icon-menu"></md-icon>
