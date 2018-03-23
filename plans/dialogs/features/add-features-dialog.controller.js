@@ -6,7 +6,7 @@
 {
   'use strict';
   angular
-    .module('app.plans')
+    .module('app.plan')
     .controller('AddFeaturesController', AddFeaturesController);
 
   /** @ngInject */
