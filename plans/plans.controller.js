@@ -12,11 +12,11 @@
 	'use strict';
 
 	angular
-		.module('app.plans')
+		.module('app.plan')
 		.controller('PlansController', PlansController);
 
 	/** @ngInject */
-	function PlansController($scope, $timeout, $mdDialog, $http, $mdMedia, $mdSidenav, $filter, $charge, $errorCheck, notifications, $azureSearchHandle, $rootScope, $interval)
+	function PlansController($scope, $timeout, $mdDialog, $http, $mdMedia, $mdSidenav, $filter, $charge, $errorCheck, notifications, $azureSearchHandle, $rootScope, $interval, logHelper)
 	{
 		var vm = this;
 
@@ -382,7 +382,7 @@
 					$scope.infoJson= {};
 					$scope.infoJson.message =JSON.stringify(data);
 					$scope.infoJson.app ='plans';
-					// logHelper.error( $scope.infoJson);
+					logHelper.error( $scope.infoJson);
 				});
 
 				$scope.selectedPlanFeaturesList = [];
@@ -480,7 +480,7 @@
 			$scope.infoJson= {};
 			$scope.infoJson.message =JSON.stringify(data);
 			$scope.infoJson.app ='plans';
-			// logHelper.error( $scope.infoJson);
+			logHelper.error( $scope.infoJson);
 		})
 
 		function billingCycleHandler(selection){
@@ -735,7 +735,7 @@
 					$scope.infoJson= {};
 					$scope.infoJson.message =plan.guPlanID+' Plan Deactivated';
 					$scope.infoJson.app ='plans';
-					// logHelper.info( $scope.infoJson);
+					logHelper.info( $scope.infoJson);
 
 					skip = 0;
 					$scope.items = [];
@@ -749,7 +749,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =plan.guPlanID+' Plan Deactivate Failed';
 				$scope.infoJson.app ='plans';
-				// logHelper.error( $scope.infoJson);
+				logHelper.error( $scope.infoJson);
 			})
 		}
 
@@ -780,7 +780,7 @@
 					$scope.infoJson= {};
 					$scope.infoJson.message =plan.guPlanID+' Plan Activated';
 					$scope.infoJson.app ='plans';
-					// logHelper.info( $scope.infoJson);
+					logHelper.info( $scope.infoJson);
 
 					skip = 0;
 					$scope.items = [];
@@ -794,7 +794,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =plan.guPlanID+' Plan Activate Failed';
 				$scope.infoJson.app ='plans';
-				// logHelper.error( $scope.infoJson);
+				logHelper.error( $scope.infoJson);
 			})
 		}
 
@@ -969,7 +969,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =JSON.stringify(data);
 				$scope.infoJson.app ='plans';
-				// logHelper.error( $scope.infoJson);
+				logHelper.error( $scope.infoJson);
 			});
 
 		};
@@ -1022,7 +1022,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =JSON.stringify(data);
 				$scope.infoJson.app ='plans';
-				// logHelper.error( $scope.infoJson);
+				logHelper.error( $scope.infoJson);
 			})
 		}
 		$scope.loadAllBasePlans();
@@ -1065,7 +1065,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =JSON.stringify(data);
 				$scope.infoJson.app ='plans';
-				// logHelper.error( $scope.infoJson);
+				logHelper.error( $scope.infoJson);
 			})
 		}
 		$scope.loadAllAddonPlans();
@@ -1117,7 +1117,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =JSON.stringify(data);
 				$scope.infoJson.app ='plans';
-				// logHelper.error( $scope.infoJson);
+				logHelper.error( $scope.infoJson);
 			})
 		}
 		$scope.loadAllPriceSchemeFeatures();
@@ -1224,7 +1224,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =JSON.stringify(data);
 				$scope.infoJson.app ='plans';
-				// logHelper.error( $scope.infoJson);
+				logHelper.error( $scope.infoJson);
 			})
 		}
 		$scope.getAllUOM();
@@ -1361,7 +1361,7 @@
 					$scope.infoJson= {};
 					$scope.infoJson.message =featureCode+' Successfully Feature removed';
 					$scope.infoJson.app ='plans';
-					// logHelper.info( $scope.infoJson);
+					logHelper.info( $scope.infoJson);
 				}
 				else
 				{
@@ -1370,7 +1370,7 @@
 					$scope.infoJson= {};
 					$scope.infoJson.message =featureCode+' Feature remove Failed';
 					$scope.infoJson.app ='plans';
-					// logHelper.error( $scope.infoJson);
+					logHelper.error( $scope.infoJson);
 				}
 			}).error(function(data) {
 				//console.log(data);
@@ -1379,7 +1379,7 @@
 				$scope.infoJson= {};
 				$scope.infoJson.message =featureCode+' Feature remove Failed';
 				$scope.infoJson.app ='plans';
-				// logHelper.error( $scope.infoJson);
+				logHelper.error( $scope.infoJson);
 			});
 		}
 
@@ -1756,7 +1756,7 @@
 							$scope.infoJson= {};
 							$scope.infoJson.message ='Successfully Plan Created';
 							$scope.infoJson.app ='plans';
-							// logHelper.info( $scope.infoJson);
+							logHelper.info( $scope.infoJson);
 
 							$scope.editOff = false;
 							vm.pageTitle = "Create Plan";
@@ -1792,7 +1792,7 @@
 								$scope.infoJson= {};
 								$scope.infoJson.message =result;
 								$scope.infoJson.app ='plans';
-								// logHelper.error( $scope.infoJson);
+								logHelper.error( $scope.infoJson);
 								//$scope.errorlist=Response;
 								//for(var i=0; i<$scope.errorlist.length; i++)
 								//{
@@ -1836,7 +1836,7 @@
 								$scope.infoJson= {};
 								$scope.infoJson.message =result;
 								$scope.infoJson.app ='plans';
-								// logHelper.error( $scope.infoJson);
+								logHelper.error( $scope.infoJson);
 								//$scope.errorlist=Response;
 								//for(var i=0; i<$scope.errorlist.length; i++)
 								//{
@@ -1986,7 +1986,7 @@
 							$scope.infoJson= {};
 							$scope.infoJson.message ='Successfully Plan Modified';//JSON.stringify(data);
 							$scope.infoJson.app ='plans';
-							// logHelper.info( $scope.infoJson);
+							logHelper.info( $scope.infoJson);
 
 							$scope.selectedBasePlans=[];
 							skipBasePlans=0;
@@ -2025,7 +2025,7 @@
 								$scope.infoJson= {};
 								$scope.infoJson.message =result;
 								$scope.infoJson.app ='plans';
-								// logHelper.error( $scope.infoJson);
+								logHelper.error( $scope.infoJson);
 							}).onError(function(data)
 							{
 								//console.log(data);
@@ -2058,7 +2058,7 @@
 								$scope.infoJson= {};
 								$scope.infoJson.message =result;
 								$scope.infoJson.app ='plans';
-								// logHelper.error( $scope.infoJson);
+								logHelper.error( $scope.infoJson);
 							}).onError(function(data)
 							{
 								//console.log(data);

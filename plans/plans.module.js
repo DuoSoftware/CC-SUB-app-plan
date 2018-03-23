@@ -11,18 +11,15 @@
 	'use strict';
 
 	angular
-		.module('app.plans', [])
+		.module('app.plan', [])
 		.config(config)
 		.filter('parseDate',parseDateFilter);
 
 	/** @ngInject */
 	function config($stateProvider, $translatePartialLoaderProvider, msApiProvider, msNavigationServiceProvider, mesentitlementProvider)
 	{
-
-		mesentitlementProvider.setStateCheck("plans");
-
 		// State
-		$stateProvider.state('app.plans', {
+		$stateProvider.state('app.plan', {
 				url    : '/plans',
 				views  : {
 					'plans@app': {
@@ -34,12 +31,12 @@
 					security: ['$q','mesentitlement','$timeout','$rootScope','$state','$location', function($q,mesentitlement,$timeout,$rootScope,$state, $location){
 						return $q(function(resolve, reject) {
 							$timeout(function() {
-								//if (true) {
-								if ($rootScope.isBaseSet2) {
+								if (true) {
+								// if ($rootScope.isBaseSet2) {
 									resolve(function () {
-										var entitledStatesReturn = mesentitlement.stateDepResolver('plans');
+										var entitledStatesReturn = mesentitlement.stateDepResolver('plan');
 
-										mesentitlementProvider.setStateCheck("plans");
+										mesentitlementProvider.setStateCheck("plan");
 
 										if(entitledStatesReturn !== true){
 											return $q.reject("unauthorized");
@@ -52,17 +49,17 @@
 						});
 					}]
 				},
-				bodyClass: 'plans'
+				bodyClass: 'plan'
 			});
 
 		//Api
 		msApiProvider.register('cc_invoice.invoices', ['app/data/cc_invoice/invoices.json']);
 
 		// Navigation
-		msNavigationServiceProvider.saveItem('plans', {
+		msNavigationServiceProvider.saveItem('plan', {
 			title    : 'Plans',
 			icon     : 'icon-leaf',
-			state    : 'app.plans',
+			state    : 'app.plan',
 			/*stateParams: {
 			 'param1': 'page'
 			 },*/
