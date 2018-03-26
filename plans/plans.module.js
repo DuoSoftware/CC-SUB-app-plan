@@ -20,9 +20,9 @@
 	{
 		// State
 		$stateProvider.state('app.plan', {
-				url    : '/plans',
+				url    : '/plan',
 				views  : {
-					'plans@app': {
+					'plan@app': {
 						templateUrl: 'app/main/plans/plans.html',
 						controller : 'PlansController as vm'
 					}
@@ -43,7 +43,7 @@
 										}
 									});
 								} else {
-									return $location.path('/guide');
+									return $location.path('/setupguide');
 								}
 							});
 						});
