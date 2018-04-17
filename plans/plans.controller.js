@@ -1778,6 +1778,10 @@
 							skip=0;
 							$scope.items = [];
 							$scope.loading=true;
+							$scope.content = {};
+							vm.changePlanForm.$setPristine();
+							vm.changePlanForm.$setUntouched();
+							// vm.changePlanForm.$setDirty();
 							vm.activePlanPaneIndex = 0;
 							$scope.more("","");
 							//$window.location.href='#/paymentlist';

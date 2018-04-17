@@ -788,6 +788,7 @@
 </div>
 <div md-whiteframe="8dp" layout="row" layout-align="end center" class="pos-rel" style="z-index: 1">
     <div layout="row" class="layout-row">
+        <md-progress-circular ng-if="vm.submitted" class="gen-save-indicator"></md-progress-circular>
         <md-button ng-click="clearform(content.type)">Clear</md-button>
         <md-button ng-disabled="vm.submitted" type="submit" form="changePlanForm" class="md-raised md-accent">Save</md-button>
     </div>
