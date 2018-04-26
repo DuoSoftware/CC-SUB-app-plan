@@ -107,24 +107,24 @@
 				var c = ca[i];
 				while (c.charAt(0) == ' ') c = c.substring(1, c.length);
 				if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-			}
+			};
 			//debugger;
 			return null;
-		}
+		};
 
 		function getDomainName() {
 			var _st = gst("currentDomain");
 			var __st = gst("domain");
 			return (_st != null) ? _st : __st; //"248570d655d8419b91f6c3e0da331707 51de1ea9effedd696741d5911f77a64f";
-		}
+		};
 
 		function getDomainExtension() {
 			var _st = gst("extension_mode");
 			if(_st=="sandbox" || _st=="ssandbox"){
 				_st="test";
-			}
+			};
 			return (_st != null) ? _st : "test"; //"248570d655d8419b91f6c3e0da331707 51de1ea9effedd696741d5911f77a64f";
-		}
+		};
 
 		/**
 		 * Close read pane
@@ -149,14 +149,14 @@
 			}else {
 				$scope.editOff = false;
 				vm.activePlanPaneIndex = 0;
-			}
+			};
 
 			$timeout(function ()
 			{
 				vm.scrollEl.scrollTop(vm.scrollPos);
 			}, 650);
 			$scope.showFilers=true;
-		}
+		};
 
 		/**
 		 * Toggle sidenav
@@ -166,7 +166,7 @@
 		function toggleSidenav(sidenavId)
 		{
 			$mdSidenav(sidenavId).toggle();
-		}
+		};
 
 		/**
 		 * Toggle innerview
@@ -181,8 +181,8 @@
 			}else{
 				vm.appInnerState = "default";
 				vm.pageTitle="Change Plan";
-			}
-		}
+			};
+		};
 
 		function selectPlan(plan){
 			$scope.openPlanLst(plan);
@@ -198,7 +198,7 @@
 			//  // Scroll to the top
 			//  vm.scrollEl.scrollTop(0);
 			//});
-		}
+		};
 
 		$scope.openPlanLst = function(plan) {
 			//$scope.isReadLoaded = false;taxgroupcode
@@ -342,10 +342,10 @@
 							if($scope.basePlanList[i].code==data.basePlanCodes[l])
 							{
 								$scope.basePlanList[i].isSelected=true;
-							}
-						}
-					}
-				}
+							};
+						};
+					};
+				};
 
 				if(data.addOnCodes!=undefined)
 				{
@@ -357,10 +357,10 @@
 							if($scope.addonPlanList[i].code==data.addOnCodes[l])
 							{
 								$scope.addonPlanList[i].isSelected=true;
-							}
-						}
-					}
-				}
+							};
+						};
+					};
+				};
 
 				$charge.tax().getTaxGrpByIDs(vm.selectedPlan.taxID).success(function(data) {
 					var taxid=data.groupDetail[0].taxid;
@@ -372,7 +372,7 @@
 						//vm.selectedPlan = plan;
 						vm.selectedPlan.taxType = "-1";
 						vm.selectedPlan.taxAmount = 0;
-					})
+					});
 				}).error(function(data) {
 					//console.log(data);
 					//vm.selectedPlan = plan;
@@ -397,31 +397,31 @@
 								$scope.priceSchemeFeatureList[j].isSelected=true;
 								$scope.selectedPlanFeaturesList.push($scope.priceSchemeFeatureList[j][0]);
 								break;
-							}
-						}
-					}
+							};
+						};
+					};
 					$scope.isReadLoaded = true;
 				}
 				else
 				{
 					vm.selectedPlan.add_pricingScheme=false;
 					$scope.isReadLoaded = true;
-				}
+				};
 
 			}).error(function(data){
 				//basePlanCodes
 				//console.log(data);
-			})
+			});
 
 		};
 
 		function changePlans(){
 			toggleinnerView('add');
-		}
+		};
 
 		function submit(){
 			toggleinnerView('add');
-		}
+		};
 
 		$charge.settingsapp().getDuobaseFieldDetailsByTableNameAndFieldName("CTS_GeneralAttributes","BaseCurrency").success(function(data) {
 			$scope.BaseCurrency=data[0].RecordFieldData;
@@ -431,14 +431,14 @@
 			//console.log(data);
 			$scope.BaseCurrency="USD";
 			//$scope.selectedCurrency = $scope.BaseCurrency;
-		})
+		});
 
 		$scope.prefferedCurrencies=[];
 		$charge.settingsapp().getDuobaseFieldDetailsByTableNameAndFieldName("CTS_GeneralAttributes","FrequentCurrencies").success(function(data) {
 			$scope.prefferedCurrencies=data[0].RecordFieldData.trimLeft().split(" ");
 		}).error(function(data) {
 			//console.log(data);
-		})
+		});
 
 		$scope.planTypeList=[];
 		$charge.settingsapp().getDuobaseFieldsByTableNameAndFieldName("CTS_PlanAttributes", "PlanType").success(function (data) {
@@ -451,11 +451,11 @@
 					if (obj.ColumnIndex == "0") {
 						$scope.planTypeList.push(obj);
 
-					}
-				}
-			}
+					};
+				};
+			};
 		}).error(function (data) {
-		})
+		});
 
 		$charge.settingsapp().getDuobaseValuesByTableName("CTS_GeneralAttributes").success(function(data) {
 			$scope.decimalPoint = parseInt(data[6].RecordFieldData);
@@ -473,23 +473,22 @@
 			// returned data contains an array of 2 sentences
 			for (var i = 0; i < data.length; i++) {
 				$scope.taxGroup.push(data[i]);
-
-			}
+			};
 		}).error(function(data) {
 			//console.log(data);
 			$scope.infoJson= {};
 			$scope.infoJson.message =JSON.stringify(data);
 			$scope.infoJson.app ='plans';
 			logHelper.error( $scope.infoJson);
-		})
+		});
 
 		function billingCycleHandler(selection){
 			if(selection=='fixed'){
 				$scope.showNoOfCycles = true;
 			}else{
 				$scope.showNoOfCycles = false;
-			}
-		}
+			};
+		};
 
 		$scope.$watch(function () {
 			var elem = document.querySelector('#billingFrqCurrency');
@@ -498,14 +497,14 @@
 				if(elem.innerText != ""){
 					var innerCurr = elem.innerText.split('0')[0];
 					document.querySelector('#billingFrqCurrency').innerText = innerCurr;
-				}
-			}
+				};
+			};
 			if(elem2 != null) {
 				if (elem2.innerText != "") {
 					var innerCurr2 = elem2.innerText.split('0')[0];
 					document.querySelector('#billingFrqCurrencyEdit').innerText = innerCurr2;
-				}
-			}
+				};
+			};
 			vm.planContentHeight = window.innerHeight - 145;
 		});
 
@@ -516,12 +515,12 @@
 				$timeout(function(){
 					elem3.scrollTop = elem3.scrollHeight;
 				});
-			}
+			};
 			if(elem4 != undefined && state == 'edit'){
 				$timeout(function(){
 					elem4.scrollTop = elem4.scrollHeight;
 				});
-			}
+			};
 		};
 
 		$scope.toggleEdit = function (planType) {
@@ -574,7 +573,7 @@
 				angular.forEach(vm.plans, function (plan) {
 					plan.unitPrice = parseInt(plan.unitPrice);
 				});
-			}
+			};
 			vm.plans=$filter('orderBy')(vm.plans, propertyName, $scope.reverse);
 			$scope.reverse =!$scope.reverse;
 
@@ -586,7 +585,7 @@
 					$scope.showDate = false;
 					$scope.showPrice = false;
 					$scope.showState = false;
-				}
+				};
 				if(property=='Code')
 				{
 					$scope.showName = false;
@@ -594,7 +593,7 @@
 					$scope.showDate = false;
 					$scope.showPrice = false;
 					$scope.showState = false;
-				}
+				};
 				if(property=='Date')
 				{
 					$scope.showName = false;
@@ -602,7 +601,7 @@
 					$scope.showDate = status;
 					$scope.showPrice = false;
 					$scope.showState = false;
-				}
+				};
 				if(property=='Price')
 				{
 					$scope.showName = false;
@@ -610,7 +609,7 @@
 					$scope.showDate = false;
 					$scope.showPrice = status;
 					$scope.showState = false;
-				}
+				};
 				if(property=='Status')
 				{
 					$scope.showName = false;
@@ -618,8 +617,8 @@
 					$scope.showDate = false;
 					$scope.showPrice = false;
 					$scope.showState = status;
-				}
-			}
+				};
+			};
 		};
 
 		$scope.showMoreUserInfo=false;
@@ -629,7 +628,7 @@
 				$scope.showMoreUserInfo=true;
 			}else{
 				$scope.showMoreUserInfo=false;
-			}
+			};
 		};
 
 		$scope.showInpageReadpane = false;
@@ -652,10 +651,10 @@
 					} else {
 						$scope.showInpageReadpane = false;
 						$scope.inpageReadPaneEdit = false;
-					}
-				}
-			}
-		}
+					};
+				};
+			};
+		};
 
 		$scope.tempEditPlan=[];
 		$scope.editPlan = function (plan) {
@@ -665,8 +664,8 @@
 			if(vm.editSelectedPlan.addOnCodes != undefined){
 				if(vm.editSelectedPlan.addOnCodes.length > 0){
 					vm.editSelectedPlan.add_addons = true;
-				}
-			}
+				};
+			};
 			vm.editSelectedPlan.rate = parseInt(plan.rate);
 			vm.editSelectedPlan.unitPrice = parseInt(plan.unitPrice);
 			vm.editSelectedPlan.billingInterval = parseInt(plan.billingInterval);
@@ -677,12 +676,12 @@
 			}
 			else{
 				vm.editSelectedPlan.billingCycleType = "fixed";
-			}
+			};
 
 			if(vm.editSelectedPlan.taxID!=null && vm.editSelectedPlan.taxID!="" && vm.editSelectedPlan.taxID!=undefined)
 			{
 				vm.editSelectedPlan.apply_tax=true;
-			}
+			};
 
 			//if(vm.editSelectedPlan.add_pricingScheme){
 			//	angular.forEach(vm.editSelectedPlan.priceScheme, function(scheme){
@@ -706,7 +705,7 @@
 			vm.editPlanForm.$dirty = false;
 			$scope.inpageReadPaneEdit=false;
 			$scope.clearform("");
-		}
+		};
 
 		$scope.showDeactivatePlanConfirm = function(ev,plan) {
 			// Appending dialog to document.body to cover sidenav in docs app
@@ -741,7 +740,7 @@
 					$scope.items = [];
 					$scope.loading=true;
 					$scope.more(plan,"");
-				}
+				};
 			}).error(function(data){
 				//
 				notifications.toast(data,"error");
@@ -750,8 +749,8 @@
 				$scope.infoJson.message =plan.guPlanID+' Plan Deactivate Failed';
 				$scope.infoJson.app ='plans';
 				logHelper.error( $scope.infoJson);
-			})
-		}
+			});
+		};
 
 		$scope.showActivatePlanConfirm = function(ev,plan) {
 			// Appending dialog to document.body to cover sidenav in docs app
@@ -786,7 +785,7 @@
 					$scope.items = [];
 					$scope.loading=true;
 					$scope.more(plan,"");
-				}
+				};
 			}).error(function(data){
 				//
 				notifications.toast(data,"error");
@@ -795,8 +794,8 @@
 				$scope.infoJson.message =plan.guPlanID+' Plan Activate Failed';
 				$scope.infoJson.app ='plans';
 				logHelper.error( $scope.infoJson);
-			})
-		}
+			});
+		};
 
 		$scope.isLoading = true;
 		$scope.isdataavailable=true;
@@ -932,7 +931,7 @@
 						Response[i].createdDate = $filter('date')(new Date(Response[i].createdDate), 'yyyy-MM-dd', false);
 						Response[i].selectForEmbed = false;
 						$scope.items.push(Response[i]);
-					}
+					};
 					$timeout(function () {
 						vm.plans = $scope.items;
 					});
@@ -948,14 +947,14 @@
 					if(selectedPlan!="")
 					{
 						selectPlan(selectedPlan);
-					}
+					};
 
 					if(Response.length<take){
 						$scope.isdataavailable=false;
 						$scope.hideSearchMore=true;
-					}
+					};
 
-				}
+				};
 
 			}).onError(function(data)
 			{
@@ -982,7 +981,7 @@
 			$scope.items = [];
 			$scope.loading=true;
 			$scope.more("",filter);
-		}
+		};
 
 		var skipBasePlans=0;
 		var takeBasePlans=100;
@@ -1000,7 +999,7 @@
 					for (var i = 0; i < data.length; i++) {
 						data[i].isSelected=false;
 						$scope.basePlanList.push(data[i]);
-					}
+					};
 
 					$scope.loadingBasePlans = false;
 
@@ -1011,9 +1010,9 @@
 					{
 						$scope.loadingBasePlans = true;
 						$scope.loadAllBasePlans();
-					}
+					};
 
-				}
+				};
 
 			}).error(function(data)
 			{
@@ -1023,8 +1022,8 @@
 				$scope.infoJson.message =JSON.stringify(data);
 				$scope.infoJson.app ='plans';
 				logHelper.error( $scope.infoJson);
-			})
-		}
+			});
+		};
 		$scope.loadAllBasePlans();
 
 		var skipAddonPlans=0;
@@ -1043,7 +1042,7 @@
 					for (var i = 0; i < data.length; i++) {
 						data[i].isSelected=false;
 						$scope.addonPlanList.push(data[i]);
-					}
+					};
 
 					$scope.loadingAddonPlans = false;
 
@@ -1054,9 +1053,9 @@
 					{
 						$scope.loadingAddonPlans = true;
 						$scope.loadAllAddonPlans();
-					}
+					};
 
-				}
+				};
 
 			}).error(function(data)
 			{
@@ -1066,8 +1065,8 @@
 				$scope.infoJson.message =JSON.stringify(data);
 				$scope.infoJson.app ='plans';
 				logHelper.error( $scope.infoJson);
-			})
-		}
+			});
+		};
 		$scope.loadAllAddonPlans();
 
 		$scope.loadingPriceSchemeFeatures = true;
@@ -1101,14 +1100,14 @@
 							{
 								scheme.isSelected=true;
 								break;
-							}
-						}
+							};
+						};
 						$scope.priceSchemeFeatureList.push(scheme);
 					});
 
 					$scope.loadingPriceSchemeFeatures = false;
 
-				}
+				};
 
 			}).error(function(data)
 			{
@@ -1118,27 +1117,27 @@
 				$scope.infoJson.message =JSON.stringify(data);
 				$scope.infoJson.app ='plans';
 				logHelper.error( $scope.infoJson);
-			})
-		}
+			});
+		};
 		$scope.loadAllPriceSchemeFeatures();
 
 		$scope.clearAllPriceSchemeFeatures= function () {
 			for (var i = 0; i < $scope.priceSchemeFeatureList.length; i++) {
 				$scope.priceSchemeFeatureList[i].isSelected=false;
-			}
-		}
+			};
+		};
 
 		$scope.clearBasePlanList= function () {
 			for (var i = 0; i < $scope.basePlanList.length; i++) {
 				$scope.basePlanList[i].isSelected=false;
-			}
-		}
+			};
+		};
 
 		$scope.clearAddonPlanList= function () {
 			for (var i = 0; i < $scope.addonPlanList.length; i++) {
 				$scope.addonPlanList[i].isSelected=false;
-			}
-		}
+			};
+		};
 
 		$scope.getCatLetter=function(catName) {
 			try{
@@ -1175,8 +1174,8 @@
 				if($scope.selectedBasePlans[ind].code == $scope.setcustomObjectData.code)
 				{
 					$scope.selectedBasePlans.splice(ind,1);
-				}
-			}
+				};
+			};
 			$scope.selectedBasePlans.push($scope.setcustomObjectData);
 
 		};
@@ -1191,8 +1190,8 @@
 				{
 					$scope.selectedBasePlans.splice(ind,1);
 					//console.log($scope.selectedBasePlans);
-				}
-			}
+				};
+			};
 		};
 
 		$scope.clearform = function (planType){
@@ -1200,12 +1199,12 @@
 			if(planType!="")
 			{
 				$scope.content.type=planType;
-			}
+			};
 			vm.editSelectedPlan={};
 			$scope.content.billingCycleType="auto";
 			$scope.content.trailDays=30;
 			billingCycleHandler("auto");
-		}
+		};
 
 		$scope.UOMs = [];
 		$scope.getAllUOM = function (){
@@ -1217,7 +1216,7 @@
 					//
 					$scope.UOMs.push(data[i]);
 					//
-				}
+				};
 				//$mdDialog.hide($scope.UOMs);
 			}).error(function (data) {
 				//console.log(data);
@@ -1225,8 +1224,8 @@
 				$scope.infoJson.message =JSON.stringify(data);
 				$scope.infoJson.app ='plans';
 				logHelper.error( $scope.infoJson);
-			})
-		}
+			});
+		};
 		$scope.getAllUOM();
 
 
@@ -1285,7 +1284,7 @@
 						slabObj.autoTermination = priceSchemeObj[i].autoTermination=="1"?true:false;
 						slabObj.costPerUnitAdd = parseInt(priceSchemeObj[i].costPerUnitAdd);
 						featureObj.scheme.push(slabObj);
-					}
+					};
 
 					vm.features=featureObj;
 				}
@@ -1311,8 +1310,8 @@
 					featureObj.scheme.push(slabObj);
 
 					vm.features=featureObj;
-				}
-			}
+				};
+			};
 
 			$mdDialog.show({
 				controller: 'AddFeaturesController as vm',
@@ -1371,7 +1370,7 @@
 					$scope.infoJson.message =featureCode+' Feature remove Failed';
 					$scope.infoJson.app ='plans';
 					logHelper.error( $scope.infoJson);
-				}
+				};
 			}).error(function(data) {
 				//console.log(data);
 				notifications.toast("Feature removing Failed","error");
@@ -1381,7 +1380,7 @@
 				$scope.infoJson.app ='plans';
 				logHelper.error( $scope.infoJson);
 			});
-		}
+		};
 
 		$scope.addNewRow=function(rowname) {
 
@@ -1403,7 +1402,7 @@
 
 			//rowname.push(featureObj);
 			vm.features=featureObj;
-		}
+		};
 
 		$scope.addNewSlab=function(slab) {
 
@@ -1412,7 +1411,7 @@
 			slabObj.type = "SLAB";
 			slabObj.autoTermination = true;
 			slab.scheme.push(slabObj);
-		}
+		};
 
 		//$scope.addNewRow($scope.features);
 
@@ -1423,7 +1422,7 @@
 				{
 					$scope.features.splice(index, 1);
 					$scope.calcUnitPrice($scope.features,$scope.content.unitPrice,$scope.content.default_price,$scope.content.add_pricingScheme,'add');
-				}
+				};
 			}
 			else if($scope.features[parentIndex] && rowname == $scope.features[parentIndex].scheme)
 			{
@@ -1431,7 +1430,7 @@
 				{
 					rowname.splice(index, 1);
 					$scope.calcUnitPrice($scope.features,$scope.content.unitPrice,$scope.content.default_price,$scope.content.add_pricingScheme,'add');
-				}
+				};
 			}
 			else if(rowname == vm.selectedPlan.priceScheme)
 			{
@@ -1439,7 +1438,7 @@
 				{
 					vm.selectedPlan.priceScheme.splice(index, 1);
 					$scope.calcUnitPrice(vm.editSelectedPlan.priceScheme,vm.editSelectedPlan.unitPrice,vm.editSelectedPlan.default_price,vm.editSelectedPlan.add_pricingScheme,'update');
-				}
+				};
 			}
 			else if(vm.selectedPlan.priceScheme[parentIndex] && rowname == vm.selectedPlan.priceScheme[parentIndex].scheme)
 			{
@@ -1447,12 +1446,12 @@
 				{
 					rowname.splice(index, 1);
 					$scope.calcUnitPrice(vm.editSelectedPlan.priceScheme,vm.editSelectedPlan.unitPrice,vm.editSelectedPlan.default_price,vm.editSelectedPlan.add_pricingScheme,'update');
-				}
+				};
 			}
 			//rowname.splice(index, 1);
 			//self1.searchText.splice(index,1);
 
-		}
+		};
 		$scope.featureType='';
 		$scope.setFeature = function (row, type) {
 			// row.advancedFeaturesConfirmed = true;
@@ -1461,13 +1460,13 @@
 			type == 'FIXED' ? $scope.featureType = 'FIXED' : $scope.featureType='SLAB';
 			var elem = document.getElementsByClassName('content-wrapper')[0];
 			elem.scrollTop = elem.scrollHeight - elem.clientHeight;
-		}
+		};
 
 		$scope.setAdvanceFeatures=function(row) {
 			// row.showAdvanceFeatures=true;
 			$scope.showAdvanceFeatures = true;
 			// angular.element('#createFeatureType').triggerHandler('click');
-		}
+		};
 
 		$scope.closeAdvanceFeatures=function(row) {
 			// row.showAdvanceFeatures=false;
@@ -1478,7 +1477,7 @@
 			$scope.advancedFeaturesConfirmed = false;
 			$scope.featureType = "optional";
 
-		}
+		};
 
 		// Kasun_Wijeratne_8_5_2017
 		$scope.embedHovered = false;
@@ -1487,7 +1486,7 @@
 			window.getSelection().empty();
 			$scope.showEmbedForm = false;
 			vm.clearSelectedEmbed();
-		}
+		};
 		$scope.embedFormCopied = false;
 
 		vm.copyStarted = false;
@@ -1498,7 +1497,7 @@
 			}else{
 				vm.urlCopied = false;
 				vm.iframeCopied = true;
-			}
+			};
 			vm.copyStarted = true;
 			window.getSelection().empty();
 			var copyField = document.getElementById(elem);
@@ -1519,14 +1518,14 @@
 			// window.getSelection().addRange(range);
 			// document.execCommand('copy');
 			// $scope.embedFormCopied = vm.embedFormCopied = true;
-		}
+		};
 
 
 		// Kasun_Wijeratne_8_5_2017
 		$scope.closeDialog = vm.closeDialog = function () {
 			vm.showEmbedMarkup = false;
 			$mdDialog.hide();
-		}
+		};
 
 		$scope.changeDefaultPrice = function (rowname,field,defaultPrice,defaultPriceScheme,change) {
 			if(!defaultPrice)
@@ -1538,10 +1537,10 @@
 				else if(change=="update")
 				{
 					vm.editSelectedPlan.unitPrice="";
-				}
-			}
+				};
+			};
 			$scope.calcUnitPrice(rowname,field,defaultPrice,defaultPriceScheme,change);
-		}
+		};
 
 		$scope.calcUnitPrice = function (rowname,field,defaultPrice,defaultPriceScheme,change) {
 			field=0;
@@ -1559,14 +1558,14 @@
 						if(priceSchemeObj.scheme[smallestTemp].unitsFrom>priceSchemeObj.scheme[j].unitsFrom)
 						{
 							smallestTemp=j;
-						}
-					}
+						};
+					};
 					if(priceSchemeObj.scheme[smallestTemp].price!=undefined)
 					{
 						field=field+priceSchemeObj.scheme[smallestTemp].price;
-					}
-				}
-			}
+					};
+				};
+			};
 			if(defaultPrice && defaultPriceScheme)
 			{
 				if(change=="add")
@@ -1576,7 +1575,7 @@
 				else if(change=="update")
 				{
 					vm.editSelectedPlan.unitPrice=field;
-				}
+				};
 			}
 			else if(!defaultPrice)
 			{
@@ -1597,7 +1596,7 @@
 					vm.editSelectedPlan.default_price=false;
 					vm.editSelectedPlan.priceScheme=[];
 					$scope.addNewRow(vm.editSelectedPlan.priceScheme);
-				}
+				};
 			}
 			else
 			{
@@ -1608,8 +1607,8 @@
 				else if(change=="update")
 				{
 					vm.editSelectedPlan.unitPrice="";
-				}
-			}
+				};
+			};
 		};
 
 		vm.usingAvalaraTax = false;
@@ -1623,13 +1622,13 @@
 				}
 				else{
 					vm.usingAvalaraTax = false;
-				}
+				};
 			}).error(function(data) {
 				//console.log(data);
 				vm.usingAvalaraTax = false;
 				// $scope.isSpinnerShown=false;
-			})
-		}
+			});
+		};
 		$scope.loadAvalaraTaxes();
 
 		vm.submitted=false;
@@ -1642,12 +1641,12 @@
 					if($scope.content.billingCycleType=="auto")
 					{
 						$scope.content.billingCycle=-1;
-					}
+					};
 
 					if(!$scope.content.apply_tax)
 					{
 						$scope.content.taxID=null;
-					}
+					};
 					//$scope.content.unitPrice=JSON.stringify($scope.content.unitPrice);$scope.features
 					$scope.content.rate=$scope.currencyRate;
 					$scope.content.currency=$scope.BaseCurrency;
@@ -1701,8 +1700,8 @@
 							if($scope.priceSchemeFeatureList[i].isSelected)
 							{
 								$scope.content.priceScheme.push($scope.priceSchemeFeatureList[i][0].featureCode);
-							}
-						}
+							};
+						};
 					}
 					else
 					{
@@ -1721,10 +1720,10 @@
 								if($scope.basePlanList[i].billEvery==$scope.content.billEvery)
 								{
 									$scope.content.basePlanCodes.push($scope.basePlanList[i].code);
-								}
-							}
-						}
-					}
+								};
+							};
+						};
+					};
 
 					$scope.content.addOnCodes=[];
 					if($scope.content.type=='Base-Plan')
@@ -1738,10 +1737,10 @@
 								if($scope.addonPlanList[i].billEvery==$scope.content.billEvery)
 								{
 									$scope.content.addOnCodes.push($scope.addonPlanList[i].code);
-								}
-							}
-						}
-					}
+								};
+							};
+						};
+					};
 
 					var planObject = $scope.content;
 					//console.log(planObject);
@@ -1814,7 +1813,7 @@
 
 							//console.log(data);
 							vm.submitted=false;
-						}
+						};
 
 					}).error(function(data){
 						//
@@ -1860,12 +1859,12 @@
 						{
 							notifications.toast("Error creating Plan","error");
 							//console.log(data);
-						}
+						};
 						vm.submitted=false;
-					})
+					});
 				}else{
 					angular.element('#changePlanForm').find('.ng-invalid:visible:first').focus();
-				}
+				};
 				//toggleinnerView('add');
 			}
 			else if(planForm == 'editPlanForm'){
@@ -1874,12 +1873,12 @@
 					if(vm.editSelectedPlan.billingCycleType=="auto")
 					{
 						vm.editSelectedPlan.billingCycle=-1;
-					}
+					};
 
 					if(!vm.editSelectedPlan.apply_tax)
 					{
 						vm.editSelectedPlan.taxID=null;
-					}
+					};
 					//$scope.content.unitPrice=JSON.stringify($scope.content.unitPrice);
 					//vm.editSelectedPlan.rate=$scope.currencyRate;
 
@@ -1933,13 +1932,13 @@
 							if($scope.priceSchemeFeatureList[i].isSelected)
 							{
 								vm.editSelectedPlan.priceScheme.push($scope.priceSchemeFeatureList[i][0].featureCode);
-							}
-						}
+							};
+						};
 					}
 					else
 					{
 						vm.editSelectedPlan.priceScheme="";
-					}
+					};
 					//$scope.content.priceScheme=$scope.features;
 
 					vm.editSelectedPlan.basePlanCodes=[];
@@ -1954,10 +1953,10 @@
 								if($scope.basePlanList[i].billEvery==vm.editSelectedPlan.billEvery)
 								{
 									vm.editSelectedPlan.basePlanCodes.push($scope.basePlanList[i].code);
-								}
-							}
-						}
-					}
+								};
+							};
+						};
+					};
 
 					vm.editSelectedPlan.addOnCodes=[];
 					if(vm.editSelectedPlan.type=='Base-Plan')
@@ -1971,10 +1970,10 @@
 								if($scope.addonPlanList[i].billEvery==vm.editSelectedPlan.billEvery)
 								{
 									vm.editSelectedPlan.addOnCodes.push($scope.addonPlanList[i].code);
-								}
-							}
-						}
-					}
+								};
+							};
+						};
+					};
 
 					var planObject = vm.editSelectedPlan;
 					//console.log(planObject);
@@ -2006,8 +2005,8 @@
 								if($scope.priceSchemeFeatureList[i].isSelected)
 								{
 									$scope.selectedPlanFeaturesList.push($scope.priceSchemeFeatureList[i][0]);
-								}
-							}
+								};
+							};
 							$scope.loadAllPriceSchemeFeatures();
 
 							skip=0;
@@ -2038,7 +2037,7 @@
 
 							//console.log(data);
 							vm.submitted=false;
-						}
+						};
 
 					}).error(function(data){
 						//
@@ -2072,24 +2071,24 @@
 						else
 						{
 							notifications.toast(data,"error");
-						}
+						};
 						//console.log(data);
 						vm.submitted=false;
-					})
+					});
 				}else{
 					angular.element('#editPlanForm').find('.ng-invalid:visible:first').focus();
-				}
-			}
+				};
+			};
 
-		}
+		};
 
 		$scope.searchKeyPress = function (event,keyword,length){
 			if(event.keyCode === 13)
 			{
 				//console.log("Function Reached!");
 				$scope.loadByKeywordPlan(keyword,length);
-			}
-		}
+			};
+		};
 
 		var skipPlanSearch, takePlanSearch;
 		var tempList;
@@ -2100,7 +2099,7 @@
 				{
 					keyword="undefined";
 					length=0;
-				}
+				};
 				var searchLength=length;
 				//if(keyword.toLowerCase().startsWith($scope.expensePrefix.toLowerCase()))
 				//{
@@ -2126,13 +2125,13 @@
 						"orderby" : "createdDate desc",
 						"top":takePlanSearch,
 						"skip":skipPlanSearch
-					}
+					};
 
 
 					$charge.azuresearch().getAllPlansPost(data).success(function (data) {
 						for (var i = 0; i < data.value.length; i++) {
 							tempList.push(data.value[i]);
-						}
+						};
 						vm.plans = tempList;
 						//skipProfileSearch += takeProfileSearch;
 						//$scope.loadPaging(keyword, skipProfileSearch, takeProfileSearch);
@@ -2142,15 +2141,15 @@
 				}
 				else if (keyword.length == 0 || keyword == null) {
 					vm.plans = $scope.items;
-				}
+				};
 
 				if(searchLength==0||searchLength==undefined)
 				{
 					$scope.loading=true;
 					$scope.more("","");
-				}
-			}
-		}
+				};
+			};
+		};
 
 		//function gst(name) {
 		//	var nameEQ = name + "=";
@@ -2175,12 +2174,12 @@
 						if(data.Result)
 						{
 							$scope.subscriptionKey = data.Result.primaryKey;
-						}
+						};
 					}).error(function (data) {
 
 					});
-				}
-			}
+				};
+			};
 		}).error(function (data) {
 		});
 
@@ -2192,15 +2191,15 @@
 			{
 				for(var i=0; i<vm.plans.length; i++){
 					vm.plans[i].selectForEmbed = false;
-				}
+				};
 				$scope.selectMultiplePlansForEmbedForm = true;
 			}
 			else
 			{
 				vm.clearSelectedEmbed();
 				$scope.selectMultiplePlansForEmbedForm = false;
-			}
-		}
+			};
+		};
 
 		$scope.baseUrl="";
 		$http.get('app/core/cloudcharge/js/config.json').then(function(data){
@@ -2217,7 +2216,7 @@
 		function getSecurityToken() {
 			var _st = gst("SubscriptionKey");
 			return (_st != null) ? _st : ""; //"248570d655d8419b91f6c3e0da331707 51de1ea9effedd696741d5911f77a64f";
-		}
+		};
 
 		$scope.selectedPlansForEmbed=[];
 		$scope.embedPreview = false;
@@ -2239,10 +2238,10 @@
 						{
 							$scope.embedPreview = false;
 							notifications.toast("Select Plan(s) for Generate Embed Form","error");
-						}
-					}
-				}
-			}
+						};
+					};
+				};
+			};
 
 			for(var j=0; j<tempSelectedPlans.length; j++){
 				$charge.plan().getPlanByCode(tempSelectedPlans[j].code).success(function(data){
@@ -2252,24 +2251,24 @@
 					{
 						$scope.embedPreview = false;
 						$scope.getEmbededPlanForm($scope.selectedPlansForEmbed, ev, false);
-					}
+					};
 				}).error(function(data){
 					//basePlanCodes
 					//console.log(data);
-				})
-			}
+				});
+			};
 
-		}
+		};
 
 		vm.clearSelectedEmbed = function (leave) {
 			$mdDialog.hide();
 			vm.showEmbedMarkup = false;
 			for(var i=0; i<vm.plans.length; i++){
 				vm.plans[i].selectForEmbed = false;
-			}
+			};
 			if(leave){
 				$scope.selectMultiplePlansForEmbedForm=false;
-			}
+			};
 		};
 
 		$scope.fullEmbededPlanForm="";
@@ -2401,12 +2400,13 @@
 				if(isOpen){
 					vm.updateTemplate(1);
 					vm.planInjected = true;
-					if(counter==2)$interval.cancel(initialTemplateWatcher);
-				}
+					$interval.cancel(initialTemplateWatcher);
+				}else if(counter==2) {
+					$interval.cancel(initialTemplateWatcher);
+				};
 				counter++;
 			}, 100);
-
-		}
+		};
 
 		vm.planEmbedName = null;
 		var isolateindex = 0;
@@ -2434,7 +2434,7 @@
 						planUI.find('.p-name').attr('for', 'plan'+planindex);
 						planUI.find('.p-name').attr('data-id', 'plan'+planindex);
 						planUI.find('.p-name').attr('data-code', 'plan'+planindex);
-					}
+					};
 
 					if(plan.priceScheme.length != 0){
 						var tempFeat = "";
@@ -2446,8 +2446,8 @@
 						}else{
 							planUI.find('.p-features').empty();
 							planUI.find('.p-features').append(tempFeat);
-						}
-					}
+						};
+					};
 
 					if(plan.type == 'Base-Plan'){
 						if(plan.addOnCodes.length != 0){
@@ -2459,11 +2459,11 @@
 								selectedTemplate.find('.p-addons-body').append('<ul class="p-addons" data-id="plan'+planindex+'">'+tempAddon+'</ul>');
 							}else{
 								planUI.find('.p-addons').append(tempAddon);
-							}
+							};
 						}else{
 							planUI.find('.addons-block .p-details-heading').empty();
-						}
-					}
+						};
+					};
 
 					if(plan.taxID != ""){
 						$charge.tax().getTaxGrpByIDs(plan.taxID).success(function(data) {
@@ -2474,7 +2474,7 @@
 								var stringifiedDom = $scope.stringigyDOM(planUI);
 								planUIString = planUIString + stringifiedDom;
 							}).error(function(data) {
-							})
+							});
 						}).error(function(data) {
 						});
 					}
@@ -2488,7 +2488,7 @@
 					}
 					else{
 						vm.planEmbedName = vm.planEmbedName+plan.code;
-					}
+					};
 
 					planindex ++;
 
@@ -2501,10 +2501,10 @@
 				if(temp == 1 || temp == 2){
 					var initplans = $('.p-name');
 					$(initplans[0]).trigger("click");
-				}
+				};
 
 			});
-		}
+		};
 
 		vm.templatesubval = null;
 		vm.updateIsolatedPlan = function(state){
@@ -2515,20 +2515,20 @@
 				isolateindex++;
 			}else{
 				isolateindex = 0;
-			}
+			};
 			for(var i=0;i<plans.length;i++){
 				if(i == isolateindex){
 					plans[isolateindex].classList.add('isolated');
 					vm.templatesubval = isolateindex;
-				}
-			}
-		}
+				};
+			};
+		};
 
 		$scope.stringigyDOM = function (domtostring) {
 			var tempNode = document.createElement('div');
 			$(tempNode).append(domtostring);
 			return $(tempNode).html();
-		}
+		};
 
 		vm.planInjected = false;
 		$scope.injectMarkup = function () {
@@ -2548,7 +2548,7 @@
 				});
 				$('.package-body').css('height',tempHeight);
 			}, 510);
-		}
+		};
 
 		$scope.nothingSelected = true;
 		$scope.isNothingSelected = [];
@@ -2557,7 +2557,7 @@
 			angular.forEach($scope.priceSchemeFeatureList, function (feature) {
 				if(feature.isSelected){
 					$scope.isNothingSelected.push('ok');
-				}
+				};
 			});
 			$scope.isNothingSelected.length == 0 ? $scope.nothingSelected = true : $scope.nothingSelected = false;
 
@@ -2567,12 +2567,12 @@
 			vm.embedPlanAccent = color;
 			$('.af').css('color',vm.embedPlanAccent);
 			$('.ab').css('background',vm.embedPlanAccent);
-		}
+		};
 
 		vm.updateLayout = function (count) {
 			vm.embedPlanWidth = 100/count;
 			$('#embedPreview form').css('width',vm.embedPlanWidth+'%');
-		}
+		};
 
 		vm.showEmbedMarkup = false;
 		vm.embedablePlansURL = false;
@@ -2591,7 +2591,7 @@
 
 			var encryptObj = {
 				"value" : JSON.stringify(embedData)
-			}
+			};
 
 			// var encryptObj = {
 			// 	"value" : '{"planCode":'+JSON.stringify(vm.planEmbedName)+',"subscriptionKey":'+JSON.stringify($scope.subscriptionKey)+',"mode":'+JSON.stringify(getDomainExtension())+',"theme":'+JSON.stringify(vm.embedPlanAccent.split("#")[1])+',"template":'+vm.currentTemplate+',"templatesubval":'+vm.templatesubval+'}'
@@ -2630,7 +2630,7 @@
 				vm.loadingEmbedMarkup = false;
 			});
 
-		}
+		};
 
 		vm.goBackToPreview = function () {
 			vm.planInjected = false;
@@ -2639,6 +2639,6 @@
 			$scope.injectMarkup();
 			vm.showEmbedMarkup = false;
 			vm.updateTemplate(1);
-		}
-	}
+		};
+	};
 })();

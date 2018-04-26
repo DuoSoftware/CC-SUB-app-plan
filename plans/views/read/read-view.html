@@ -436,7 +436,7 @@
                 <md-card-title>
                     <div layout="row" layout-align="space-between center" flex>
                         <div layout="row"><i class="material-icons">stars</i> <h3>Features</h3></div>
-                        <md-button class="md-raised add-item-main" layout="row" layout-align="start center" ng-click="openFeatureDialog('Add', '')"><md-icon md-font-icon="icon-plus"></md-icon> ADD</md-button>
+                        <!-- <md-button class="md-raised add-item-main" layout="row" layout-align="start center" ng-click="openFeatureDialog('Add', '')"><md-icon md-font-icon="icon-plus"></md-icon> ADD</md-button> -->
                     </div>
                 </md-card-title>
                 <div layout="row" layout-align="center center" class="pos-rel">
@@ -462,7 +462,7 @@
                                             <md-checkbox ng-model="item.isSelected" class="m-0 mr-20 md-primary" ng-change="attachFeature()">{{item[0].feature}} ({{item[0].featureCode}})</md-checkbox><md-button class="md-icon-button op-5"><md-icon md-font-icon="icon-information" class="fs-16"></md-icon></md-button>
                                         </span>
                                     </span>
-                            <span flex="10" style="max-width: 150px" layout="row" layout-align="end center">
+                            <!-- <span flex="10" style="max-width: 150px" layout="row" layout-align="end center">
                                         <md-button class="md-icon-button" aria-label="Edit" ng-click="openFeatureDialog('Update', item)">
                                             <md-icon md-font-icon="icon-pencil"></md-icon>
                                             <md-tooltip>Edit</md-tooltip>
@@ -471,7 +471,7 @@
                                             <md-icon md-font-icon="icon-close-circle"></md-icon>
                                             <md-tooltip>Delete</md-tooltip>
                                         </md-button>
-                                    </span>
+                                    </span> -->
                         </div>
                     </div>
                 </md-card-content>
