@@ -413,7 +413,58 @@
 				//console.log(data);
 			});
 
+      skipAuditTrails = 0;
+      $scope.auditTrailList = [];
+      vm.isAuditTrailLoaded = true;
+      $scope.moreAuditTrailLoaded = false;
+      $scope.getAuditTrailDetails(plan);
+
 		};
+
+    var skipAuditTrails = 0;
+    var takeAuditTrails = 100;
+    $scope.auditTrailList = [];
+    vm.isAuditTrailLoaded = true;
+    $scope.moreAuditTrailLoaded = false;
+
+    $scope.getAuditTrailDetails = function (plan) {
+
+
+      var planId = plan.guPlanID;
+      $scope.noAuditTrailLabel = false;
+      vm.isAuditTrailLoaded = true;
+      $charge.orderhistory().getAuditHistoryByAccID(planId, skipAuditTrails, takeAuditTrails, 'desc').success(function (data) {
+        //console.log(data);
+        skipAuditTrails += takeAuditTrails;
+        //$scope.auditTrailList=data;
+        for (var i = 0; i < data.result.length; i++) {
+          var objAuditTrail = data.result[i];
+          //objAuditTrail.id=i+1;
+          //objAuditTrail.createdDate=objAuditTrail.createdDate.split(' ')[0];
+          $scope.auditTrailList.push(objAuditTrail);
+
+        }
+
+        if (data.result.length < takeAuditTrails) {
+          vm.isAuditTrailLoaded = false;
+        }
+        $scope.moreAuditTrailLoaded = true;
+
+      }).error(function (data) {
+        //console.log(data);
+        if (data == 204) {
+          $scope.noAuditTrailLabel = true;
+        }
+        $scope.moreAuditTrailLoaded = true;
+        vm.isAuditTrailLoaded = false;
+        //$scope.auditTrailList=[];
+      })
+    }
+
+    $scope.searchmoreAuditTrails = function (plan) {
+      $scope.moreAuditTrailLoaded = false;
+      $scope.getAuditTrailDetails(plan);
+    }
 
 		function changePlans(){
 			toggleinnerView('add');
