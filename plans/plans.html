@@ -224,7 +224,7 @@
           </div>
         </div>
         <md-content flex ms-scroll layout="column" class="inpage-readpane-body" ng-if="!inpageReadPaneEdit">
-          <div layout="row" layout-align="space-between center">
+          
             <div layout="row" layout-align="start center">
               <div layout="column" layout-align="center start">
                 <div class="fs-20 font-accent fw-400">{{vm.selectedPlan.code}}</div>
@@ -241,9 +241,272 @@
 
             <!--<md-button ng-click="getEmbededPlanForm(vm.selectedPlan)" class="embed-btn md-raised font-accent h-30 lh-32" layout="row" layout-align="center center">Embed <md-icon md-font-icon="icon-share" class="fs-20 font-accent w-20 h-20 m-0 lh-18"></md-icon><md-tooltip>Get embeddable form</md-tooltip></md-button>-->
           </div>
-          <md-divider class="mt-10 mb-20"></md-divider>
+			<md-tabs md-border-bottom class="inner-iconed-tabs" flex>
+            <md-tab label="Overview">
+              <md-tab-label>
+                <md-icon md-font-icon="icon-cog"></md-icon> General
+              </md-tab-label>
+              <md-tab-body flex>
+                <div layout="row" layout-align="space-between center">
+                  <div layout="row" layout-align="start center">
+                    <div layout="column" layout-align="center start">
+                      <div class="fs-20 font-accent fw-400">{{vm.selectedPlan.code}}</div>
+                      <div layout="row" class="op-5">
+                        <span>by
+                          <b>{{vm.selectedPlan.createdUser}}</b>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="ml-20">
+                      <span class="pill" layout="row" layout-align="center center" ng-class="{'negative':vm.selectedPlan.status==='Inactive','positive':vm.selectedPlan.status==='Active'}">{{vm.selectedPlan.status}}</span>
+                    </div>
+                  </div>
 
-          <div layout="row">
+                  <!--<md-button ng-click="getEmbededPlanForm(vm.selectedPlan)" class="embed-btn md-raised font-accent h-30 lh-32" layout="row" layout-align="center center">Embed <md-icon md-font-icon="icon-share" class="fs-20 font-accent w-20 h-20 m-0 lh-18"></md-icon><md-tooltip>Get embeddable form</md-tooltip></md-button>-->
+                </div>
+                <md-divider class="mt-10 mb-20"></md-divider>
+
+                <div layout="row">
+                  <div class="main-list-preloader animate-fade-in-out" layout="row" layout-sm="column" layout-align="space-around" ng-hide="isReadLoaded">
+                    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                  </div>
+                  <div flex class="mr-15">
+                    <div layout="row" layout-align="start center">
+                      <div flex>
+                  <span class="iconed-label">
+                    <span>Type</span>
+                  </span>
+                        <span class="secondary-state-capsule">{{vm.selectedPlan.type}}</span>
+                      </div>
+                      <div flex>
+                  <span class="iconed-label">
+                    <span>Payment option</span>
+                  </span>
+                        <span class="secondary-state-capsule {{vm.selectedPlan.paymentOption | lowercase}}">{{vm.selectedPlan.paymentOption}}</span>
+                      </div>
+                    </div>
+                    <div layout="row" class="mt-20 mb-30">
+                      {{vm.selectedPlan.description}}
+                      <div class="msg-empty-list" ng-if="vm.selectedPlan.description == ''" flex>
+                  <span>
+                    <md-icon md-font-icon="icon-information-outline"></md-icon> No description available for this plan
+                  </span>
+                      </div>
+                    </div>
+
+                    <div layout="row" layout-align="start center" class="info-grid-row bordered-dark">
+                      <div flex="40" class="iconed-label">
+                        <md-icon md-font-icon="icon-calendar-today"></md-icon>
+                        <span>Created</span>
+                      </div>
+                      <div flex class="">{{vm.selectedPlan.createdDate | limitTo:10}}</div>
+                    </div>
+                    <div layout="row" layout-align="start center" class="info-grid-row bordered-dark">
+                      <div flex="40" class="iconed-label">
+                        <md-icon md-font-icon="icon-calendar-check"></md-icon>
+                        <span>Last updated</span>
+                      </div>
+                      <div flex class="">{{vm.selectedPlan.lastUpdate == '' || vm.selectedPlan.lastUpdate == null ? '-' : vm.selectedPlan.lastUpdate
+                        | limitTo:10}}</div>
+                    </div>
+                    <!--<div layout="row" layout-align="start center" class="info-grid-row bordered-dark">-->
+                    <!--<div flex="40" class="iconed-label" layout="row" layout-align="start center" >-->
+                    <!--<i class="material-icons">date_range</i> <span>Unit of measure</span>-->
+                    <!--</div>-->
+                    <!--<div flex class="">{{vm.selectedPlan.billEvery}}</div>-->
+                    <!--</div>-->
+                    <div layout="row" layout-align="start center" class="info-grid-row bordered-dark">
+                      <div flex="40" class="iconed-label">
+                        <md-icon md-font-icon="icon-alarm"></md-icon>
+                        <span>Billing interval</span>
+                      </div>
+                      <div flex class="">{{vm.selectedPlan.billingInterval}} {{vm.selectedPlan.billEvery}}</div>
+                    </div>
+                    <div layout="row" layout-align="start center" class="info-grid-row bordered-dark">
+                      <div flex="40" class="iconed-label">
+                        <md-icon md-font-icon="icon-calendar-clock"></md-icon>
+                        <span>Billing cycle</span>
+                      </div>
+                      <div flex class="">{{vm.selectedPlan.billingCycle==-1?"Auto renew":vm.selectedPlan.billingCycle}}</div>
+                    </div>
+                    <div layout="row" layout-align="start center" class="info-grid-row bordered-dark">
+                      <div flex="40" class="iconed-label" layout="row" layout-align="start center">
+                        <i class="material-icons">local_atm</i>
+                        <span>Unit price</span>
+                      </div>
+                      <div flex class="">{{vm.selectedPlan.unitPrice | isoCurrency:vm.selectedPlan.currency :decimalPoint}}</div>
+                    </div>
+                    <div layout="row" layout-align="start center" class="info-grid-row bordered-dark">
+                      <div flex="40" class="iconed-label">
+                        <md-icon md-font-icon="icon-currency-usd"></md-icon>
+                        <span>Currency</span>
+                      </div>
+                      <div flex class="">{{vm.selectedPlan.currency}}</div>
+                    </div>
+                    <div layout="row" layout-align="start center" class="info-grid-row">
+                      <div flex="40" class="iconed-label">
+                        <md-icon md-font-icon="icon-percent"></md-icon>
+                        <span>Tax</span>
+                      </div>
+                      <div flex ng-if="vm.selectedPlan.taxAmount == '' || vm.selectedPlan.taxAmount == null">-</div>
+                      <div flex ng-if="vm.selectedPlan.taxAmount != ''">
+                        <span ng-if="vm.selectedPlan.taxType=='0'">{{vm.selectedPlan.taxAmount}}%</span>
+                        <span ng-if="vm.selectedPlan.taxType=='-1'">{{vm.selectedPlan.taxAmount}}</span>
+                        <span ng-if="vm.selectedPlan.taxType=='1'">{{vm.selectedPlan.taxAmount| isoCurrency:vm.selectedPlan.currency :decimalPoint}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="plan-portion" flex="40" layout="row" layout-align="center start">
+                    <div flex class="subscription-plan autoheight m-0 ml-10">
+                      <!--ng-class="{'embed-content':embedHovered}"-->
+                      <!--<div class="selected-plan-ico" ng-if="plan.code == selectedPlan.code"></div>-->
+
+                      <md-card-title flex layout="row" layout-align="center center" class="solid-washer-blue">
+                        <h3 class="white-text">{{vm.selectedPlan.name}}</h3>
+                      </md-card-title>
+
+                      <md-card-content flex class="p-0 text-center" layout="column">
+                        <div class="rate-container tinted" layout="column" layout-align="center center">
+                          <div layout="row" layout-align="center end" ng-if="vm.selectedPlan.unitPrice != '0'">
+                      <span>{{vm.selectedPlan.unitPrice / vm.selectedPlan.billingInterval | isoCurrency:vm.selectedPlan.currency
+                        :decimalPoint}} </span>
+                      <span class="forplan">
+                        <span class="duration">
+                          <!--/{{vm.selectedPlan.billingInterval}} {{vm.selectedPlan.billEvery}}-->
+                          / {{vm.selectedPlan.billEvery.slice(0,-1)}}
+                          <label ng-if="vm.selectedPlan.billingInterval>1"></label>
+                        </span>
+                      </span>
+                          </div>
+                          <div layout="row" layout-align="center end" ng-if="vm.selectedPlan.unitPrice == '0'">
+                      <span>{{vm.selectedPlan.unitPrice / vm.selectedPlan.billingInterval | isoCurrency:vm.selectedPlan.currency
+                        :decimalPoint}} </span>
+                      <span class="forplan">
+                        <span class="duration">
+                          <!--/{{vm.selectedPlan.billingInterval}} {{vm.selectedPlan.billEvery}}-->
+                          / {{vm.selectedPlan.billEvery.slice(0,-1)}}
+                          <label ng-if="vm.selectedPlan.billingInterval>1"></label>
+                        </span>
+                      </span>
+                          </div>
+                        </div>
+                        <div class="text-center" flex layout="column" layout-align="center center" style="min-height: 130px">
+                    <span class="plan-feature-row">
+                      <b>{{vm.selectedPlan.trailDays}} trial day
+                        <span ng-if="vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0">s</span>
+                      </b>
+                    </span>
+                          <!--<div class="msg-empty-list" ng-if="selectedPlanFeaturesList.length == 0">-->
+                          <!--<md-icon md-font-icon="icon-information"></md-icon> No additional features available for this plan-->
+                          <!--</div>-->
+                          <div ng-repeat="item in selectedPlanFeaturesList" class="plan-feature-row" flex>
+                      <span class="additional-feature">{{item.feature}}
+                        <label ng-if="item.unitsTo != ''">- {{item.unitsTo}} {{item.unitUom}}</label>
+                      </span>
+                          </div>
+                          <!--<span class="plan-feature-row">{{vm.selectedPlan.unitPrice| isoCurrency:vm.selectedPlan.currency :decimalPoint}} /Unit</span>-->
+                          <!--<span class="plan-feature-row">Rate {{vm.selectedPlan.rate}}</span>-->
+                          <!--&lt;!&ndash;<span class="plan-feature-row" ng-if="vm.selectedPlan.taxType=='1'">{{vm.selectedPlan.taxAmount| isoCurrency:vm.selectedPlan.currency :decimalPoint}} TAX</span>&ndash;&gt;-->
+                          <!--&lt;!&ndash;<span class="plan-feature-row">{{vm.selectedPlan.billingCycle==-1?"Auto Renew":vm.selectedPlan.billingCycle}} Billing Cycles</span>&ndash;&gt;-->
+                          <!--<span class="plan-feature-row">{{vm.selectedPlan.trailDays}} trail day<span ng-if="vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0">s</span> </span>-->
+                        </div>
+                      </md-card-content>
+                    </div>
+                  </div>
+                </div>
+              </md-tab-body>
+            </md-tab>
+            <md-tab label="History">
+              <md-tab-label>
+                <md-icon md-font-icon="icon-history"></md-icon> History
+              </md-tab-label>
+              <md-tab-body>
+                <!--<div class="preloader" ng-hide="isReadLoaded">-->
+                  <!--<md-progress-circular></md-progress-circular>-->
+                <!--</div>-->
+                <div class="main-list-preloader animate-fade-in-out" layout="row" layout-sm="column" layout-align="space-around" ng-hide="isReadLoaded">
+                  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                </div>
+                <div class="md-padding">
+                  <div flex class="list-offset sub-list">
+                    <div class="list-header" layout="row" flex md-whiteframe="1dp">
+                      <div flex="10">ID</div>
+                      <div flex="20">Created date</div>
+                      <div flex="20">User</div>
+                      <div flex="25">Module</div>
+                      <div flex>Remarks</div>
+                    </div>
+                    <md-card-content class="p-0" flex>
+                      <md-content class="list-content" ms-scroll>
+                        <div layout="row" layout-align="center center" class="msg-empty-list" ng-if="auditTrailList.length == 0">
+                          <span>
+                              <md-icon md-font-icon="icon-information-outline"></md-icon> No history for audit trail is available</span>
+                        </div>
+                        <div layout="row" flex class="list-item" ng-repeat="detail in auditTrailList|orderBy:'-createdDate'" ng-hide="noAuditTrailLabel">
+                          <div flex="10">
+                            <span>{{$index + 1}}</span>
+                          </div>
+                          <div flex="20">
+                            <span>{{detail.createdDate | limitTo:10}}</span>
+                          </div>
+                          <div flex="20">
+                            <span>{{detail.createdUser}}</span>
+                          </div>
+                          <div flex="25">
+                            <span>{{detail.module}}</span>
+                          </div>
+                          <div flex>
+                            <span>{{detail.remark}}</span>
+                          </div>
+                        </div>
+                        <div class="invoice-list-item" ng-show="vm.isAuditTrailLoaded" layout="row" layout-align="center center">
+                          <md-button ng-click="searchmoreAuditTrails(vm.selectedPlan)" class="md-primary" style="font-size: 12px;font-weight: 400">
+                            <md-icon md-font-icon="icon-magnify"></md-icon> More</md-button>
+                        </div>
+                      </md-content>
+                    </md-card-content>
+                  </div>
+                  <!--<md-card class="carded-list-wrap" md-whiteframe="2dp">-->
+                  <!--<md-card-header>-->
+                  <!--<md-card-header-text layout="row">-->
+                  <!--<span flex="10">ID</span>-->
+                  <!--<span flex>CREATED DATE</span>-->
+                  <!--<span flex>MODULE</span>-->
+                  <!--<span flex="35">REMARK</span>-->
+                  <!--</md-card-header-text>-->
+                  <!--</md-card-header>-->
+                  <!--<md-divider></md-divider>-->
+
+                  <!--<md-content ms-scroll style="height: auto;background-color: #ffffff;max-height: 330px">-->
+                  <!--<div layout="column" layout-align="center center" class="preloader-dot-auto" ng-hide="moreAuditTrailLoaded" >-->
+                  <!--<img src="assets/images/142.gif" alt=""/>-->
+                  <!--</div>-->
+                  <!--<div layout="row" class="carded-list-row" ng-repeat="detail in auditTrailList|orderBy:'-createdDate'" ng-hide="noAuditTrailLabel" style="background-color: #ffffff">-->
+                  <!--<div flex="10">-->
+                  <!--{{$index + 1}}-->
+                  <!--</div>-->
+                  <!--<div flex>-->
+                  <!--{{detail.createdDate | limitTo:10}}-->
+                  <!--</div>-->
+                  <!--<div flex>-->
+                  <!--{{detail.module}}-->
+                  <!--</div>-->
+                  <!--<div flex="35">-->
+                  <!--{{detail.remark}}-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="invoice-list-item" ng-show="vm.isAuditTrailLoaded" layout="row" layout-align="center center">-->
+                  <!--<md-button ng-click="searchmoreAuditTrails(customer_supplier.profile)" class="md-primary" style="font-size: 12px;font-weight: 400"><md-icon md-font-icon="icon-magnify"></md-icon> More</md-button>-->
+                  <!--</div>-->
+                  <!--<div ng-show="noAuditTrailLabel" layout="column" layout-align="center center" style="height: 100%;">-->
+                  <!--<span class="no-sched"><md-icon md-font-icon="icon-information-outline"></md-icon> No Audit Trails for this User!</span>-->
+                  <!--</div>-->
+                  <!--</md-content>-->
+                  <!--</md-card>-->
+                </div>
+              </md-tab-body>
+            </md-tab>
+          </md-tabs>
             <div class="main-list-preloader animate-fade-in-out" layout="row" layout-sm="column" layout-align="space-around" ng-hide="isReadLoaded">
               <md-progress-circular md-mode="indeterminate"></md-progress-circular>
             </div>
