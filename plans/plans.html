@@ -187,6 +187,9 @@
       </div>
 
       <div flex class="inpage-readpane" layout="column" md-whiteframe="4dp" ng-if="showInpageReadpane && !editOff">
+        <div class="main-list-preloader animate-fade-in-out" layout="row" layout-sm="column" layout-align="space-around" ng-hide="isReadLoaded">
+          <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
         <div layout="row" layout-align="space-between center" class="inpage-readpane-toolbar">
           <h3 class="group-sub-head" layout="row" layout-align="start center">Plan Info</h3>
           <div layout="row">
@@ -223,30 +226,15 @@
             </md-button>
           </div>
         </div>
-        <md-content flex ms-scroll layout="column" class="inpage-readpane-body" ng-if="!inpageReadPaneEdit">
-          
-            <div layout="row" layout-align="start center">
-              <div layout="column" layout-align="center start">
-                <div class="fs-20 font-accent fw-400">{{vm.selectedPlan.code}}</div>
-                <div layout="row" class="op-5">
-                  <span>by
-                    <b>{{vm.selectedPlan.createdUser}}</b>
-                  </span>
-                </div>
-              </div>
-              <div class="ml-20">
-                <span class="pill" layout="row" layout-align="center center" ng-class="{'negative':vm.selectedPlan.status==='Inactive','positive':vm.selectedPlan.status==='Active'}">{{vm.selectedPlan.status}}</span>
-              </div>
-            </div>
 
-            <!--<md-button ng-click="getEmbededPlanForm(vm.selectedPlan)" class="embed-btn md-raised font-accent h-30 lh-32" layout="row" layout-align="center center">Embed <md-icon md-font-icon="icon-share" class="fs-20 font-accent w-20 h-20 m-0 lh-18"></md-icon><md-tooltip>Get embeddable form</md-tooltip></md-button>-->
-          </div>
-			<md-tabs md-border-bottom class="inner-iconed-tabs" flex>
-            <md-tab label="Overview">
-              <md-tab-label>
-                <md-icon md-font-icon="icon-cog"></md-icon> General
-              </md-tab-label>
-              <md-tab-body flex>
+        <!--<md-button ng-click="getEmbededPlanForm(vm.selectedPlan)" class="embed-btn md-raised font-accent h-30 lh-32" layout="row" layout-align="center center">Embed <md-icon md-font-icon="icon-share" class="fs-20 font-accent w-20 h-20 m-0 lh-18"></md-icon><md-tooltip>Get embeddable form</md-tooltip></md-button>-->
+        <md-tabs md-border-bottom class="inner-iconed-tabs" flex>
+          <md-tab label="Overview">
+            <md-tab-label>
+              <md-icon md-font-icon="icon-cog"></md-icon> General
+            </md-tab-label>
+            <md-tab-body flex>
+              <md-content flex layout="column" class="inpage-readpane-body" ng-if="!inpageReadPaneEdit">
                 <div layout="row" layout-align="space-between center">
                   <div layout="row" layout-align="start center">
                     <div layout="column" layout-align="center start">
@@ -273,24 +261,24 @@
                   <div flex class="mr-15">
                     <div layout="row" layout-align="start center">
                       <div flex>
-                  <span class="iconed-label">
-                    <span>Type</span>
-                  </span>
+                        <span class="iconed-label">
+                          <span>Type</span>
+                        </span>
                         <span class="secondary-state-capsule">{{vm.selectedPlan.type}}</span>
                       </div>
                       <div flex>
-                  <span class="iconed-label">
-                    <span>Payment option</span>
-                  </span>
+                        <span class="iconed-label">
+                          <span>Payment option</span>
+                        </span>
                         <span class="secondary-state-capsule {{vm.selectedPlan.paymentOption | lowercase}}">{{vm.selectedPlan.paymentOption}}</span>
                       </div>
                     </div>
                     <div layout="row" class="mt-20 mb-30">
                       {{vm.selectedPlan.description}}
                       <div class="msg-empty-list" ng-if="vm.selectedPlan.description == ''" flex>
-                  <span>
-                    <md-icon md-font-icon="icon-information-outline"></md-icon> No description available for this plan
-                  </span>
+                        <span>
+                          <md-icon md-font-icon="icon-information-outline"></md-icon> No description available for this plan
+                        </span>
                       </div>
                     </div>
 
@@ -368,41 +356,41 @@
                       <md-card-content flex class="p-0 text-center" layout="column">
                         <div class="rate-container tinted" layout="column" layout-align="center center">
                           <div layout="row" layout-align="center end" ng-if="vm.selectedPlan.unitPrice != '0'">
-                      <span>{{vm.selectedPlan.unitPrice / vm.selectedPlan.billingInterval | isoCurrency:vm.selectedPlan.currency
-                        :decimalPoint}} </span>
-                      <span class="forplan">
-                        <span class="duration">
-                          <!--/{{vm.selectedPlan.billingInterval}} {{vm.selectedPlan.billEvery}}-->
-                          / {{vm.selectedPlan.billEvery.slice(0,-1)}}
-                          <label ng-if="vm.selectedPlan.billingInterval>1"></label>
-                        </span>
-                      </span>
+                            <span>{{vm.selectedPlan.unitPrice / vm.selectedPlan.billingInterval | isoCurrency:vm.selectedPlan.currency
+                              :decimalPoint}} </span>
+                            <span class="forplan">
+                              <span class="duration">
+                                <!--/{{vm.selectedPlan.billingInterval}} {{vm.selectedPlan.billEvery}}-->
+                                / {{vm.selectedPlan.billEvery.slice(0,-1)}}
+                                <label ng-if="vm.selectedPlan.billingInterval>1"></label>
+                              </span>
+                            </span>
                           </div>
                           <div layout="row" layout-align="center end" ng-if="vm.selectedPlan.unitPrice == '0'">
-                      <span>{{vm.selectedPlan.unitPrice / vm.selectedPlan.billingInterval | isoCurrency:vm.selectedPlan.currency
-                        :decimalPoint}} </span>
-                      <span class="forplan">
-                        <span class="duration">
-                          <!--/{{vm.selectedPlan.billingInterval}} {{vm.selectedPlan.billEvery}}-->
-                          / {{vm.selectedPlan.billEvery.slice(0,-1)}}
-                          <label ng-if="vm.selectedPlan.billingInterval>1"></label>
-                        </span>
-                      </span>
+                            <span>{{vm.selectedPlan.unitPrice / vm.selectedPlan.billingInterval | isoCurrency:vm.selectedPlan.currency
+                              :decimalPoint}} </span>
+                            <span class="forplan">
+                              <span class="duration">
+                                <!--/{{vm.selectedPlan.billingInterval}} {{vm.selectedPlan.billEvery}}-->
+                                / {{vm.selectedPlan.billEvery.slice(0,-1)}}
+                                <label ng-if="vm.selectedPlan.billingInterval>1"></label>
+                              </span>
+                            </span>
                           </div>
                         </div>
                         <div class="text-center" flex layout="column" layout-align="center center" style="min-height: 130px">
-                    <span class="plan-feature-row">
-                      <b>{{vm.selectedPlan.trailDays}} trial day
-                        <span ng-if="vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0">s</span>
-                      </b>
-                    </span>
+                          <span class="plan-feature-row">
+                            <b>{{vm.selectedPlan.trailDays}} trial day
+                              <span ng-if="vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0">s</span>
+                            </b>
+                          </span>
                           <!--<div class="msg-empty-list" ng-if="selectedPlanFeaturesList.length == 0">-->
                           <!--<md-icon md-font-icon="icon-information"></md-icon> No additional features available for this plan-->
                           <!--</div>-->
                           <div ng-repeat="item in selectedPlanFeaturesList" class="plan-feature-row" flex>
-                      <span class="additional-feature">{{item.feature}}
-                        <label ng-if="item.unitsTo != ''">- {{item.unitsTo}} {{item.unitUom}}</label>
-                      </span>
+                            <span class="additional-feature">{{item.feature}}
+                              <label ng-if="item.unitsTo != ''">- {{item.unitsTo}} {{item.unitUom}}</label>
+                            </span>
                           </div>
                           <!--<span class="plan-feature-row">{{vm.selectedPlan.unitPrice| isoCurrency:vm.selectedPlan.currency :decimalPoint}} /Unit</span>-->
                           <!--<span class="plan-feature-row">Rate {{vm.selectedPlan.rate}}</span>-->
@@ -414,15 +402,647 @@
                     </div>
                   </div>
                 </div>
-              </md-tab-body>
-            </md-tab>
-            <md-tab label="History">
-              <md-tab-label>
-                <md-icon md-font-icon="icon-history"></md-icon> History
-              </md-tab-label>
-              <md-tab-body>
+              </md-content>
+              <div layout="column" id="updatePlanContent" ng-if="inpageReadPaneEdit">
+                <form id="editPlanForm" name="vm.editPlanForm" ng-submit="submitPlan('editPlanForm')" novalidate>
+                  <!--CREATE NEW INVOICE _ CARDED=================================================-->
+                  <md-card flex class="input-block-gen">
+                    <md-card-title>
+                      <div layout="row" layout-align="start center">
+                        <md-icon md-font-icon="icon-cog"></md-icon>
+                        <h3>General details</h3>
+                      </div>
+                    </md-card-title>
+                    <md-card-content>
+                      <div layout="row" layout-align="center center">
+                        <md-input-container>
+                          <md-radio-group name="planType" ng-required ng-model="vm.editSelectedPlan.type" layout="row" class="cc-switch-buttons-group">
+                            <md-radio-button value="Base-Plan" class="cc-switch-buttons" md-ink-ripple ng-disabled="vm.editSelectedPlan.type == 'Base-Plan'"
+                              ng-style="vm.editSelectedPlan.type == 'Add-on' ? {'z-index':'1'} : {'z-index':'0'}">Base-plan</md-radio-button>
+                            <md-radio-button value="Add-on" class="cc-switch-buttons" md-ink-ripple ng-disabled="vm.editSelectedPlan.type == 'Add-on'"
+                              ng-style="vm.editSelectedPlan.type == 'Base-Plan' ? {'z-index':'1'} : {'z-index':'0'}">Add-on</md-radio-button>
+                          </md-radio-group>
+                        </md-input-container>
+                      </div>
+                      <div layout="row">
+                        <!--<md-input-container flex="30">-->
+                        <!--<label>Plan type</label>-->
+                        <!--&lt;!&ndash;<md-select flex ng-required="true" ng-model="vm.editSelectedPlan.type">&ndash;&gt;-->
+                        <!--&lt;!&ndash;&lt;!&ndash;<md-option value="Services" ng-selected="true">Services Inventory Devices Packages Features</md-option>&ndash;&gt;&ndash;&gt;-->
+                        <!--&lt;!&ndash;<md-option ng-repeat="type in planTypeList | filter : vm.search" ng-value="type.RecordFieldData">{{type.RecordFieldData}}</md-option>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</md-select>&ndash;&gt;-->
+                        <!--<md-select ng-required="true" flex ng-model="vm.editSelectedPlan.type">-->
+                        <!--<md-option value="Add-on">Add-on</md-option>-->
+                        <!--<md-option value="Base-Plan">Base-Plan</md-option>-->
+                        <!--</md-select>-->
+                        <!--</md-input-container>-->
+                        <!--<div flex="5"></div>-->
+                        <md-input-container flex="30">
+                          <label>Plan name</label>
+                          <input type="text" ng-required="true" min="1" ng-maxlength="30" name="planName" ng-model="vm.editSelectedPlan.name">
+                          <div ng-messages="vm.editPlanForm.planName.$error">
+                            <div ng-message="maxlength">Plan name must be between 1-30 characters</div>
+                          </div>
+                        </md-input-container>
+                        <div flex="5"></div>
+                        <md-input-container flex="30">
+                          <label>Plan code</label>
+                          <input type="text" ng-required="true" min="1" ng-maxlength="15" name="planCode" ng-model="vm.editSelectedPlan.code">
+                          <div ng-messages="vm.editPlanForm.planCode.$error">
+                            <div ng-message="maxlength">Plan code must be between 1-15 characters</div>
+                          </div>
+                        </md-input-container>
+                      </div>
+                      <div layout="row">
+                        <md-input-container flex>
+                          <label>Description</label>
+                          <input type="text" ng-required="false" min="1" ng-maxlength="300" md-maxlength="300" name="planDescription" ng-model="vm.editSelectedPlan.description">
+                          <div ng-messages="vm.editPlanForm.planDescription.$error">
+                            <div ng-message="maxlength">Plan description must be between 1-300 characters</div>
+                          </div>
+                        </md-input-container>
+                      </div>
+
+                    </md-card-content>
+                  </md-card>
+                  <md-card flex class="input-block-gen">
+                    <md-card-title>
+                      <div layout="row" layout-align="start center">
+                        <md-icon md-font-icon="icon-credit-card-multiple"></md-icon>
+                        <h3>Billing details</h3>
+                      </div>
+                    </md-card-title>
+                    <md-card-content>
+                      <div class="group-sub-head mt-0">
+                        <b>Billing frequency</b>
+                      </div>
+                      <div layout="row" class="row-offset">
+                        <div flex="5" layout="column" id="billingFrqCurrencyEdit" layout-align="center start">
+                          {{0| isoCurrency: BaseCurrency:0}}
+                        </div>
+                        <!--<md-input-container flex="5">-->
+                        <!--<label>Currency</label>-->
+                        <!--<input type="text" ng-required="false" min="1" ng-maxlength="300" name="currency" ng-model="vm.editSelectedPlan.currency | isoCurrency: vm.editSelectedPlan.currency:0" ng-disabled="true">-->
+                        <!--&lt;!&ndash;<md-select ng-required="true" flex ng-model="vm.editSelectedPlan.currency">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<md-option ng-value="BaseCurrency" selected>{{BaseCurrency}}</md-option>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<md-option ng-repeat="curr in prefferedCurrencies" ng-value="curr">{{curr}}</md-option>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</md-select>&ndash;&gt;-->
+                        <!--</md-input-container>-->
+                        <!--<div class="w-20"></div>-->
+                        <!--&lt;!&ndash;<md-input-container flex="30">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<label>Unit price</label>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<input type="number" ng-required="true" min="1" max="100000000000000000" name="unitPrice" ng-model="vm.editSelectedPlan.unitPrice" style="text-align: right">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div ng-messages="vm.editPlanForm.unitPrice.$error">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div ng-message="max">Unit price must be between 1-18 digits</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div ng-message="min">Unit price must be between 1-18 digits</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</md-input-container>&ndash;&gt;-->
+                        <md-input-container flex="30">
+                          <label>Unit price</label>
+                          <input type="number" ng-required="!vm.editSelectedPlan.default_price || !vm.editSelectedPlan.add_pricingScheme" min="0" max="100000000000000000"
+                            name="unitPrice" ng-disabled="vm.editSelectedPlan.default_price && vm.editSelectedPlan.add_pricingScheme"
+                            ng-model="vm.editSelectedPlan.unitPrice" style="text-align: right">
+                          <div ng-messages="vm.changePlanForm.unitPrice.$error">
+                            <div ng-message="max">Unit price must be between 1-18 digits</div>
+                            <div ng-message="min">Unit price must be between 1-18 digits</div>
+                          </div>
+                        </md-input-container>
+                        <div flex="5"></div>
+                        <md-input-container flex="30">
+                          <label>Occurrence</label>
+                          <input ng-required="true" type="number" name="frequency" min="1" max="100000000000000000" ng-model="vm.editSelectedPlan.billingInterval"
+                            style="text-align: right">
+                          <div ng-messages="vm.editPlanForm.frequency.$error">
+                            <div ng-message="max">Occurrence must be between 1-18 digits</div>
+                            <div ng-message="min">Occurrence must be between 1-18 digits</div>
+                          </div>
+                        </md-input-container>
+                        <div class="w-10"></div>
+                        <md-input-container flex="15">
+                          <md-select ng-required="true" flex ng-model="vm.editSelectedPlan.billEvery">
+                            <md-option value="Months">Months</md-option>
+                            <md-option value="Years">Years</md-option>
+                            <md-option value="Days">Days</md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+                      <div layout="row">
+                        <div flex="30" layout="row">
+                          <md-input-container flex>
+                            <label>Trial</label>
+                            <input ng-required="false" type="number" name="trialDays" ng-model="vm.editSelectedPlan.trailDays" class="text-right" min="0"
+                              max="100000000000000000">
+                            <div ng-messages="vm.editPlanForm.trialDays.$error">
+                              <div ng-message="max">Trial days must be between 1-18 digits</div>
+                              <div ng-message="min">Trial days must be between 1-18 digits</div>
+                            </div>
+                          </md-input-container>
+                          <div layout="row" layout-align="start center">days</div>
+                        </div>
+                      </div>
+                      <!--<div layout="column" layout-align="center center" class="p-10" style="border:solid 1px #ddd">-->
+                      <!--<div ng-if="vm.editSelectedPlan.billEvery == 'Months'" layout="row" layout-align="start center">-->
+                      <!--<div>(<b>{{vm.editSelectedPlan.unitPrice | isoCurrency:vm.editSelectedPlan.currency}}</b> invoice will generate once every <b>{{vm.editSelectedPlan.billingInterval}} month<span ng-if="vm.editSelectedPlan.billingInterval>1">s</span></b>)</div>-->
+                      <!--</div>-->
+                      <!--<div ng-if="vm.editSelectedPlan.billEvery == 'Years'" layout="row" layout-align="start center">-->
+                      <!--<div>(<b>{{vm.editSelectedPlan.unitPrice | isoCurrency:vm.editSelectedPlan.currency}}</b> invoice will generate once every <b>{{vm.editSelectedPlan.billingInterval}} year<span ng-if="vm.editSelectedPlan.billingInterval>1">s</span></b>)</div>-->
+                      <!--</div>-->
+                      <!--<div ng-if="vm.editSelectedPlan.billEvery == 'Days'" layout="row" layout-align="start center">-->
+                      <!--<div>(<b>{{vm.editSelectedPlan.unitPrice | isoCurrency:vm.editSelectedPlan.currency}}</b> invoice will generate once every <b>{{vm.editSelectedPlan.billingInterval}} day<span ng-if="vm.editSelectedPlan.billingInterval>1">s</span></b>)</div>-->
+                      <!--</div>-->
+                      <!--</div>-->
+
+                      <div style="margin-top: 50px">
+                        <div class="group-sub-head">
+                          <b>Billing cycles</b>
+                        </div>
+                        <div layout="row" layout-align="start center">
+                          <md-input-container>
+                            <md-radio-group ng-model="vm.editSelectedPlan.billingCycleType">
+                              <md-radio-button value="auto" class="md-primary">Auto renewed until cancelled</md-radio-button>
+                              <md-radio-button value="fixed" class="md-primary">Fixed number billing cycles</md-radio-button>
+                            </md-radio-group>
+                          </md-input-container>
+                          <div flex="5"></div>
+                          <div layout="row" style="margin-top: -20px" ng-if="vm.editSelectedPlan.billingCycleType=='fixed'" flex="30">
+                            <md-input-container flex>
+                              <label>Number of billing cycles</label>
+                              <input ng-required="true" type="number" ng-min="0" name="no_of_cycles" ng-model="vm.editSelectedPlan.billingCycle" style="text-align: right">
+                            </md-input-container>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div layout="row" style="margin-bottom: 10px">
+                        <div flex="30">
+                          <md-input-container class="md-block">
+                            <label>Payment collection method</label>
+                            <!--<input type="text" ng-required="true" min="1" ng-model="row.unitUom">-->
+                            <md-select ng-required="true" flex ng-model="vm.editSelectedPlan.paymentOption">
+                              <md-option value="Online">Online</md-option>
+                              <md-option value="Offline">Offline</md-option>
+                            </md-select>
+                          </md-input-container>
+                        </div>
+                        <div flex="5"></div>
+                        <div layout="row" flex="30">
+                          <div layout="column" flex>
+                            <md-input-container>
+                              <label>Tax</label>
+                              <md-select ng-required="vm.editSelectedPlan.apply_tax" ng-model="vm.editSelectedPlan.taxID" ng-disabled="!vm.editSelectedPlan.apply_tax">
+                                <md-option ng-repeat="value in taxGroup" value="{{value.taxgroupid}}">
+                                  {{value.taxgroupcode}}
+                                </md-option>
+                              </md-select>
+                            </md-input-container>
+                            <md-checkbox ng-model="vm.editSelectedPlan.apply_tax" aria-label="Apply Tax" class="md-primary dep-checkbox" style="top:0;width: 100px;">Apply Tax</md-checkbox>
+                          </div>
+                        </div>
+                        <div flex="5" ng-if="vm.usingAvalaraTax"></div>
+                        <div layout="row" flex="30" ng-if="vm.usingAvalaraTax">
+                          <div layout="column" flex>
+                            <md-input-container>
+                              <label>Avalara tax code</label>
+                              <input ng-required="false" type="text" min="" name="avalaraTaxCode" ng-model="vm.editSelectedPlan.avaTaxCode">
+                            </md-input-container>
+                          </div>
+                        </div>
+                        <!--<div flex="5"></div>-->
+                        <!--<div flex="30" layout="row">-->
+                        <!--<md-input-container flex>-->
+                        <!--<label>Trial</label>-->
+                        <!--<input ng-required="false" type="number" name="note" ng-model="vm.editSelectedPlan.trailDays" style="text-align: right">-->
+                        <!--</md-input-container>-->
+                        <!--<div layout="row" layout-align="start center">days</div>-->
+                        <!--</div>-->
+                      </div>
+                    </md-card-content>
+                  </md-card>
+                  <md-card flex class="input-block-gen" ng-if="vm.editSelectedPlan.type=='Add-on'">
+                    <md-card-title>
+                      <div layout="row" layout-align="start center">
+                        <i class="material-icons">extension</i>
+                        <h3>Add-on configuration</h3>
+                      </div>
+                    </md-card-title>
+                    <md-card-content layout="column">
+                      <div class="group-sub-head mt-0">
+                        <b>Current add-ons</b>
+                      </div>
+                      <div class="b b-dark" style="overflow: hidden;">
+                        <div md-whiteframe="1dp" class="pos-rel" style="z-index: 1;">
+                          <div class="search" flex layout-align="start center">
+                            <div layout="row" class="p-10">
+                              <md-icon md-font-icon="icon-magnify" class="icon s20 mr-15"></md-icon>
+                              <input flex ng-model="vm.searchBasePlansEdit" type="text" placeholder="Search for base plans">
+                            </div>
+                            <md-divider></md-divider>
+                          </div>
+                          <div class="p-10 light-gray">
+                            <md-checkbox ng-model="vm.editSelectedPlan.allBasePlansSelected" aria-label="Event" class="md-primary m-0">Select all base plans</md-checkbox>
+                          </div>
+                        </div>
+                        <div class="msg-empty-list" ng-if="basePlanList.length == 0">
+                          <span>
+                            <md-icon md-font-icon="icon-information-outline"></md-icon> No add-on is created yet
+                          </span>
+                        </div>
+                        <div ng-if="!vm.editSelectedPlan.allBasePlansSelected" class="subheaded-list-content" flex>
+                          <md-content ms-scroll>
+                            <!--<md-progress-circular md-mode='indeterminate' md-diameter="150" class="progress-circle-loader" ng-show="loading"></md-progress-circular>-->
+
+                            <!--<div id="draggblePlan" class="not-shared-user" draggable-data="s" draggable="true" effect-allowed="copy" draggable-type="custom-object" ng-repeat="s in basePlanList">-->
+                            <!--<div layout="row" layout-align="space-between center">-->
+                            <!--<div layout="row" layout-align="start center">-->
+                            <!--&lt;!&ndash;<md-icon md-font-icon="icon-account"></md-icon>&ndash;&gt;-->
+                            <!--<img ng-src="{{getCatLetter(s.name)}}" class="md-avatar"/>-->
+                            <!--<p>{{s.name}}</p>-->
+                            <!--</div>-->
+                            <!--<div>-->
+                            <!--<md-icon md-font-icon="icon-cursor-move"></md-icon>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <div class="p-10" layout="row" ng-repeat="s in basePlanList | filter : vm.searchBasePlansEdit | filter : vm.editSelectedPlan.billEvery"
+                              ng-click="null">
+                              <span flex>
+                                <md-checkbox ng-model="s.isSelected" aria-label="Event" class="m-0 md-primary">{{s.name}}</md-checkbox>
+                              </span>
+                            </div>
+                          </md-content>
+                        </div>
+                      </div>
+                    </md-card-content>
+                    <!--<md-card-content layout="row">-->
+                    <!--<md-card flex class="input-block-gen" layout="column">-->
+                    <!--<div flex class="inpage-listpane">-->
+                    <!--<md-card-title>-->
+                    <!--<div layout="row" layout-align="start center">-->
+                    <!--<md-icon md-font-icon="icon-account-multiple"></md-icon> <h3>Base Plan List</h3>-->
+                    <!--</div>-->
+                    <!--</md-card-title>-->
+                    <!--<div>-->
+                    <!---->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</md-card>-->
+
+                    <!--<div flex layout="column" layout-align="start center" style="padding-right: 20px">-->
+                    <!--<div layout="column" layout-align="center center" class="shared-app">-->
+                    <!--<div layout="row" layout-align="center center">-->
+                    <!--<h3>Selected Base Plans</h3>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div drop="onDropOne($data, $event)" drop-effect="copy" drop-accept="'json/custom-object'" drag-over="onDragOver($event)" drag-over-class="drag-over-accept" flex class="drag-n-drop-area">-->
+                    <!--<div ng-show="selectedBasePlans.length<1" class="watermark" layout="column" layout-align="center center">-->
+                    <!--<md-icon md-font-icon="icon-account-multiple"></md-icon>-->
+                    <!--<span>Drop BasePlan Here</span>-->
+                    <!--</div>-->
+                    <!--<md-card class="shared-user" ng-repeat="plan in selectedBasePlans">-->
+                    <!--<div layout="row" layout-align="space-between center">-->
+                    <!--<md-icon md-font-icon="icon-account"></md-icon>-->
+                    <!--<p>{{plan.code}}</p>-->
+                    <!--<md-button class="md-icon-button" ng-click="deleteSelectedBasePlan($event,plan)" aria-label="delete">-->
+                    <!--<md-icon md-font-icon="icon-close-circle md-warn"></md-icon>-->
+                    <!--</md-button>-->
+                    <!--</div>-->
+                    <!--</md-card>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</md-card-content>-->
+
+                  </md-card>
+                  <md-card flex class="input-block-gen">
+                    <md-card-content class="p-0" layout="row">
+                      <div class="mr-20">
+                        <md-checkbox ng-change="updateScroll('edit')" layout="row" ng-model="vm.editSelectedPlan.add_pricingScheme" aria-label="Pricing Scheme"
+                          class="m-0 md-accent dep-checkbox chkbox-btn">
+                          <h3 class="m-0">Add features</h3>
+                        </md-checkbox>
+                      </div>
+                      <div ng-if="vm.editSelectedPlan.type=='Base-Plan'">
+                        <md-checkbox ng-change="updateScroll('create')" layout="row" ng-model="vm.editSelectedPlan.add_addons" aria-label="Add-ons"
+                          class="m-0 md-accent chkbox-btn">
+                          <h3 class="m-0">Add-ons</h3>
+                        </md-checkbox>
+                      </div>
+                      <!--<md-icon ng-class="content.add_pricingScheme ? 'icon-chevron-up' : 'icon-chevron-down'"></md-icon>-->
+                    </md-card-content>
+                  </md-card>
+                  <md-card flex class="input-block-gen" ng-show="vm.editSelectedPlan.add_pricingScheme">
+                    <md-card-title>
+                      <div layout="row" layout-align="space-between center" flex>
+                        <div layout="row">
+                          <i class="material-icons">stars</i>
+                          <h3>Features</h3>
+                        </div>
+                        <!-- <md-button class="md-raised add-item-main" layout="row" layout-align="start center" ng-click="openFeatureDialog('Add', '')">
+                    <md-icon md-font-icon="icon-plus"></md-icon> ADD</md-button> -->
+                      </div>
+                    </md-card-title>
+                    <div layout="row" layout-align="center center" class="pos-rel">
+                      <div class="msg-inform-iconed">
+                        <span>
+                          <md-icon md-font-icon="icon-information-outline"></md-icon> Select features for the plan</span>
+                      </div>
+                    </div>
+                    <div class="list-header" layout="row">
+                      <div flex layout-align="center start">Feature name</div>
+                      <div flex="10" layout="row" layout-align="end center">Actions</div>
+                    </div>
+                    <md-card-content style="padding: 0">
+                      <div class="preloader" ng-hide="true">
+                        <md-progress-circular></md-progress-circular>
+                      </div>
+                      <div layout="row" layout-align="center center" class="msg-empty-list" ng-hide="true">
+                        <span>
+                          <md-icon md-font-icon="icon-information-outline"></md-icon> No feature has been added yet</span>
+                      </div>
+                      <div>
+                        <div class="action-row" layout="row" ng-repeat="item in priceSchemeFeatureList" layout-align="start center">
+                          <span flex layout="row" layout-align="start center">
+                            <span>
+                              <md-checkbox ng-model="item.isSelected" class="m-0 mr-20 md-primary">{{item[0].feature}} ({{item[0].featureCode}})</md-checkbox>
+                              <md-button class="md-icon-button op-5">
+                                <md-icon md-font-icon="icon-information" class="fs-16"></md-icon>
+                              </md-button>
+                            </span>
+                          </span>
+                          <!-- <span flex="10" style="max-width: 150px" layout="row" layout-align="end center">
+                      <md-button class="md-icon-button" aria-label="Edit" ng-click="openFeatureDialog('Update', item)">
+                        <md-icon md-font-icon="icon-pencil"></md-icon>
+                        <md-tooltip>Edit</md-tooltip>
+                      </md-button>
+                      <md-button class="md-icon-button md-warn action-row-remove" aria-label="Delete" ng-click="showDeleteFeatureConfirm($event,item)"
+                        show-gt-sm>
+                        <md-icon md-font-icon="icon-close-circle"></md-icon>
+                        <md-tooltip>Delete</md-tooltip>
+                      </md-button>
+                    </span> -->
+                        </div>
+                      </div>
+                    </md-card-content>
+                  </md-card>
+                  <md-card flex class="input-block-gen" ng-if="vm.editSelectedPlan.type=='Base-Plan' && vm.editSelectedPlan.add_addons">
+                    <md-card-title>
+                      <div layout="row" layout-align="start center">
+                        <i class="material-icons">extension</i>
+                        <h3>Add-on configuration</h3>
+                      </div>
+                    </md-card-title>
+                    <md-card-content layout="column">
+                      <!--<div class="group-sub-head mt-0"><b>Current add-ons</b></div>-->
+                      <div class="search" flex layout-align="start center">
+                        <div layout="row">
+                          <md-icon md-font-icon="icon-magnify" class="icon s20 m-10"></md-icon>
+                          <input class="p-10" flex ng-model="vm.searchAddonPlansEdit" type="text" placeholder="Search for add-ons">
+                        </div>
+                      </div>
+                      <md-divider class="op-5"></md-divider>
+                      <div class="pos-rel" style="z-index: 1;">
+                        <div class="p-10 light-gray">
+                          <md-checkbox ng-model="vm.editSelectedPlan.allAddonPlansSelected" aria-label="Event" class="md-primary m-0">Select all add-ons</md-checkbox>
+                        </div>
+                      </div>
+                      <div class="msg-empty-list" ng-if="addonPlanList.length == 0">
+                        <span>
+                          <md-icon md-font-icon="icon-information-outline"></md-icon> No base-plan is created yet
+                        </span>
+                      </div>
+                      <div ng-if="!vm.editSelectedPlan.allAddonPlansSelected" class="subheaded-list-content" flex>
+                        <md-content ms-scroll>
+                          <div class="p-10" layout="row" ng-repeat="s in addonPlanList | filter : vm.searchAddonPlansEdit | filter : vm.editSelectedPlan.billEvery"
+                            ng-click="null">
+                            <span flex>
+                              <md-checkbox ng-model="s.isSelected" aria-label="Event" class="m-0 md-primary">{{s.name}}</md-checkbox>
+                            </span>
+                          </div>
+                        </md-content>
+                      </div>
+                    </md-card-content>
+                  </md-card>
+                  <!--Pricing scheme block-->
+                  <!--<md-card flex class="input-block-gen">-->
+                  <!--<md-card-title>-->
+                  <!--<div layout="row" layout-align="space-between center" flex>-->
+                  <!--&lt;!&ndash;<md-checkbox ng-model="content.add_pricingScheme" aria-label="Pricing Scheme" class="md-primary dep-checkbox" style="top:10px;"></md-checkbox>&ndash;&gt;-->
+                  <!--<div layout="row" flex>-->
+                  <!--<md-checkbox layout="row" flex ng-model="vm.editSelectedPlan.add_pricingScheme" ng-change="calcUnitPrice(features,vm.editSelectedPlan.unitPrice,vm.editSelectedPlan.default_price,vm.editSelectedPlan.add_pricingScheme,'add')" aria-label="Pricing Scheme" class="m-0 md-accent dep-checkbox"> <h3>Add pricing scheme</h3></md-checkbox>-->
+                  <!--</div>-->
+                  <!--<md-icon ng-class="vm.editSelectedPlan.add_pricingScheme ? 'icon-chevron-up' : 'icon-chevron-down'"></md-icon>-->
+                  <!--</div>-->
+                  <!--</md-card-title>-->
+                  <!--<md-card-content ng-if="vm.editSelectedPlan.add_pricingScheme==true">-->
+                  <!--<div class="group-sub-head mt-0"><b>Features</b></div>-->
+
+                  <!--<div>-->
+                  <!--<div ng-repeat="row in vm.editSelectedPlan.priceScheme" class="highlight-blue solid h-auto" layout="row" layout-align="start center">-->
+                  <!--<div layout="column" flex class="v-rule-blue">-->
+                  <!--<div layout="row" class="h-80">-->
+                  <!--<div flex="30">-->
+                  <!--<md-input-container class="md-block" id="invProdQty">-->
+                  <!--<label>Feature</label>-->
+                  <!--<input type="text" ng-required="true" min="1" ng-model="row.feature">-->
+                  <!--</md-input-container>-->
+                  <!--</div>-->
+                  <!--<div flex="5"></div>-->
+                  <!--<div flex="30">-->
+                  <!--<md-input-container class="md-block" id="invProdQty8">-->
+                  <!--<label>Feature Code</label>-->
+                  <!--<input type="text" ng-required="true" min="1" ng-model="row.featureCode">-->
+                  <!--</md-input-container>-->
+                  <!--</div>-->
+                  <!--<div flex="5"></div>-->
+                  <!--<div flex="20" layout="row" layout-align="start center">-->
+                  <!--<md-button layout="row" layout-align="start center" ng-if="!row.showAdvanceFeatures" ng-click="setAdvanceFeatures(row);" class="md-accent fs-14">-->
+                  <!--<md-icon md-font-icon="icon-plus-circle" class="md-primary fs-18 mr-5" ng-class=""></md-icon>-->
+                  <!--Add rating-->
+                  <!--</md-button>-->
+                  <!--</div>-->
+                  <!--<div id="stop-subscription" layout="column" ng-if="row.showAdvanceFeatures" ng-hide="row.advancedFeaturesConfirmed" class="w-480 animate-slide-down" md-whiteframe="4dp" style="top: -60px;">-->
+                  <!--<div class="header-bar text-right" layout="row" layout-align="space-between center">-->
+                  <!--<h3>Rating</h3>-->
+                  <!--<md-button class="md-icon-button" ng-click="closeAdvanceFeatures(row)"><md-icon md-font-icon="icon-close"></md-icon> </md-button>-->
+                  <!--</div>-->
+                  <!--<div class="p-20">-->
+                  <!--<div>-->
+                  <!--<div layout="row" layout-align="space-between center">-->
+                  <!--<div layout="column" layout-align="start start">-->
+                  <!--<div layout="row" layout-align="start center" class="title">-->
+                  <!--<md-icon md-font-icon="icon-book"></md-icon> <span flex>Fixed</span>-->
+                  <!--</div>-->
+                  <!--<div class="mt-10">Fixed rating will be added</div>-->
+                  <!--</div>-->
+                  <!--<md-button class="md-accent md-raised" ng-click="setFeature(row, 'FIXED')">Choose this</md-button>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<md-divider class="mv-20"></md-divider>-->
+                  <!--<div>-->
+                  <!--<div layout="row" layout-align="space-between center">-->
+                  <!--<div layout="column" layout-align="start start">-->
+                  <!--<div layout="row" layout-align="start center" class="title">-->
+                  <!--<md-icon md-font-icon="icon-book-multiple"></md-icon> <span flex>Slab</span>-->
+                  <!--</div>-->
+                  <!--<div class="mt-10">Slab ratings will be added</div>-->
+                  <!--</div>-->
+                  <!--<md-button class="md-accent md-raised" ng-click="setFeature(row, 'SLAB')">Choose this</md-button>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--</div>-->
+
+                  <!--<div ng-show="row.advancedFeaturesConfirmed">-->
+                  <!--<div layout="row" layout-align="space-between center">-->
+                  <!--<md-input-container id="invProdQty6" flex="30">-->
+                  <!--<label>Type</label>-->
+                  <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
+                  <!--<md-select ng-required="true" flex ng-model="row.type">-->
+                  <!--<md-option value="optional" ng-hide="true">optional</md-option>-->
+                  <!--<md-option value="FIXED">FIXED</md-option>-->
+                  <!--<md-option value="SLAB">SLAB</md-option>-->
+                  <!--</md-select>-->
+                  <!--</md-input-container>-->
+                  <!--<md-button layout="row" layout-align="start center" ng-if="row.showAdvanceFeatures" ng-click="closeAdvanceFeatures(row);" class="md-primary fs-12"> <md-icon md-font-icon="icon-close" class="md-primary fs-16" ng-class=""></md-icon> Close rating</md-button>-->
+                  <!--</div>-->
+                  <!--<div layout="row" class="highlight-white solid p-5" ng-if="row.type=='FIXED'" >-->
+                  <!--<div layout-md="column" layout-align-md="start center" flex="30">-->
+                  <!--<div flex>-->
+                  <!--<md-input-container class="md-block" id="invProdQty2">-->
+                  <!--<label>Unit Quantity</label>-->
+                  <!--<input type="number" ng-required="true" min="1" ng-model="row.unitsTo">-->
+                  <!--</md-input-container>-->
+                  <!--</div>-->
+                  <!--<div flex>-->
+                  <!--<md-input-container class="md-block" id="invProdQty3">-->
+                  <!--<label>Unit Uom</label>-->
+                  <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
+                  <!--<md-select ng-required="true" flex ng-model="row.unitUom">-->
+                  <!--<md-option value="Units">Units</md-option>-->
+                  <!--<md-option value="GB">GB</md-option>-->
+                  <!--</md-select>-->
+                  <!--</md-input-container>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div flex="5"></div>-->
+                  <!--<div layout-md="column" layout-align-md="start center" flex="30">-->
+                  <!--<div flex>-->
+                  <!--<md-input-container class="md-block" id="invProdQty4">-->
+                  <!--<label>Unit Price</label>-->
+                  <!--<input type="number" ng-required="true" min="1" ng-change="calcUnitPrice(vm.editSelectedPlan.priceScheme,vm.editSelectedPlan.unitPrice,vm.editSelectedPlan.default_price,vm.editSelectedPlan.add_pricingScheme,'update')" ng-model="row.price">-->
+                  <!--</md-input-container>-->
+                  <!--</div>-->
+                  <!--<div flex>-->
+                  <!--<md-input-container class="md-block" id="invProdQty5">-->
+                  <!--<label>UOM</label>-->
+                  <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
+                  <!--<md-select ng-required="true" flex ng-model="row.uom">-->
+                  <!--<md-option value="OneTime">One time</md-option>-->
+                  <!--<md-option value="Months" ng-disabled="vm.editSelectedPlan.billEvery=='Days'">Months</md-option>-->
+                  <!--<md-option value="Years" ng-disabled="vm.editSelectedPlan.billEvery!='Years'">Years</md-option>-->
+                  <!--<md-option value="Days">Days</md-option>-->
+                  <!--</md-select>-->
+                  <!--</md-input-container>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div flex="5"></div>-->
+                  <!--<div flex layout="column" layout-align="center start">-->
+                  <!--<md-input-container fill-width class="mt-40" id="invProdQty7" ng-if="row.autoTermination==false">-->
+                  <!--<label>Additional charge per unit</label>-->
+                  <!--<input type="number" ng-required="true" min="1" ng-model="row.costPerUnitAdd">-->
+                  <!--</md-input-container>-->
+                  <!--<md-checkbox ng-model="row.autoTermination" aria-label="Auto Terminate" class="md-primary dep-checkbox" ng-class="{'offset-top':!row.autoTermination}">Auto Terminate</md-checkbox>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div layout="column" ng-if="row.type=='SLAB'">-->
+                  <!--<div layout="row" class="highlight-white solid p-5 mb-10" ng-repeat="slab in row.scheme">-->
+                  <!--<div layout-md="column" layout-align-md="start center" flex="30">-->
+                  <!--<div flex>-->
+                  <!--<md-input-container flex class="md-block mb-0" id="invProdQty2">-->
+                  <!--<label>Starting Quantity</label>-->
+                  <!--<input type="number" ng-required="true" min="0" ng-model="slab.unitsFrom">-->
+                  <!--</md-input-container>-->
+                  <!--</div>-->
+                  <!--<div flex>-->
+                  <!--<md-input-container flex class="md-block mb-0" id="invProdQty2">-->
+                  <!--<label>Ending Quantity</label>-->
+                  <!--<input type="number" ng-required="true" min="1" ng-model="slab.unitsTo">-->
+                  <!--</md-input-container>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div flex="5"></div>-->
+                  <!--<div layout-md="column" layout-align-md="start center" flex="30">-->
+                  <!--<md-input-container class="md-block mb-0" id="invProdQty4" flex>-->
+                  <!--<label>Unit Price</label>-->
+                  <!--<input type="number" ng-required="true" min="1" ng-change="calcUnitPrice(vm.editSelectedPlan.priceScheme,vm.editSelectedPlan.unitPrice,vm.editSelectedPlan.default_price,vm.editSelectedPlan.add_pricingScheme,'update')" ng-model="slab.price">-->
+                  <!--</md-input-container>-->
+                  <!--<div layout="row" layout-align="start center" flex>-->
+                  <!--<md-input-container flex class="mb-0" id="invProdQty5">-->
+                  <!--<label>UOM</label>-->
+                  <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
+                  <!--<md-select ng-required="true" flex ng-model="slab.uom">-->
+                  <!--<md-option value="OneTime">One time</md-option>-->
+                  <!--<md-option value="Months" ng-disabled="vm.editSelectedPlan.billEvery=='Daily'">Months</md-option>-->
+                  <!--<md-option value="Years" ng-disabled="vm.editSelectedPlan.billEvery!='Yearly'">Years</md-option>-->
+                  <!--<md-option value="Days">Days</md-option>-->
+                  <!--</md-select>-->
+                  <!--</md-input-container>-->
+                  <!--<div class="w-10"></div>-->
+                  <!--<md-input-container class="mb-0" id="invProdQty3">-->
+                  <!--<label>Unit Uom</label>-->
+                  <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
+                  <!--<md-select ng-required="true" flex ng-model="slab.unitUom">-->
+                  <!--<md-option value="Units">Units</md-option>-->
+                  <!--<md-option value="GB">GB</md-option>-->
+                  <!--</md-select>-->
+                  <!--</md-input-container>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div flex="5"></div>-->
+                  <!--<div flex layout="column" layout-align="center start">-->
+                  <!--<md-input-container class="mt-40" id="invProdQty7" ng-if="slab.autoTermination==false">-->
+                  <!--<label>Additional Charge per Unit</label>-->
+                  <!--<input type="number" ng-required="true" min="1" ng-model="slab.costPerUnitAdd">-->
+                  <!--</md-input-container>-->
+                  <!--<md-checkbox ng-model="slab.autoTermination" aria-label="Auto Terminate" class="md-primary dep-checkbox" ng-class="{'offset-top':!slab.autoTermination}">Auto Terminate</md-checkbox>-->
+                  <!--</div>-->
+                  <!--<div layout="column" layout-align="center center" class="v-rule-gray">-->
+                  <!--<md-button ng-click="removerow($index,row.scheme,$parent.$index);" class="md-icon-button md-warn"><md-icon md-font-icon="icon-close-circle"></md-icon><md-tooltip>Remove slab</md-tooltip> </md-button>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div layout="row" layout-align="end center">-->
+                  <!--<md-button ng-click="addNewSlab(row);" class="md-accent md-icon-button mr-10"><md-icon md-font-icon="icon-plus-circle"></md-icon><md-tooltip>Add slab</md-tooltip></md-button>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--</div>-->
+
+                  <!--<div layout="row" layout-align="end center">-->
+                  <!--<md-button style="height: 50px;width:50px" ng-click="removerow($index,vm.editSelectedPlan.priceScheme,$index);" class="md-icon-button md-warn"><md-icon style="font-size: 35px;" md-font-icon="icon-close-circle"></md-icon><md-tooltip>Remove feature</md-tooltip> </md-button>-->
+                  <!--</div>-->
+
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<div layout="row" layout-align="end center" class="h-60">-->
+                  <!--<md-button ng-click="addNewRow(vm.editSelectedPlan.priceScheme);" class="md-accent md-icon-button mr-20 h-45 w-45"><md-icon md-font-icon="icon-plus-circle" class="fs-34 w-35 h-35"></md-icon><md-tooltip>Add feature</md-tooltip> </md-button>-->
+                  <!--</div>-->
+                  <!--</md-card-content>-->
+                  <!--</md-card>-->
+                  <!--Pricing scheme block-->
+
+                  <!--CREATE NEW INVOICE _ CARDED=================================================-->
+                </form>
+              </div>
+            </md-tab-body>
+          </md-tab>
+          <md-tab label="History" ng-disabled="inpageReadPaneEdit">
+            <md-tab-label>
+              <md-icon md-font-icon="icon-history"></md-icon> History
+            </md-tab-label>
+            <md-tab-body>
+              <md-content flex ms-scroll layout="column" class="inpage-readpane-body" ng-if="!inpageReadPaneEdit">
                 <!--<div class="preloader" ng-hide="isReadLoaded">-->
-                  <!--<md-progress-circular></md-progress-circular>-->
+                <!--<md-progress-circular></md-progress-circular>-->
                 <!--</div>-->
                 <div class="main-list-preloader animate-fade-in-out" layout="row" layout-sm="column" layout-align="space-around" ng-hide="isReadLoaded">
                   <md-progress-circular md-mode="indeterminate"></md-progress-circular>
@@ -440,7 +1060,7 @@
                       <md-content class="list-content" ms-scroll>
                         <div layout="row" layout-align="center center" class="msg-empty-list" ng-if="auditTrailList.length == 0">
                           <span>
-                              <md-icon md-font-icon="icon-information-outline"></md-icon> No history for audit trail is available</span>
+                            <md-icon md-font-icon="icon-information-outline"></md-icon> No history for audit trail is available</span>
                         </div>
                         <div layout="row" flex class="list-item" ng-repeat="detail in auditTrailList|orderBy:'-createdDate'" ng-hide="noAuditTrailLabel">
                           <div flex="10">
@@ -453,7 +1073,7 @@
                             <span>{{detail.createdUser}}</span>
                           </div>
                           <!--<div flex="25">-->
-                            <!--<span>{{detail.module}}</span>-->
+                          <!--<span>{{detail.module}}</span>-->
                           <!--</div>-->
                           <div flex>
                             <span>{{detail.remark}}</span>
@@ -504,1426 +1124,649 @@
                   <!--</md-content>-->
                   <!--</md-card>-->
                 </div>
-              </md-tab-body>
-            </md-tab>
-          </md-tabs>
-            <div class="main-list-preloader animate-fade-in-out" layout="row" layout-sm="column" layout-align="space-around" ng-hide="isReadLoaded">
-              <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-            </div>
-            <div flex class="mr-15">
-              <div layout="row" layout-align="start center">
-                <div flex>
-                  <span class="iconed-label">
-                    <span>Type</span>
-                  </span>
-                  <span class="secondary-state-capsule">{{vm.selectedPlan.type}}</span>
-                </div>
-                <div flex>
-                  <span class="iconed-label">
-                    <span>Payment option</span>
-                  </span>
-                  <span class="secondary-state-capsule {{vm.selectedPlan.paymentOption | lowercase}}">{{vm.selectedPlan.paymentOption}}</span>
-                </div>
-              </div>
-              <div layout="row" class="mt-20 mb-30">
-                {{vm.selectedPlan.description}}
-                <div class="msg-empty-list" ng-if="vm.selectedPlan.description == ''" flex>
-                  <span>
-                    <md-icon md-font-icon="icon-information-outline"></md-icon> No description available for this plan
-                  </span>
-                </div>
-              </div>
-
-              <div layout="row" layout-align="start center" class="info-grid-row bordered-dark">
-                <div flex="40" class="iconed-label">
-                  <md-icon md-font-icon="icon-calendar-today"></md-icon>
-                  <span>Created</span>
-                </div>
-                <div flex class="">{{vm.selectedPlan.createdDate | limitTo:10}}</div>
-              </div>
-              <div layout="row" layout-align="start center" class="info-grid-row bordered-dark">
-                <div flex="40" class="iconed-label">
-                  <md-icon md-font-icon="icon-calendar-check"></md-icon>
-                  <span>Last updated</span>
-                </div>
-                <div flex class="">{{vm.selectedPlan.lastUpdate == '' || vm.selectedPlan.lastUpdate == null ? '-' : vm.selectedPlan.lastUpdate
-                  | limitTo:10}}</div>
-              </div>
-              <!--<div layout="row" layout-align="start center" class="info-grid-row bordered-dark">-->
-              <!--<div flex="40" class="iconed-label" layout="row" layout-align="start center" >-->
-              <!--<i class="material-icons">date_range</i> <span>Unit of measure</span>-->
-              <!--</div>-->
-              <!--<div flex class="">{{vm.selectedPlan.billEvery}}</div>-->
-              <!--</div>-->
-              <div layout="row" layout-align="start center" class="info-grid-row bordered-dark">
-                <div flex="40" class="iconed-label">
-                  <md-icon md-font-icon="icon-alarm"></md-icon>
-                  <span>Billing interval</span>
-                </div>
-                <div flex class="">{{vm.selectedPlan.billingInterval}} {{vm.selectedPlan.billEvery}}</div>
-              </div>
-              <div layout="row" layout-align="start center" class="info-grid-row bordered-dark">
-                <div flex="40" class="iconed-label">
-                  <md-icon md-font-icon="icon-calendar-clock"></md-icon>
-                  <span>Billing cycle</span>
-                </div>
-                <div flex class="">{{vm.selectedPlan.billingCycle==-1?"Auto renew":vm.selectedPlan.billingCycle}}</div>
-              </div>
-              <div layout="row" layout-align="start center" class="info-grid-row bordered-dark">
-                <div flex="40" class="iconed-label" layout="row" layout-align="start center">
-                  <i class="material-icons">local_atm</i>
-                  <span>Unit price</span>
-                </div>
-                <div flex class="">{{vm.selectedPlan.unitPrice | isoCurrency:vm.selectedPlan.currency :decimalPoint}}</div>
-              </div>
-              <div layout="row" layout-align="start center" class="info-grid-row bordered-dark">
-                <div flex="40" class="iconed-label">
-                  <md-icon md-font-icon="icon-currency-usd"></md-icon>
-                  <span>Currency</span>
-                </div>
-                <div flex class="">{{vm.selectedPlan.currency}}</div>
-              </div>
-              <div layout="row" layout-align="start center" class="info-grid-row">
-                <div flex="40" class="iconed-label">
-                  <md-icon md-font-icon="icon-percent"></md-icon>
-                  <span>Tax</span>
-                </div>
-                <div flex ng-if="vm.selectedPlan.taxAmount == '' || vm.selectedPlan.taxAmount == null">-</div>
-                <div flex ng-if="vm.selectedPlan.taxAmount != ''">
-                  <span ng-if="vm.selectedPlan.taxType=='0'">{{vm.selectedPlan.taxAmount}}%</span>
-                  <span ng-if="vm.selectedPlan.taxType=='-1'">{{vm.selectedPlan.taxAmount}}</span>
-                  <span ng-if="vm.selectedPlan.taxType=='1'">{{vm.selectedPlan.taxAmount| isoCurrency:vm.selectedPlan.currency :decimalPoint}}</span>
-                </div>
-              </div>
-            </div>
-            <div class="plan-portion" flex="40" layout="row" layout-align="center start">
-              <div flex class="subscription-plan autoheight m-0 ml-10">
-                <!--ng-class="{'embed-content':embedHovered}"-->
-                <!--<div class="selected-plan-ico" ng-if="plan.code == selectedPlan.code"></div>-->
-
-                <md-card-title flex layout="row" layout-align="center center" class="solid-washer-blue">
-                  <h3 class="white-text">{{vm.selectedPlan.name}}</h3>
-                </md-card-title>
-
-                <md-card-content flex class="p-0 text-center" layout="column">
-                  <div class="rate-container tinted" layout="column" layout-align="center center">
-                    <div layout="row" layout-align="center end" ng-if="vm.selectedPlan.unitPrice != '0'">
-                      <span>{{vm.selectedPlan.unitPrice / vm.selectedPlan.billingInterval | isoCurrency:vm.selectedPlan.currency
-                        :decimalPoint}} </span>
-                      <span class="forplan">
-                        <span class="duration">
-                          <!--/{{vm.selectedPlan.billingInterval}} {{vm.selectedPlan.billEvery}}-->
-                          / {{vm.selectedPlan.billEvery.slice(0,-1)}}
-                          <label ng-if="vm.selectedPlan.billingInterval>1"></label>
-                        </span>
-                      </span>
-                    </div>
-                    <div layout="row" layout-align="center end" ng-if="vm.selectedPlan.unitPrice == '0'">
-                      <span>{{vm.selectedPlan.unitPrice / vm.selectedPlan.billingInterval | isoCurrency:vm.selectedPlan.currency
-                        :decimalPoint}} </span>
-                      <span class="forplan">
-                        <span class="duration">
-                          <!--/{{vm.selectedPlan.billingInterval}} {{vm.selectedPlan.billEvery}}-->
-                          / {{vm.selectedPlan.billEvery.slice(0,-1)}}
-                          <label ng-if="vm.selectedPlan.billingInterval>1"></label>
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="text-center" flex layout="column" layout-align="center center" style="min-height: 130px">
-                    <span class="plan-feature-row">
-                      <b>{{vm.selectedPlan.trailDays}} trial day
-                        <span ng-if="vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0">s</span>
-                      </b>
-                    </span>
-                    <!--<div class="msg-empty-list" ng-if="selectedPlanFeaturesList.length == 0">-->
-                    <!--<md-icon md-font-icon="icon-information"></md-icon> No additional features available for this plan-->
-                    <!--</div>-->
-                    <div ng-repeat="item in selectedPlanFeaturesList" class="plan-feature-row" flex>
-                      <span class="additional-feature">{{item.feature}}
-                        <label ng-if="item.unitsTo != ''">- {{item.unitsTo}} {{item.unitUom}}</label>
-                      </span>
-                    </div>
-                    <!--<span class="plan-feature-row">{{vm.selectedPlan.unitPrice| isoCurrency:vm.selectedPlan.currency :decimalPoint}} /Unit</span>-->
-                    <!--<span class="plan-feature-row">Rate {{vm.selectedPlan.rate}}</span>-->
-                    <!--&lt;!&ndash;<span class="plan-feature-row" ng-if="vm.selectedPlan.taxType=='1'">{{vm.selectedPlan.taxAmount| isoCurrency:vm.selectedPlan.currency :decimalPoint}} TAX</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<span class="plan-feature-row">{{vm.selectedPlan.billingCycle==-1?"Auto Renew":vm.selectedPlan.billingCycle}} Billing Cycles</span>&ndash;&gt;-->
-                    <!--<span class="plan-feature-row">{{vm.selectedPlan.trailDays}} trail day<span ng-if="vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0">s</span> </span>-->
-                  </div>
-                </md-card-content>
-              </div>
+              </md-content>
+            </md-tab-body>
+          </md-tab>
+        </md-tabs>
+        <div layout="row" layout-align="end center" md-whiteframe="8dp" ng-if="inpageReadPaneEdit" style="z-index: 10">
+            <div layout="row"></div>
+            <div layout="row" class="layout-row">
+              <md-button ng-click="editPlan(tempEditPlan)">Reset</md-button>
+              <md-button ng-disabled="vm.submitted" type="submit" form="editPlanForm" class="md-raised md-accent">Update</md-button>
             </div>
           </div>
+      </div>
 
-        </md-content>
 
-        <!--Embedded form (this content will not be visible in read-view)-->
-        <div style="overflow: hidden;padding: 16px;display: none">
-          <div style="height: 70px;border-bottom: solid 1px #ddd;">
-            <div style="display: inline-block;float: left;">
-              <h4 style="color: #039be5;margin: 0 0 10px 0;">{{vm.selectedPlan.code}}</h4>
-              <div style="color: #aaa;">by
-                <b>{{vm.selectedPlan.createdUser}}</b>
-              </div>
-            </div>
-            <div style="display: inline-block;float: right;">
-              <span ng-if="vm.selectedPlan.status == 'Active'" style="display: inline-block;background-color: #d6ffd3;border: 1px solid #a7ffa5;color: #31b136;width: 80px;height: 18px;border-radius: 15px;text-align: center;padding-top: 5px;padding-bottom: 5px;margin: 10px 0px">{{vm.selectedPlan.status}}</span>
-              <span ng-if="vm.selectedPlan.status == 'Inactive'" style="display: inline-block;background-color: #ffefd8;border: 1px solid #ffe4bd;color: #ff7522;width: 80px;height: 25px;border-radius: 15px;text-align: center;padding-top: 5px;padding-bottom: 5px;margin: 10px 0px">{{vm.selectedPlan.status}}</span>
+      <!--Embedded form (this content will not be visible in read-view)-->
+      <div style="overflow: hidden;padding: 16px;display: none">
+        <div style="height: 70px;border-bottom: solid 1px #ddd;">
+          <div style="display: inline-block;float: left;">
+            <h4 style="color: #039be5;margin: 0 0 10px 0;">{{vm.selectedPlan.code}}</h4>
+            <div style="color: #aaa;">by
+              <b>{{vm.selectedPlan.createdUser}}</b>
             </div>
           </div>
-          <div style="overflow: hidden;padding: 20px 0;">
-            <div style="float: left;width: 60%">
-              <div style="padding-right: 20px">
-                <div>
-                  <span style="color: #aaaaaa;">Type</span>
-                  <span style="padding: 5px 7px;margin-left: 10px;border-radius: 3px;background: #f4fbff;color: #039be5;">base-Plan</span>
-                </div>
-                <div style="margin-top: 20px;margin-bottom: 30px;text-align: center;padding: 30px 0;width: 100%;color: #dddddd;">
-                  <span ng-if="vm.selectedPlan.description !=''">{{vm.selectedPlan.description}}</span>
-                  <span ng-if="vm.selectedPlan.description==''" style="border-radius: 50%;display: inline-block;width: 10px;height: 20px;padding: 0 5px;border: solid 1px #ddd;color: #ddd;margin-right: 10px">i</span> No description available for this plan
-                </div>
-                <div style="overflow: hidden;">
-                  <div style="border-bottom: solid 1px #f1f1f1;padding: 7px 0;">
-                    <div style="display: inline-block;width: 50%;">
-                      <span style="font-size: 18px;color: #ccc;margin-right: 10px">&#9733</span>
-                      <span style="color: #888;">Created</span>
-                    </div>
-                    <div style="display: inline-block;">
-                      <span>{{vm.selectedPlan.createdDate | limitTo:10}}</span>
-                    </div>
-                  </div>
-                  <div style="border-bottom: solid 1px #f1f1f1;padding: 7px 0;">
-                    <div style="display: inline-block;width: 50%;">
-                      <span style="font-size: 18px;color: #ccc;margin-right: 10px">&#9733</span>
-                      <span style="color: #888;">Last updated</span>
-                    </div>
-                    <div style="display: inline-block;">
-                      <span>{{vm.selectedPlan.lastUpdate | limitTo:10}}</span>
-                    </div>
-                  </div>
-                  <div style="border-bottom: solid 1px #f1f1f1;padding: 7px 0;">
-                    <div style="display: inline-block;width: 50%;">
-                      <span style="font-size: 18px;color: #ccc;margin-right: 10px">&#9733</span>
-                      <span style="color: #888;">Billing interval</span>
-                    </div>
-                    <div style="display: inline-block;">
-                      <span>{{vm.selectedPlan.billingInterval}} {{vm.selectedPlan.billEvery}}</span>
-                    </div>
-                  </div>
-                  <div style="border-bottom: solid 1px #f1f1f1;padding: 7px 0;">
-                    <div style="display: inline-block;width: 50%;">
-                      <span style="font-size: 18px;color: #ccc;margin-right: 10px">&#9733</span>
-                      <span style="color: #888;">Billing cycle</span>
-                    </div>
-                    <div style="display: inline-block;">
-                      <span>{{vm.selectedPlan.billingCycle==-1?"Auto renew":vm.selectedPlan.billingCycle}}</span>
-                    </div>
-                  </div>
-                  <div style="border-bottom: solid 1px #f1f1f1;padding: 7px 0;">
-                    <div style="display: inline-block;width: 50%;">
-                      <span style="font-size: 18px;color: #ccc;margin-right: 10px">&#9733</span>
-                      <span style="color: #888;">Currency</span>
-                    </div>
-                    <div style="display: inline-block;">
-                      <span>{{vm.selectedPlan.currency}}</span>
-                    </div>
-                  </div>
-                  <div style="padding: 7px 0;">
-                    <div style="display: inline-block;width: 50%;">
-                      <span style="font-size: 18px;color: #ccc;margin-right: 10px">&#9733</span>
-                      <span style="color: #888;">Tax</span>
-                    </div>
-                    <div style="display: inline-block;">
-                      <span ng-if="vm.selectedPlan.taxType=='0'">{{vm.selectedPlan.taxAmount}}%</span>
-                      <span ng-if="vm.selectedPlan.taxType=='-1'">{{vm.selectedPlan.taxAmount}}</span>
-                      <span ng-if="vm.selectedPlan.taxType=='1'">{{vm.selectedPlan.taxAmount| isoCurrency:vm.selectedPlan.currency :decimalPoint}}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div style="float: left;width: 40%;border-radius: 5px" id="plan-detail-view">
-              <div style="border: solid 1px #addcf3;border-radius: 5px">
-                <div style="padding: 20px;text-align: center;font-size: 25px;background: #039be5;color: #fff;border-top-left-radius: 5px;border-top-right-radius: 5px">{{vm.selectedPlan.name}}</div>
-                <div style="overflow: hidden;text-align: center;background: #fafafa;border-bottom: solid 1px #eee;padding: 36px 0;">
-                  <div style="display: inline-block;font-size: 40px;font-weight: bold;color: #039be5;">{{vm.selectedPlan.unitPrice| isoCurrency:vm.selectedPlan.currency :0}}</div>
-                  <div style="display: inline-block;font-size: 22px;font-weight: 400;color: #AAA;">/ {{vm.selectedPlan.billingInterval}} {{vm.selectedPlan.billEvery}}</div>
-                </div>
-                <div style="overflow: hidden;padding: 10px 0">
-                  <div style="text-align: center;margin-bottom: 5px;">
-                    <span style="margin-right: 10px;color: #a5d4ea;" class="feature-row">&#10004</span>
-                    <span style="color: rgba(0, 0, 0, 0.5);text-align: left">{{vm.selectedPlan.unitPrice| isoCurrency:vm.selectedPlan.currency :decimalPoint}} /Unit</span>
-                  </div>
-                  <div style="text-align: center;margin-bottom: 5px;">
-                    <span style="margin-right: 10px;color: #a5d4ea;" class="feature-row">&#10004</span>
-                    <span style="color: rgba(0, 0, 0, 0.5);text-align: left">Rate {{vm.selectedPlan.rate}}</span>
-                  </div>
-                  <div style="text-align: center;margin-bottom: 5px;">
-                    <span style="margin-right: 10px;color: #a5d4ea;" class="feature-row">&#10004</span>
-                    <span style="color: rgba(0, 0, 0, 0.5);text-align: left">{{vm.selectedPlan.trailDays}} trail day
-                      <span ng-if="vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0">s</span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div style="display: inline-block;float: right;">
+            <span ng-if="vm.selectedPlan.status == 'Active'" style="display: inline-block;background-color: #d6ffd3;border: 1px solid #a7ffa5;color: #31b136;width: 80px;height: 18px;border-radius: 15px;text-align: center;padding-top: 5px;padding-bottom: 5px;margin: 10px 0px">{{vm.selectedPlan.status}}</span>
+            <span ng-if="vm.selectedPlan.status == 'Inactive'" style="display: inline-block;background-color: #ffefd8;border: 1px solid #ffe4bd;color: #ff7522;width: 80px;height: 25px;border-radius: 15px;text-align: center;padding-top: 5px;padding-bottom: 5px;margin: 10px 0px">{{vm.selectedPlan.status}}</span>
           </div>
         </div>
-        <!-- / Embedded form (this content will not be visible in read-view)-->
-
-        <!--<md-content flex layout="column" class="inpage-readpane-body" ng-if="!inpageReadPaneEdit">-->
-        <!--<md-card flex class="input-block-gen">-->
-        <!--<md-card-content>-->
-        <!--<div layout="row">-->
-        <!--<label>Get Embedded form for this Plan</label>-->
-        <!--<md-button ng-click="getEmbededPlanForm(vm.selectedPlan)">Embedded Form</md-button>-->
-        <!--</div>-->
-        <!--<div layout="row" ng-show="embededFormEnabled">-->
-        <!--<textarea type="textarea" min="" name="planName" ng-maxlength="" width="100%" height="500" ng-model="fullEmbededPlanForm"></textarea>-->
-        <!--</div>-->
-        <!--</md-card-content>-->
-        <!--</md-card>-->
-        <!--</md-content>-->
-        <md-content ms-scroll layout="column" class="inpage-readpane-body" id="updatePlanContent" ng-if="inpageReadPaneEdit" ng-style="{'background-color': inpageReadPaneEdit ? '#fff' : ''}"
-          style="padding: 0;margin-bottom: 50px;">
-          <form id="editPlanForm" name="vm.editPlanForm" ng-submit="submitPlan('editPlanForm')" novalidate>
-            <!--CREATE NEW INVOICE _ CARDED=================================================-->
-            <md-card flex class="input-block-gen">
-              <md-card-title>
-                <div layout="row" layout-align="start center">
-                  <md-icon md-font-icon="icon-cog"></md-icon>
-                  <h3>General details</h3>
-                </div>
-              </md-card-title>
-              <md-card-content>
-                <div layout="row" layout-align="center center">
-                  <md-input-container>
-                    <md-radio-group name="planType" ng-required ng-model="vm.editSelectedPlan.type" layout="row" class="cc-switch-buttons-group">
-                      <md-radio-button value="Base-Plan" class="cc-switch-buttons" md-ink-ripple ng-disabled="vm.editSelectedPlan.type == 'Base-Plan'"
-                        ng-style="vm.editSelectedPlan.type == 'Add-on' ? {'z-index':'1'} : {'z-index':'0'}">Base-plan</md-radio-button>
-                      <md-radio-button value="Add-on" class="cc-switch-buttons" md-ink-ripple ng-disabled="vm.editSelectedPlan.type == 'Add-on'"
-                        ng-style="vm.editSelectedPlan.type == 'Base-Plan' ? {'z-index':'1'} : {'z-index':'0'}">Add-on</md-radio-button>
-                    </md-radio-group>
-                  </md-input-container>
-                </div>
-                <div layout="row">
-                  <!--<md-input-container flex="30">-->
-                  <!--<label>Plan type</label>-->
-                  <!--&lt;!&ndash;<md-select flex ng-required="true" ng-model="vm.editSelectedPlan.type">&ndash;&gt;-->
-                  <!--&lt;!&ndash;&lt;!&ndash;<md-option value="Services" ng-selected="true">Services Inventory Devices Packages Features</md-option>&ndash;&gt;&ndash;&gt;-->
-                  <!--&lt;!&ndash;<md-option ng-repeat="type in planTypeList | filter : vm.search" ng-value="type.RecordFieldData">{{type.RecordFieldData}}</md-option>&ndash;&gt;-->
-                  <!--&lt;!&ndash;</md-select>&ndash;&gt;-->
-                  <!--<md-select ng-required="true" flex ng-model="vm.editSelectedPlan.type">-->
-                  <!--<md-option value="Add-on">Add-on</md-option>-->
-                  <!--<md-option value="Base-Plan">Base-Plan</md-option>-->
-                  <!--</md-select>-->
-                  <!--</md-input-container>-->
-                  <!--<div flex="5"></div>-->
-                  <md-input-container flex="30">
-                    <label>Plan name</label>
-                    <input type="text" ng-required="true" min="1" ng-maxlength="30" name="planName" ng-model="vm.editSelectedPlan.name">
-                    <div ng-messages="vm.editPlanForm.planName.$error">
-                      <div ng-message="maxlength">Plan name must be between 1-30 characters</div>
-                    </div>
-                  </md-input-container>
-                  <div flex="5"></div>
-                  <md-input-container flex="30">
-                    <label>Plan code</label>
-                    <input type="text" ng-required="true" min="1" ng-maxlength="15" name="planCode" ng-model="vm.editSelectedPlan.code">
-                    <div ng-messages="vm.editPlanForm.planCode.$error">
-                      <div ng-message="maxlength">Plan code must be between 1-15 characters</div>
-                    </div>
-                  </md-input-container>
-                </div>
-                <div layout="row">
-                  <md-input-container flex>
-                    <label>Description</label>
-                    <input type="text" ng-required="false" min="1" ng-maxlength="300" md-maxlength="300" name="planDescription" ng-model="vm.editSelectedPlan.description">
-                    <div ng-messages="vm.editPlanForm.planDescription.$error">
-                      <div ng-message="maxlength">Plan description must be between 1-300 characters</div>
-                    </div>
-                  </md-input-container>
-                </div>
-
-              </md-card-content>
-            </md-card>
-            <md-card flex class="input-block-gen">
-              <md-card-title>
-                <div layout="row" layout-align="start center">
-                  <md-icon md-font-icon="icon-credit-card-multiple"></md-icon>
-                  <h3>Billing details</h3>
-                </div>
-              </md-card-title>
-              <md-card-content>
-                <div class="group-sub-head mt-0">
-                  <b>Billing frequency</b>
-                </div>
-                <div layout="row" class="row-offset">
-                  <div flex="5" layout="column" id="billingFrqCurrencyEdit" layout-align="center start">
-                    {{0| isoCurrency: BaseCurrency:0}}
+        <div style="overflow: hidden;padding: 20px 0;">
+          <div style="float: left;width: 60%">
+            <div style="padding-right: 20px">
+              <div>
+                <span style="color: #aaaaaa;">Type</span>
+                <span style="padding: 5px 7px;margin-left: 10px;border-radius: 3px;background: #f4fbff;color: #039be5;">base-Plan</span>
+              </div>
+              <div style="margin-top: 20px;margin-bottom: 30px;text-align: center;padding: 30px 0;width: 100%;color: #dddddd;">
+                <span ng-if="vm.selectedPlan.description !=''">{{vm.selectedPlan.description}}</span>
+                <span ng-if="vm.selectedPlan.description==''" style="border-radius: 50%;display: inline-block;width: 10px;height: 20px;padding: 0 5px;border: solid 1px #ddd;color: #ddd;margin-right: 10px">i</span> No description available for this plan
+              </div>
+              <div style="overflow: hidden;">
+                <div style="border-bottom: solid 1px #f1f1f1;padding: 7px 0;">
+                  <div style="display: inline-block;width: 50%;">
+                    <span style="font-size: 18px;color: #ccc;margin-right: 10px">&#9733</span>
+                    <span style="color: #888;">Created</span>
                   </div>
-                  <!--<md-input-container flex="5">-->
-                  <!--<label>Currency</label>-->
-                  <!--<input type="text" ng-required="false" min="1" ng-maxlength="300" name="currency" ng-model="vm.editSelectedPlan.currency | isoCurrency: vm.editSelectedPlan.currency:0" ng-disabled="true">-->
-                  <!--&lt;!&ndash;<md-select ng-required="true" flex ng-model="vm.editSelectedPlan.currency">&ndash;&gt;-->
-                  <!--&lt;!&ndash;<md-option ng-value="BaseCurrency" selected>{{BaseCurrency}}</md-option>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<md-option ng-repeat="curr in prefferedCurrencies" ng-value="curr">{{curr}}</md-option>&ndash;&gt;-->
-                  <!--&lt;!&ndash;</md-select>&ndash;&gt;-->
-                  <!--</md-input-container>-->
-                  <!--<div class="w-20"></div>-->
-                  <!--&lt;!&ndash;<md-input-container flex="30">&ndash;&gt;-->
-                  <!--&lt;!&ndash;<label>Unit price</label>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<input type="number" ng-required="true" min="1" max="100000000000000000" name="unitPrice" ng-model="vm.editSelectedPlan.unitPrice" style="text-align: right">&ndash;&gt;-->
-                  <!--&lt;!&ndash;<div ng-messages="vm.editPlanForm.unitPrice.$error">&ndash;&gt;-->
-                  <!--&lt;!&ndash;<div ng-message="max">Unit price must be between 1-18 digits</div>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<div ng-message="min">Unit price must be between 1-18 digits</div>&ndash;&gt;-->
-                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                  <!--&lt;!&ndash;</md-input-container>&ndash;&gt;-->
-                  <md-input-container flex="30">
-                    <label>Unit price</label>
-                    <input type="number" ng-required="!vm.editSelectedPlan.default_price || !vm.editSelectedPlan.add_pricingScheme" min="0" max="100000000000000000"
-                      name="unitPrice" ng-disabled="vm.editSelectedPlan.default_price && vm.editSelectedPlan.add_pricingScheme"
-                      ng-model="vm.editSelectedPlan.unitPrice" style="text-align: right">
-                    <div ng-messages="vm.changePlanForm.unitPrice.$error">
-                      <div ng-message="max">Unit price must be between 1-18 digits</div>
-                      <div ng-message="min">Unit price must be between 1-18 digits</div>
-                    </div>
-                  </md-input-container>
-                  <div flex="5"></div>
-                  <md-input-container flex="30">
-                    <label>Occurrence</label>
-                    <input ng-required="true" type="number" name="frequency" min="1" max="100000000000000000" ng-model="vm.editSelectedPlan.billingInterval"
-                      style="text-align: right">
-                    <div ng-messages="vm.editPlanForm.frequency.$error">
-                      <div ng-message="max">Occurrence must be between 1-18 digits</div>
-                      <div ng-message="min">Occurrence must be between 1-18 digits</div>
-                    </div>
-                  </md-input-container>
-                  <div class="w-10"></div>
-                  <md-input-container flex="15">
-                    <md-select ng-required="true" flex ng-model="vm.editSelectedPlan.billEvery">
-                      <md-option value="Months">Months</md-option>
-                      <md-option value="Years">Years</md-option>
-                      <md-option value="Days">Days</md-option>
-                    </md-select>
-                  </md-input-container>
-                </div>
-                <div layout="row">
-                  <div flex="30" layout="row">
-                    <md-input-container flex>
-                      <label>Trial</label>
-                      <input ng-required="false" type="number" name="trialDays" ng-model="vm.editSelectedPlan.trailDays" class="text-right" min="0"
-                        max="100000000000000000">
-                      <div ng-messages="vm.editPlanForm.trialDays.$error">
-                        <div ng-message="max">Trial days must be between 1-18 digits</div>
-                        <div ng-message="min">Trial days must be between 1-18 digits</div>
-                      </div>
-                    </md-input-container>
-                    <div layout="row" layout-align="start center">days</div>
+                  <div style="display: inline-block;">
+                    <span>{{vm.selectedPlan.createdDate | limitTo:10}}</span>
                   </div>
                 </div>
-                <!--<div layout="column" layout-align="center center" class="p-10" style="border:solid 1px #ddd">-->
-                <!--<div ng-if="vm.editSelectedPlan.billEvery == 'Months'" layout="row" layout-align="start center">-->
-                <!--<div>(<b>{{vm.editSelectedPlan.unitPrice | isoCurrency:vm.editSelectedPlan.currency}}</b> invoice will generate once every <b>{{vm.editSelectedPlan.billingInterval}} month<span ng-if="vm.editSelectedPlan.billingInterval>1">s</span></b>)</div>-->
-                <!--</div>-->
-                <!--<div ng-if="vm.editSelectedPlan.billEvery == 'Years'" layout="row" layout-align="start center">-->
-                <!--<div>(<b>{{vm.editSelectedPlan.unitPrice | isoCurrency:vm.editSelectedPlan.currency}}</b> invoice will generate once every <b>{{vm.editSelectedPlan.billingInterval}} year<span ng-if="vm.editSelectedPlan.billingInterval>1">s</span></b>)</div>-->
-                <!--</div>-->
-                <!--<div ng-if="vm.editSelectedPlan.billEvery == 'Days'" layout="row" layout-align="start center">-->
-                <!--<div>(<b>{{vm.editSelectedPlan.unitPrice | isoCurrency:vm.editSelectedPlan.currency}}</b> invoice will generate once every <b>{{vm.editSelectedPlan.billingInterval}} day<span ng-if="vm.editSelectedPlan.billingInterval>1">s</span></b>)</div>-->
-                <!--</div>-->
-                <!--</div>-->
-
-                <div style="margin-top: 50px">
-                  <div class="group-sub-head">
-                    <b>Billing cycles</b>
+                <div style="border-bottom: solid 1px #f1f1f1;padding: 7px 0;">
+                  <div style="display: inline-block;width: 50%;">
+                    <span style="font-size: 18px;color: #ccc;margin-right: 10px">&#9733</span>
+                    <span style="color: #888;">Last updated</span>
                   </div>
-                  <div layout="row" layout-align="start center">
-                    <md-input-container>
-                      <md-radio-group ng-model="vm.editSelectedPlan.billingCycleType">
-                        <md-radio-button value="auto" class="md-primary">Auto renewed until cancelled</md-radio-button>
-                        <md-radio-button value="fixed" class="md-primary">Fixed number billing cycles</md-radio-button>
-                      </md-radio-group>
-                    </md-input-container>
-                    <div flex="5"></div>
-                    <div layout="row" style="margin-top: -20px" ng-if="vm.editSelectedPlan.billingCycleType=='fixed'" flex="30">
-                      <md-input-container flex>
-                        <label>Number of billing cycles</label>
-                        <input ng-required="true" type="number" ng-min="0" name="no_of_cycles" ng-model="vm.editSelectedPlan.billingCycle" style="text-align: right">
-                      </md-input-container>
-                    </div>
+                  <div style="display: inline-block;">
+                    <span>{{vm.selectedPlan.lastUpdate | limitTo:10}}</span>
                   </div>
                 </div>
-
-                <div layout="row" style="margin-bottom: 10px">
-                  <div flex="30">
-                    <md-input-container class="md-block">
-                      <label>Payment collection method</label>
-                      <!--<input type="text" ng-required="true" min="1" ng-model="row.unitUom">-->
-                      <md-select ng-required="true" flex ng-model="vm.editSelectedPlan.paymentOption">
-                        <md-option value="Online">Online</md-option>
-                        <md-option value="Offline">Offline</md-option>
-                      </md-select>
-                    </md-input-container>
+                <div style="border-bottom: solid 1px #f1f1f1;padding: 7px 0;">
+                  <div style="display: inline-block;width: 50%;">
+                    <span style="font-size: 18px;color: #ccc;margin-right: 10px">&#9733</span>
+                    <span style="color: #888;">Billing interval</span>
                   </div>
-                  <div flex="5"></div>
-                  <div layout="row" flex="30">
-                    <div layout="column" flex>
-                      <md-input-container>
-                        <label>Tax</label>
-                        <md-select ng-required="vm.editSelectedPlan.apply_tax" ng-model="vm.editSelectedPlan.taxID" ng-disabled="!vm.editSelectedPlan.apply_tax">
-                          <md-option ng-repeat="value in taxGroup" value="{{value.taxgroupid}}">
-                            {{value.taxgroupcode}}
-                          </md-option>
-                        </md-select>
-                      </md-input-container>
-                      <md-checkbox ng-model="vm.editSelectedPlan.apply_tax" aria-label="Apply Tax" class="md-primary dep-checkbox" style="top:0;width: 100px;">Apply Tax</md-checkbox>
-                    </div>
-                  </div>
-                  <div flex="5" ng-if="vm.usingAvalaraTax"></div>
-                  <div layout="row" flex="30" ng-if="vm.usingAvalaraTax">
-                    <div layout="column" flex>
-                      <md-input-container>
-                        <label>Avalara tax code</label>
-                        <input ng-required="false" type="text" min="" name="avalaraTaxCode" ng-model="vm.editSelectedPlan.avaTaxCode">
-                      </md-input-container>
-                    </div>
-                  </div>
-                  <!--<div flex="5"></div>-->
-                  <!--<div flex="30" layout="row">-->
-                  <!--<md-input-container flex>-->
-                  <!--<label>Trial</label>-->
-                  <!--<input ng-required="false" type="number" name="note" ng-model="vm.editSelectedPlan.trailDays" style="text-align: right">-->
-                  <!--</md-input-container>-->
-                  <!--<div layout="row" layout-align="start center">days</div>-->
-                  <!--</div>-->
-                </div>
-              </md-card-content>
-            </md-card>
-            <md-card flex class="input-block-gen" ng-if="vm.editSelectedPlan.type=='Add-on'">
-              <md-card-title>
-                <div layout="row" layout-align="start center">
-                  <i class="material-icons">extension</i>
-                  <h3>Add-on configuration</h3>
-                </div>
-              </md-card-title>
-              <md-card-content layout="column">
-                <div class="group-sub-head mt-0">
-                  <b>Current add-ons</b>
-                </div>
-                <div class="b b-dark" style="overflow: hidden;">
-                  <div md-whiteframe="1dp" class="pos-rel" style="z-index: 1;">
-                    <div class="search" flex layout-align="start center">
-                      <div layout="row" class="p-10">
-                        <md-icon md-font-icon="icon-magnify" class="icon s20 mr-15"></md-icon>
-                        <input flex ng-model="vm.searchBasePlansEdit" type="text" placeholder="Search for base plans">
-                      </div>
-                      <md-divider></md-divider>
-                    </div>
-                    <div class="p-10 light-gray">
-                      <md-checkbox ng-model="vm.editSelectedPlan.allBasePlansSelected" aria-label="Event" class="md-primary m-0">Select all base plans</md-checkbox>
-                    </div>
-                  </div>
-                  <div class="msg-empty-list" ng-if="basePlanList.length == 0">
-                    <span>
-                      <md-icon md-font-icon="icon-information-outline"></md-icon> No add-on is created yet
-                    </span>
-                  </div>
-                  <div ng-if="!vm.editSelectedPlan.allBasePlansSelected" class="subheaded-list-content" flex>
-                    <md-content ms-scroll>
-                      <!--<md-progress-circular md-mode='indeterminate' md-diameter="150" class="progress-circle-loader" ng-show="loading"></md-progress-circular>-->
-
-                      <!--<div id="draggblePlan" class="not-shared-user" draggable-data="s" draggable="true" effect-allowed="copy" draggable-type="custom-object" ng-repeat="s in basePlanList">-->
-                      <!--<div layout="row" layout-align="space-between center">-->
-                      <!--<div layout="row" layout-align="start center">-->
-                      <!--&lt;!&ndash;<md-icon md-font-icon="icon-account"></md-icon>&ndash;&gt;-->
-                      <!--<img ng-src="{{getCatLetter(s.name)}}" class="md-avatar"/>-->
-                      <!--<p>{{s.name}}</p>-->
-                      <!--</div>-->
-                      <!--<div>-->
-                      <!--<md-icon md-font-icon="icon-cursor-move"></md-icon>-->
-                      <!--</div>-->
-                      <!--</div>-->
-                      <!--</div>-->
-                      <div class="p-10" layout="row" ng-repeat="s in basePlanList | filter : vm.searchBasePlansEdit | filter : vm.editSelectedPlan.billEvery"
-                        ng-click="null">
-                        <span flex>
-                          <md-checkbox ng-model="s.isSelected" aria-label="Event" class="m-0 md-primary">{{s.name}}</md-checkbox>
-                        </span>
-                      </div>
-                    </md-content>
+                  <div style="display: inline-block;">
+                    <span>{{vm.selectedPlan.billingInterval}} {{vm.selectedPlan.billEvery}}</span>
                   </div>
                 </div>
-              </md-card-content>
-              <!--<md-card-content layout="row">-->
-              <!--<md-card flex class="input-block-gen" layout="column">-->
-              <!--<div flex class="inpage-listpane">-->
-              <!--<md-card-title>-->
-              <!--<div layout="row" layout-align="start center">-->
-              <!--<md-icon md-font-icon="icon-account-multiple"></md-icon> <h3>Base Plan List</h3>-->
-              <!--</div>-->
-              <!--</md-card-title>-->
-              <!--<div>-->
-              <!---->
-              <!--</div>-->
-              <!--</div>-->
-              <!--</md-card>-->
-
-              <!--<div flex layout="column" layout-align="start center" style="padding-right: 20px">-->
-              <!--<div layout="column" layout-align="center center" class="shared-app">-->
-              <!--<div layout="row" layout-align="center center">-->
-              <!--<h3>Selected Base Plans</h3>-->
-              <!--</div>-->
-              <!--</div>-->
-              <!--<div drop="onDropOne($data, $event)" drop-effect="copy" drop-accept="'json/custom-object'" drag-over="onDragOver($event)" drag-over-class="drag-over-accept" flex class="drag-n-drop-area">-->
-              <!--<div ng-show="selectedBasePlans.length<1" class="watermark" layout="column" layout-align="center center">-->
-              <!--<md-icon md-font-icon="icon-account-multiple"></md-icon>-->
-              <!--<span>Drop BasePlan Here</span>-->
-              <!--</div>-->
-              <!--<md-card class="shared-user" ng-repeat="plan in selectedBasePlans">-->
-              <!--<div layout="row" layout-align="space-between center">-->
-              <!--<md-icon md-font-icon="icon-account"></md-icon>-->
-              <!--<p>{{plan.code}}</p>-->
-              <!--<md-button class="md-icon-button" ng-click="deleteSelectedBasePlan($event,plan)" aria-label="delete">-->
-              <!--<md-icon md-font-icon="icon-close-circle md-warn"></md-icon>-->
-              <!--</md-button>-->
-              <!--</div>-->
-              <!--</md-card>-->
-              <!--</div>-->
-              <!--</div>-->
-              <!--</md-card-content>-->
-
-            </md-card>
-            <md-card flex class="input-block-gen">
-              <md-card-content class="p-0" layout="row">
-                <div class="mr-20">
-                  <md-checkbox ng-change="updateScroll('edit')" layout="row" ng-model="vm.editSelectedPlan.add_pricingScheme" aria-label="Pricing Scheme"
-                    class="m-0 md-accent dep-checkbox chkbox-btn">
-                    <h3 class="m-0">Add features</h3>
-                  </md-checkbox>
-                </div>
-                <div ng-if="vm.editSelectedPlan.type=='Base-Plan'">
-                  <md-checkbox ng-change="updateScroll('create')" layout="row" ng-model="vm.editSelectedPlan.add_addons" aria-label="Add-ons"
-                    class="m-0 md-accent chkbox-btn">
-                    <h3 class="m-0">Add-ons</h3>
-                  </md-checkbox>
-                </div>
-                <!--<md-icon ng-class="content.add_pricingScheme ? 'icon-chevron-up' : 'icon-chevron-down'"></md-icon>-->
-              </md-card-content>
-            </md-card>
-            <md-card flex class="input-block-gen" ng-show="vm.editSelectedPlan.add_pricingScheme">
-              <md-card-title>
-                <div layout="row" layout-align="space-between center" flex>
-                  <div layout="row">
-                    <i class="material-icons">stars</i>
-                    <h3>Features</h3>
+                <div style="border-bottom: solid 1px #f1f1f1;padding: 7px 0;">
+                  <div style="display: inline-block;width: 50%;">
+                    <span style="font-size: 18px;color: #ccc;margin-right: 10px">&#9733</span>
+                    <span style="color: #888;">Billing cycle</span>
                   </div>
-                  <!-- <md-button class="md-raised add-item-main" layout="row" layout-align="start center" ng-click="openFeatureDialog('Add', '')">
-                    <md-icon md-font-icon="icon-plus"></md-icon> ADD</md-button> -->
+                  <div style="display: inline-block;">
+                    <span>{{vm.selectedPlan.billingCycle==-1?"Auto renew":vm.selectedPlan.billingCycle}}</span>
+                  </div>
                 </div>
-              </md-card-title>
-              <div layout="row" layout-align="center center" class="pos-rel">
-                <div class="msg-inform-iconed">
-                  <span>
-                    <md-icon md-font-icon="icon-information-outline"></md-icon> Select features for the plan</span>
+                <div style="border-bottom: solid 1px #f1f1f1;padding: 7px 0;">
+                  <div style="display: inline-block;width: 50%;">
+                    <span style="font-size: 18px;color: #ccc;margin-right: 10px">&#9733</span>
+                    <span style="color: #888;">Currency</span>
+                  </div>
+                  <div style="display: inline-block;">
+                    <span>{{vm.selectedPlan.currency}}</span>
+                  </div>
+                </div>
+                <div style="padding: 7px 0;">
+                  <div style="display: inline-block;width: 50%;">
+                    <span style="font-size: 18px;color: #ccc;margin-right: 10px">&#9733</span>
+                    <span style="color: #888;">Tax</span>
+                  </div>
+                  <div style="display: inline-block;">
+                    <span ng-if="vm.selectedPlan.taxType=='0'">{{vm.selectedPlan.taxAmount}}%</span>
+                    <span ng-if="vm.selectedPlan.taxType=='-1'">{{vm.selectedPlan.taxAmount}}</span>
+                    <span ng-if="vm.selectedPlan.taxType=='1'">{{vm.selectedPlan.taxAmount| isoCurrency:vm.selectedPlan.currency :decimalPoint}}</span>
+                  </div>
                 </div>
               </div>
-              <div class="list-header" layout="row">
-                <div flex layout-align="center start">Feature name</div>
-                <div flex="10" layout="row" layout-align="end center">Actions</div>
+            </div>
+          </div>
+          <div style="float: left;width: 40%;border-radius: 5px" id="plan-detail-view">
+            <div style="border: solid 1px #addcf3;border-radius: 5px">
+              <div style="padding: 20px;text-align: center;font-size: 25px;background: #039be5;color: #fff;border-top-left-radius: 5px;border-top-right-radius: 5px">{{vm.selectedPlan.name}}</div>
+              <div style="overflow: hidden;text-align: center;background: #fafafa;border-bottom: solid 1px #eee;padding: 36px 0;">
+                <div style="display: inline-block;font-size: 40px;font-weight: bold;color: #039be5;">{{vm.selectedPlan.unitPrice| isoCurrency:vm.selectedPlan.currency :0}}</div>
+                <div style="display: inline-block;font-size: 22px;font-weight: 400;color: #AAA;">/ {{vm.selectedPlan.billingInterval}} {{vm.selectedPlan.billEvery}}</div>
               </div>
-              <md-card-content style="padding: 0">
-                <div class="preloader" ng-hide="true">
-                  <md-progress-circular></md-progress-circular>
+              <div style="overflow: hidden;padding: 10px 0">
+                <div style="text-align: center;margin-bottom: 5px;">
+                  <span style="margin-right: 10px;color: #a5d4ea;" class="feature-row">&#10004</span>
+                  <span style="color: rgba(0, 0, 0, 0.5);text-align: left">{{vm.selectedPlan.unitPrice| isoCurrency:vm.selectedPlan.currency :decimalPoint}} /Unit</span>
                 </div>
-                <div layout="row" layout-align="center center" class="msg-empty-list" ng-hide="true">
-                  <span>
-                    <md-icon md-font-icon="icon-information-outline"></md-icon> No feature has been added yet</span>
+                <div style="text-align: center;margin-bottom: 5px;">
+                  <span style="margin-right: 10px;color: #a5d4ea;" class="feature-row">&#10004</span>
+                  <span style="color: rgba(0, 0, 0, 0.5);text-align: left">Rate {{vm.selectedPlan.rate}}</span>
                 </div>
-                <div class="mb-30">
-                  <div class="action-row" layout="row" ng-repeat="item in priceSchemeFeatureList" layout-align="start center">
-                    <span flex layout="row" layout-align="start center">
-                      <span>
-                        <md-checkbox ng-model="item.isSelected" class="m-0 mr-20 md-primary">{{item[0].feature}} ({{item[0].featureCode}})</md-checkbox>
-                        <md-button class="md-icon-button op-5">
-                          <md-icon md-font-icon="icon-information" class="fs-16"></md-icon>
-                        </md-button>
-                      </span>
-                    </span>
-                    <!-- <span flex="10" style="max-width: 150px" layout="row" layout-align="end center">
-                      <md-button class="md-icon-button" aria-label="Edit" ng-click="openFeatureDialog('Update', item)">
-                        <md-icon md-font-icon="icon-pencil"></md-icon>
-                        <md-tooltip>Edit</md-tooltip>
-                      </md-button>
-                      <md-button class="md-icon-button md-warn action-row-remove" aria-label="Delete" ng-click="showDeleteFeatureConfirm($event,item)"
-                        show-gt-sm>
-                        <md-icon md-font-icon="icon-close-circle"></md-icon>
-                        <md-tooltip>Delete</md-tooltip>
-                      </md-button>
-                    </span> -->
-                  </div>
-                </div>
-              </md-card-content>
-            </md-card>
-            <md-card flex class="input-block-gen" ng-if="vm.editSelectedPlan.type=='Base-Plan' && vm.editSelectedPlan.add_addons">
-              <md-card-title>
-                <div layout="row" layout-align="start center">
-                  <i class="material-icons">extension</i>
-                  <h3>Add-on configuration</h3>
-                </div>
-              </md-card-title>
-              <md-card-content layout="column">
-                <!--<div class="group-sub-head mt-0"><b>Current add-ons</b></div>-->
-                <div class="search" flex layout-align="start center">
-                  <div layout="row">
-                    <md-icon md-font-icon="icon-magnify" class="icon s20 m-10"></md-icon>
-                    <input class="p-10" flex ng-model="vm.searchAddonPlansEdit" type="text" placeholder="Search for add-ons">
-                  </div>
-                </div>
-                <md-divider class="op-5"></md-divider>
-                <div class="pos-rel" style="z-index: 1;">
-                  <div class="p-10 light-gray">
-                    <md-checkbox ng-model="vm.editSelectedPlan.allAddonPlansSelected" aria-label="Event" class="md-primary m-0">Select all add-ons</md-checkbox>
-                  </div>
-                </div>
-                <div class="msg-empty-list" ng-if="addonPlanList.length == 0">
-                  <span>
-                    <md-icon md-font-icon="icon-information-outline"></md-icon> No base-plan is created yet
+                <div style="text-align: center;margin-bottom: 5px;">
+                  <span style="margin-right: 10px;color: #a5d4ea;" class="feature-row">&#10004</span>
+                  <span style="color: rgba(0, 0, 0, 0.5);text-align: left">{{vm.selectedPlan.trailDays}} trail day
+                    <span ng-if="vm.selectedPlan.trailDays > 1 || vm.selectedPlan.trailDays == 0">s</span>
                   </span>
                 </div>
-                <div ng-if="!vm.editSelectedPlan.allAddonPlansSelected" class="subheaded-list-content" flex>
-                  <md-content ms-scroll>
-                    <div class="p-10" layout="row" ng-repeat="s in addonPlanList | filter : vm.searchAddonPlansEdit | filter : vm.editSelectedPlan.billEvery"
-                      ng-click="null">
-                      <span flex>
-                        <md-checkbox ng-model="s.isSelected" aria-label="Event" class="m-0 md-primary">{{s.name}}</md-checkbox>
-                      </span>
-                    </div>
-                  </md-content>
-                </div>
-              </md-card-content>
-            </md-card>
-            <!--Pricing scheme block-->
-            <!--<md-card flex class="input-block-gen">-->
-            <!--<md-card-title>-->
-            <!--<div layout="row" layout-align="space-between center" flex>-->
-            <!--&lt;!&ndash;<md-checkbox ng-model="content.add_pricingScheme" aria-label="Pricing Scheme" class="md-primary dep-checkbox" style="top:10px;"></md-checkbox>&ndash;&gt;-->
-            <!--<div layout="row" flex>-->
-            <!--<md-checkbox layout="row" flex ng-model="vm.editSelectedPlan.add_pricingScheme" ng-change="calcUnitPrice(features,vm.editSelectedPlan.unitPrice,vm.editSelectedPlan.default_price,vm.editSelectedPlan.add_pricingScheme,'add')" aria-label="Pricing Scheme" class="m-0 md-accent dep-checkbox"> <h3>Add pricing scheme</h3></md-checkbox>-->
-            <!--</div>-->
-            <!--<md-icon ng-class="vm.editSelectedPlan.add_pricingScheme ? 'icon-chevron-up' : 'icon-chevron-down'"></md-icon>-->
-            <!--</div>-->
-            <!--</md-card-title>-->
-            <!--<md-card-content ng-if="vm.editSelectedPlan.add_pricingScheme==true">-->
-            <!--<div class="group-sub-head mt-0"><b>Features</b></div>-->
-
-            <!--<div>-->
-            <!--<div ng-repeat="row in vm.editSelectedPlan.priceScheme" class="highlight-blue solid h-auto" layout="row" layout-align="start center">-->
-            <!--<div layout="column" flex class="v-rule-blue">-->
-            <!--<div layout="row" class="h-80">-->
-            <!--<div flex="30">-->
-            <!--<md-input-container class="md-block" id="invProdQty">-->
-            <!--<label>Feature</label>-->
-            <!--<input type="text" ng-required="true" min="1" ng-model="row.feature">-->
-            <!--</md-input-container>-->
-            <!--</div>-->
-            <!--<div flex="5"></div>-->
-            <!--<div flex="30">-->
-            <!--<md-input-container class="md-block" id="invProdQty8">-->
-            <!--<label>Feature Code</label>-->
-            <!--<input type="text" ng-required="true" min="1" ng-model="row.featureCode">-->
-            <!--</md-input-container>-->
-            <!--</div>-->
-            <!--<div flex="5"></div>-->
-            <!--<div flex="20" layout="row" layout-align="start center">-->
-            <!--<md-button layout="row" layout-align="start center" ng-if="!row.showAdvanceFeatures" ng-click="setAdvanceFeatures(row);" class="md-accent fs-14">-->
-            <!--<md-icon md-font-icon="icon-plus-circle" class="md-primary fs-18 mr-5" ng-class=""></md-icon>-->
-            <!--Add rating-->
-            <!--</md-button>-->
-            <!--</div>-->
-            <!--<div id="stop-subscription" layout="column" ng-if="row.showAdvanceFeatures" ng-hide="row.advancedFeaturesConfirmed" class="w-480 animate-slide-down" md-whiteframe="4dp" style="top: -60px;">-->
-            <!--<div class="header-bar text-right" layout="row" layout-align="space-between center">-->
-            <!--<h3>Rating</h3>-->
-            <!--<md-button class="md-icon-button" ng-click="closeAdvanceFeatures(row)"><md-icon md-font-icon="icon-close"></md-icon> </md-button>-->
-            <!--</div>-->
-            <!--<div class="p-20">-->
-            <!--<div>-->
-            <!--<div layout="row" layout-align="space-between center">-->
-            <!--<div layout="column" layout-align="start start">-->
-            <!--<div layout="row" layout-align="start center" class="title">-->
-            <!--<md-icon md-font-icon="icon-book"></md-icon> <span flex>Fixed</span>-->
-            <!--</div>-->
-            <!--<div class="mt-10">Fixed rating will be added</div>-->
-            <!--</div>-->
-            <!--<md-button class="md-accent md-raised" ng-click="setFeature(row, 'FIXED')">Choose this</md-button>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<md-divider class="mv-20"></md-divider>-->
-            <!--<div>-->
-            <!--<div layout="row" layout-align="space-between center">-->
-            <!--<div layout="column" layout-align="start start">-->
-            <!--<div layout="row" layout-align="start center" class="title">-->
-            <!--<md-icon md-font-icon="icon-book-multiple"></md-icon> <span flex>Slab</span>-->
-            <!--</div>-->
-            <!--<div class="mt-10">Slab ratings will be added</div>-->
-            <!--</div>-->
-            <!--<md-button class="md-accent md-raised" ng-click="setFeature(row, 'SLAB')">Choose this</md-button>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-
-            <!--<div ng-show="row.advancedFeaturesConfirmed">-->
-            <!--<div layout="row" layout-align="space-between center">-->
-            <!--<md-input-container id="invProdQty6" flex="30">-->
-            <!--<label>Type</label>-->
-            <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
-            <!--<md-select ng-required="true" flex ng-model="row.type">-->
-            <!--<md-option value="optional" ng-hide="true">optional</md-option>-->
-            <!--<md-option value="FIXED">FIXED</md-option>-->
-            <!--<md-option value="SLAB">SLAB</md-option>-->
-            <!--</md-select>-->
-            <!--</md-input-container>-->
-            <!--<md-button layout="row" layout-align="start center" ng-if="row.showAdvanceFeatures" ng-click="closeAdvanceFeatures(row);" class="md-primary fs-12"> <md-icon md-font-icon="icon-close" class="md-primary fs-16" ng-class=""></md-icon> Close rating</md-button>-->
-            <!--</div>-->
-            <!--<div layout="row" class="highlight-white solid p-5" ng-if="row.type=='FIXED'" >-->
-            <!--<div layout-md="column" layout-align-md="start center" flex="30">-->
-            <!--<div flex>-->
-            <!--<md-input-container class="md-block" id="invProdQty2">-->
-            <!--<label>Unit Quantity</label>-->
-            <!--<input type="number" ng-required="true" min="1" ng-model="row.unitsTo">-->
-            <!--</md-input-container>-->
-            <!--</div>-->
-            <!--<div flex>-->
-            <!--<md-input-container class="md-block" id="invProdQty3">-->
-            <!--<label>Unit Uom</label>-->
-            <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
-            <!--<md-select ng-required="true" flex ng-model="row.unitUom">-->
-            <!--<md-option value="Units">Units</md-option>-->
-            <!--<md-option value="GB">GB</md-option>-->
-            <!--</md-select>-->
-            <!--</md-input-container>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div flex="5"></div>-->
-            <!--<div layout-md="column" layout-align-md="start center" flex="30">-->
-            <!--<div flex>-->
-            <!--<md-input-container class="md-block" id="invProdQty4">-->
-            <!--<label>Unit Price</label>-->
-            <!--<input type="number" ng-required="true" min="1" ng-change="calcUnitPrice(vm.editSelectedPlan.priceScheme,vm.editSelectedPlan.unitPrice,vm.editSelectedPlan.default_price,vm.editSelectedPlan.add_pricingScheme,'update')" ng-model="row.price">-->
-            <!--</md-input-container>-->
-            <!--</div>-->
-            <!--<div flex>-->
-            <!--<md-input-container class="md-block" id="invProdQty5">-->
-            <!--<label>UOM</label>-->
-            <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
-            <!--<md-select ng-required="true" flex ng-model="row.uom">-->
-            <!--<md-option value="OneTime">One time</md-option>-->
-            <!--<md-option value="Months" ng-disabled="vm.editSelectedPlan.billEvery=='Days'">Months</md-option>-->
-            <!--<md-option value="Years" ng-disabled="vm.editSelectedPlan.billEvery!='Years'">Years</md-option>-->
-            <!--<md-option value="Days">Days</md-option>-->
-            <!--</md-select>-->
-            <!--</md-input-container>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div flex="5"></div>-->
-            <!--<div flex layout="column" layout-align="center start">-->
-            <!--<md-input-container fill-width class="mt-40" id="invProdQty7" ng-if="row.autoTermination==false">-->
-            <!--<label>Additional charge per unit</label>-->
-            <!--<input type="number" ng-required="true" min="1" ng-model="row.costPerUnitAdd">-->
-            <!--</md-input-container>-->
-            <!--<md-checkbox ng-model="row.autoTermination" aria-label="Auto Terminate" class="md-primary dep-checkbox" ng-class="{'offset-top':!row.autoTermination}">Auto Terminate</md-checkbox>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div layout="column" ng-if="row.type=='SLAB'">-->
-            <!--<div layout="row" class="highlight-white solid p-5 mb-10" ng-repeat="slab in row.scheme">-->
-            <!--<div layout-md="column" layout-align-md="start center" flex="30">-->
-            <!--<div flex>-->
-            <!--<md-input-container flex class="md-block mb-0" id="invProdQty2">-->
-            <!--<label>Starting Quantity</label>-->
-            <!--<input type="number" ng-required="true" min="0" ng-model="slab.unitsFrom">-->
-            <!--</md-input-container>-->
-            <!--</div>-->
-            <!--<div flex>-->
-            <!--<md-input-container flex class="md-block mb-0" id="invProdQty2">-->
-            <!--<label>Ending Quantity</label>-->
-            <!--<input type="number" ng-required="true" min="1" ng-model="slab.unitsTo">-->
-            <!--</md-input-container>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div flex="5"></div>-->
-            <!--<div layout-md="column" layout-align-md="start center" flex="30">-->
-            <!--<md-input-container class="md-block mb-0" id="invProdQty4" flex>-->
-            <!--<label>Unit Price</label>-->
-            <!--<input type="number" ng-required="true" min="1" ng-change="calcUnitPrice(vm.editSelectedPlan.priceScheme,vm.editSelectedPlan.unitPrice,vm.editSelectedPlan.default_price,vm.editSelectedPlan.add_pricingScheme,'update')" ng-model="slab.price">-->
-            <!--</md-input-container>-->
-            <!--<div layout="row" layout-align="start center" flex>-->
-            <!--<md-input-container flex class="mb-0" id="invProdQty5">-->
-            <!--<label>UOM</label>-->
-            <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
-            <!--<md-select ng-required="true" flex ng-model="slab.uom">-->
-            <!--<md-option value="OneTime">One time</md-option>-->
-            <!--<md-option value="Months" ng-disabled="vm.editSelectedPlan.billEvery=='Daily'">Months</md-option>-->
-            <!--<md-option value="Years" ng-disabled="vm.editSelectedPlan.billEvery!='Yearly'">Years</md-option>-->
-            <!--<md-option value="Days">Days</md-option>-->
-            <!--</md-select>-->
-            <!--</md-input-container>-->
-            <!--<div class="w-10"></div>-->
-            <!--<md-input-container class="mb-0" id="invProdQty3">-->
-            <!--<label>Unit Uom</label>-->
-            <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
-            <!--<md-select ng-required="true" flex ng-model="slab.unitUom">-->
-            <!--<md-option value="Units">Units</md-option>-->
-            <!--<md-option value="GB">GB</md-option>-->
-            <!--</md-select>-->
-            <!--</md-input-container>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div flex="5"></div>-->
-            <!--<div flex layout="column" layout-align="center start">-->
-            <!--<md-input-container class="mt-40" id="invProdQty7" ng-if="slab.autoTermination==false">-->
-            <!--<label>Additional Charge per Unit</label>-->
-            <!--<input type="number" ng-required="true" min="1" ng-model="slab.costPerUnitAdd">-->
-            <!--</md-input-container>-->
-            <!--<md-checkbox ng-model="slab.autoTermination" aria-label="Auto Terminate" class="md-primary dep-checkbox" ng-class="{'offset-top':!slab.autoTermination}">Auto Terminate</md-checkbox>-->
-            <!--</div>-->
-            <!--<div layout="column" layout-align="center center" class="v-rule-gray">-->
-            <!--<md-button ng-click="removerow($index,row.scheme,$parent.$index);" class="md-icon-button md-warn"><md-icon md-font-icon="icon-close-circle"></md-icon><md-tooltip>Remove slab</md-tooltip> </md-button>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div layout="row" layout-align="end center">-->
-            <!--<md-button ng-click="addNewSlab(row);" class="md-accent md-icon-button mr-10"><md-icon md-font-icon="icon-plus-circle"></md-icon><md-tooltip>Add slab</md-tooltip></md-button>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-
-            <!--<div layout="row" layout-align="end center">-->
-            <!--<md-button style="height: 50px;width:50px" ng-click="removerow($index,vm.editSelectedPlan.priceScheme,$index);" class="md-icon-button md-warn"><md-icon style="font-size: 35px;" md-font-icon="icon-close-circle"></md-icon><md-tooltip>Remove feature</md-tooltip> </md-button>-->
-            <!--</div>-->
-
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div layout="row" layout-align="end center" class="h-60">-->
-            <!--<md-button ng-click="addNewRow(vm.editSelectedPlan.priceScheme);" class="md-accent md-icon-button mr-20 h-45 w-45"><md-icon md-font-icon="icon-plus-circle" class="fs-34 w-35 h-35"></md-icon><md-tooltip>Add feature</md-tooltip> </md-button>-->
-            <!--</div>-->
-            <!--</md-card-content>-->
-            <!--</md-card>-->
-            <!--Pricing scheme block-->
-
-            <!--CREATE NEW INVOICE _ CARDED=================================================-->
-          </form>
-        </md-content>
-        <div layout="row" layout-align="end center" md-whiteframe="8dp" class="bottom-fixed-bar absolute" ng-if="inpageReadPaneEdit">
-          <div layout="row"></div>
-          <div layout="row" class="layout-row">
-            <md-button ng-click="editPlan(tempEditPlan)">Reset</md-button>
-            <md-button ng-disabled="vm.submitted" type="submit" form="editPlanForm" class="md-raised md-accent">Update</md-button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <!-- / CONTENT CARD -->
-      <!-- EDIT PLAN -->
-      <!--<div ng-if="editOff" class="content-card" layout="column" flex>-->
-      <!--<div layout="column" flex>-->
-      <!--&lt;!&ndash; CONTENT CARD &ndash;&gt;-->
-      <!--<div layout="column" flex>-->
-      <!--&lt;!&ndash; CONTENT WRAPPER &ndash;&gt;-->
-      <!--<div class="content-wrapper" ms-scroll flex>-->
+      <!-- / Embedded form (this content will not be visible in read-view)-->
 
-      <!--<md-content class="overflow-hidden">-->
-      <!--<form id="changePlanForm" name="vm.changePlanForm" ng-submit="submitPlan('changePlanForm')" novalidate>-->
-      <!--&lt;!&ndash;CREATE NEW INVOICE _ CARDED=================================================&ndash;&gt;-->
+      <!--<md-content flex layout="column" class="inpage-readpane-body" ng-if="!inpageReadPaneEdit">-->
       <!--<md-card flex class="input-block-gen">-->
-      <!--<md-card-title>-->
-      <!--<div layout="row" layout-align="start center">-->
-      <!--<md-icon md-font-icon="icon-cog"></md-icon> <h3>General Details</h3>-->
-      <!--</div>-->
-      <!--</md-card-title>-->
       <!--<md-card-content>-->
       <!--<div layout="row">-->
-      <!--<md-input-container flex="30">-->
-      <!--<label>Plan type</label>-->
-      <!--<md-select flex ng-required="true" ng-model="content.type">-->
-      <!--&lt;!&ndash;<md-option value="Services" ng-selected="true">Services</md-option>&ndash;&gt;-->
-      <!--<md-option ng-repeat="type in planTypeList" ng-value="type.RecordFieldData">{{type.RecordFieldData}}</md-option>-->
-      <!--</md-select>-->
-      <!--</md-input-container>-->
-      <!--<div flex="5"></div>-->
-      <!--<md-input-container flex="30">-->
-      <!--<label>Plan name</label>-->
-      <!--<input type="text" ng-required="true" min="" name="planName" ng-maxlength="30" ng-model="content.name">-->
-      <!--<div ng-messages="vm.changePlanForm.planName.$error">-->
-      <!--<div ng-message="maxlength">Plan name must be between 1-30 characters</div>-->
+      <!--<label>Get Embedded form for this Plan</label>-->
+      <!--<md-button ng-click="getEmbededPlanForm(vm.selectedPlan)">Embedded Form</md-button>-->
       <!--</div>-->
-      <!--</md-input-container>-->
-      <!--<div flex="5"></div>-->
-      <!--<md-input-container flex="30">-->
-      <!--<label>Plan code</label>-->
-      <!--<input type="text" ng-required="true" ng-maxlength="15" name="planCode" ng-model="content.code">-->
-      <!--<div ng-messages="vm.changePlanForm.planCode.$error">-->
-      <!--<div ng-message="maxlength">Plan code must be between 1-15 characters</div>-->
+      <!--<div layout="row" ng-show="embededFormEnabled">-->
+      <!--<textarea type="textarea" min="" name="planName" ng-maxlength="" width="100%" height="500" ng-model="fullEmbededPlanForm"></textarea>-->
       <!--</div>-->
-      <!--</md-input-container>-->
-      <!--</div>-->
-      <!--<div layout="row">-->
-      <!--<md-input-container flex>-->
-      <!--<label>Description</label>-->
-      <!--<input type="text" ng-required="false" ng-maxlength="300" md-maxlength="300" name="planDescription" ng-model="content.description">-->
-      <!--<div ng-messages="vm.changePlanForm.planDescription.$error">-->
-      <!--<div ng-message="maxlength">Plan description must be between 1-300 characters</div>-->
-      <!--</div>-->
-      <!--</md-input-container>-->
-      <!--</div>-->
-
       <!--</md-card-content>-->
       <!--</md-card>-->
-
-      <!--<md-card flex class="input-block-gen" ng-if="content.type=='Add-on'">-->
-      <!--<md-card-title>-->
-      <!--<div layout="row" layout-align="start center">-->
-      <!--<md-icon md-font-icon="icon-cog"></md-icon> <h3>Add-on Configuration</h3>-->
-      <!--</div>-->
-      <!--</md-card-title>-->
-      <!--<md-card-content layout="row">-->
-      <!--<md-checkbox ng-model="content.allBasePlansSelected" aria-label="Event" class="md-primary">Select All Base Plans</md-checkbox>-->
-      <!--</md-card-content>-->
-      <!--<md-card-content layout="row" ng-if="!content.allBasePlansSelected">-->
-      <!--<md-card flex class="input-block-gen" layout="column">-->
-      <!--<div flex class="inpage-listpane">-->
-      <!--<md-card-title>-->
-      <!--<div layout="row" layout-align="start center">-->
-      <!--<md-icon md-font-icon="icon-account-multiple"></md-icon> <h3>Base Plan List</h3>-->
-      <!--</div>-->
-      <!--</md-card-title>-->
-      <!--<div>-->
-      <!--<div class="search" flex layout="row" layout-align="start center">-->
-      <!--<md-icon md-font-icon="icon-magnify" class="icon s24"></md-icon>-->
-      <!--<input flex ng-model="vm.searchBasePlans" type="text" placeholder="Search for Base Plans">-->
-      <!--</div>-->
-      <!--<div class="subheaded-list-content" flex>-->
-      <!--<md-content ms-scroll>-->
-      <!--&lt;!&ndash;<md-progress-circular md-mode='indeterminate' md-diameter="150" class="progress-circle-loader" ng-show="loading"></md-progress-circular>&ndash;&gt;-->
-
-      <!--&lt;!&ndash;<div id="draggblePlan" class="not-shared-user" draggable-data="s" draggable="true" effect-allowed="copy" draggable-type="custom-object" ng-repeat="s in basePlanList | filter : vm.searchBasePlans">&ndash;&gt;-->
-      <!--&lt;!&ndash;<div layout="row" layout-align="space-between center">&ndash;&gt;-->
-      <!--&lt;!&ndash;<div layout="row" layout-align="start center">&ndash;&gt;-->
-      <!--&lt;!&ndash;&lt;!&ndash;<md-icon md-font-icon="icon-account"></md-icon>&ndash;&gt;&ndash;&gt;-->
-      <!--&lt;!&ndash;<img ng-src="{{getCatLetter(s.name)}}" class="md-avatar"/>&ndash;&gt;-->
-      <!--&lt;!&ndash;<p>{{s.name}}</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--&lt;!&ndash;<div>&ndash;&gt;-->
-      <!--&lt;!&ndash;<md-icon md-font-icon="icon-cursor-move"></md-icon>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--<div class="carded-list-group" style="padding: 0;">-->
-      <!--<md-list flex class="carded-dashboard-list">-->
-      <!--<md-list-item layout="row" ng-repeat="s in basePlanList | filter : vm.searchBasePlans" ng-click="null">-->
-      <!--<span flex>-->
-      <!--<md-checkbox ng-model="s.isSelected" aria-label="Event" class="md-primary">{{s.name}}</md-checkbox>-->
-      <!--</span>-->
-      <!--</md-list-item>-->
-      <!--</md-list>-->
-      <!--</div>-->
-
       <!--</md-content>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</md-card>-->
-
-      <!--&lt;!&ndash;<div flex layout="column" layout-align="start center" style="padding-right: 20px">&ndash;&gt;-->
-      <!--&lt;!&ndash;<div layout="column" layout-align="center center" class="shared-app">&ndash;&gt;-->
-      <!--&lt;!&ndash;<div layout="row" layout-align="center center">&ndash;&gt;-->
-      <!--&lt;!&ndash;<h3>Selected Base Plans</h3>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--&lt;!&ndash;<div drop="onDropOne($data, $event)" drop-effect="copy" drop-accept="'json/custom-object'" drag-over="onDragOver($event)" drag-over-class="drag-over-accept" flex class="drag-n-drop-area">&ndash;&gt;-->
-      <!--&lt;!&ndash;<div ng-show="selectedBasePlans.length<1" class="watermark" layout="column" layout-align="center center">&ndash;&gt;-->
-      <!--&lt;!&ndash;<md-icon md-font-icon="icon-account-multiple"></md-icon>&ndash;&gt;-->
-      <!--&lt;!&ndash;<span>Drop BasePlan Here</span>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--&lt;!&ndash;<md-card class="shared-user" ng-repeat="plan in selectedBasePlans">&ndash;&gt;-->
-      <!--&lt;!&ndash;<div layout="row" layout-align="space-between center">&ndash;&gt;-->
-      <!--&lt;!&ndash;<md-icon md-font-icon="icon-account"></md-icon>&ndash;&gt;-->
-      <!--&lt;!&ndash;<p>{{plan.name}}</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;<md-button class="md-icon-button" ng-click="deleteSelectedBasePlan($event,plan)" aria-label="delete">&ndash;&gt;-->
-      <!--&lt;!&ndash;<md-icon md-font-icon="icon-close-circle md-warn"></md-icon>&ndash;&gt;-->
-      <!--&lt;!&ndash;</md-button>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--&lt;!&ndash;</md-card>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--</md-card-content>-->
-
-      <!--</md-card>-->
-
-      <!--<md-card flex class="input-block-gen">-->
-      <!--<md-card-title>-->
-      <!--<div layout="row" layout-align="start center">-->
-      <!--<md-icon md-font-icon="icon-credit-card-multiple"></md-icon> <h3>Billing Details</h3>-->
-      <!--</div>-->
-      <!--</md-card-title>-->
-      <!--<md-card-content>-->
-      <!--<div class="group-sub-head" style="margin-top: 0"><b>Billing frequency</b></div>-->
-      <!--<div layout="row" class="row-offset">-->
-      <!--<div flex="5" layout="column" id="billingFrqCurrency" layout-align="center start">-->
-      <!--{{0| isoCurrency: BaseCurrency:0}}-->
-      <!--</div>-->
-      <!--<md-input-container ng-hide="true" flex>-->
-      <!--<input type="text" ng-min="" ng-max="" name="currency" ng-init="content.currency=BaseCurrency" ng-model="content.currency">-->
-      <!--</md-input-container>-->
-      <!--&lt;!&ndash;<md-input-container flex="10">&ndash;&gt;-->
-      <!--&lt;!&ndash;<label>Currency</label>&ndash;&gt;-->
-      <!--&lt;!&ndash;<input type="text" ng-required="false" min="1" ng-maxlength="300" name="currency" ng-init="content.currency=BaseCurrency | isoCurrency: vm.editSelectedPlan.currency:0" ng-model="content.currency" ng-disabled="true">&ndash;&gt;-->
-      <!--&lt;!&ndash;&lt;!&ndash;<md-select ng-required="true" flex ng-model="content.currency">&ndash;&gt;&ndash;&gt;-->
-      <!--&lt;!&ndash;&lt;!&ndash;<md-option ng-value="BaseCurrency" selected>{{BaseCurrency}}</md-option>&ndash;&gt;&ndash;&gt;-->
-      <!--&lt;!&ndash;&lt;!&ndash;<md-option ng-repeat="curr in prefferedCurrencies" ng-value="curr">{{curr}}</md-option>&ndash;&gt;&ndash;&gt;-->
-      <!--&lt;!&ndash;&lt;!&ndash;</md-select>&ndash;&gt;&ndash;&gt;-->
-      <!--&lt;!&ndash;</md-input-container>&ndash;&gt;-->
-      <!--<div class="w-20"></div>-->
-
-      <!--<div layout="column" flex="30">-->
-      <!--<md-input-container flex>-->
-      <!--<label>Unit price</label>-->
-      <!--<input type="number" ng-required="!content.default_price || !content.add_pricingScheme" ng-min="1" ng-max="100000000000000000" name="unitPrice" ng-disabled="content.default_price && content.add_pricingScheme" ng-model="content.unitPrice" style="text-align: right">-->
-      <!--<div ng-messages="vm.changePlanForm.unitPrice.$error">-->
-      <!--<div ng-message="max">Unit price must be between 1-18 digits</div>-->
-      <!--<div ng-message="min">Unit price must be between 1-18 digits</div>-->
-      <!--</div>-->
-      <!--</md-input-container>-->
-      <!--&lt;!&ndash;<md-checkbox ng-disabled="!content.add_pricingScheme" ng-model="content.default_price" ng-change="changeDefaultPrice(features,content.unitPrice,content.default_price,content.add_pricingScheme,'add')" aria-label="Default UnitPrice" class="md-primary dep-checkbox" ng-class="{'black-text':content.default_price}">Get default price</md-checkbox><span class="fs-12" ng-if="!content.add_pricingScheme"> (Add pricing scheme to set a default price)</span>&ndash;&gt;-->
-      <!--</div>-->
-
-      <!--<div flex="5"></div>-->
-      <!--<md-input-container flex="30">-->
-      <!--<label>Occurrence</label>-->
-      <!--<input ng-required="true" type="number" min="1" max="100000000000000000" name="frequency" ng-model="content.billingInterval" ng-init="content.billingInterval" style="text-align: right">-->
-      <!--<div ng-messages="vm.changePlanForm.frequency.$error">-->
-      <!--<div ng-message="max">Occurrence must be between 1-18 digits</div>-->
-      <!--<div ng-message="min">Occurrence must be between 1-18 digits</div>-->
-      <!--</div>-->
-      <!--</md-input-container>-->
-      <!--<div class="w-20"></div>-->
-      <!--<md-input-container flex="15">-->
-      <!--<md-select ng-required="true" flex ng-model="content.billEvery">-->
-      <!--<md-option value="Months" selected>Months</md-option>-->
-      <!--<md-option value="Years">Years</md-option>-->
-      <!--<md-option value="Days">Days</md-option>-->
-      <!--</md-select>-->
-      <!--</md-input-container>-->
-      <!--</div>-->
-
-      <!--<div layout="column" layout-align="center center" class="p-10" style="border:solid 1px #ddd">-->
-      <!--<div ng-if="content.billEvery == 'Months'" layout="row" layout-align="start center">-->
-      <!--<div>(<b>{{content.unitPrice | isoCurrency:content.currency}}</b> invoice will generate once every <b>{{content.billingInterval}} month<span ng-if="content.billingInterval>1">s</span></b>)</div>-->
-      <!--</div>-->
-      <!--<div ng-if="content.billEvery == 'Years'" layout="row" layout-align="start center">-->
-      <!--<div>(<b>{{content.unitPrice | isoCurrency:content.currency}}</b> invoice will generate once every <b>{{content.billingInterval}} year<span ng-if="content.billingInterval>1">s</span></b>)</div>-->
-      <!--</div>-->
-      <!--<div ng-if="content.billEvery == 'Days'" layout="row" layout-align="start center">-->
-      <!--<div>(<b>{{content.unitPrice | isoCurrency:content.currency}}</b> invoice will generate once every <b>{{content.billingInterval}} day<span ng-if="content.billingInterval>1">s</span></b>)</div>-->
-      <!--</div>-->
-      <!--</div>-->
-
-      <!--<div style="margin-top: 50px">-->
-      <!--<div class="group-sub-head"><b>Billing cycles</b></div>-->
-      <!--<div layout="row" layout-align="start center">-->
-      <!--<md-input-container flex="30">-->
-      <!--<md-radio-group ng-model="content.billingCycleType" ng-init="content.billingCycleType='auto'" ng-change="vm.billingCycleHandler(content.billingCycleType)">-->
-      <!--<md-radio-button value="auto" class="md-primary">Auto renewed until cancelled</md-radio-button>-->
-      <!--<md-radio-button value="fixed" class="md-primary">Fixed number billing cycles</md-radio-button>-->
-      <!--</md-radio-group>-->
-      <!--</md-input-container>-->
-      <!--<div flex="5"></div>-->
-      <!--<div layout="row" style="position: relative;top: 20px;" ng-if="showNoOfCycles" flex="30">-->
-      <!--<md-input-container flex>-->
-      <!--<label>Number of billing cycles</label>-->
-      <!--<input ng-required="true" type="number" min="1" name="no_of_cycles" ng-model="content.billingCycle" style="text-align: right">-->
-      <!--</md-input-container>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-
-      <!--<div layout="row" style="margin-bottom: 10px">-->
-      <!--<div flex="30" layout="row">-->
-      <!--<md-input-container flex>-->
-      <!--<label>Trial</label>-->
-      <!--<input ng-required="false" type="number" name="note" ng-init="content.trailDays=30" ng-model="content.trailDays" style="text-align: right">-->
-      <!--</md-input-container>-->
-      <!--<div layout="row" layout-align="start center">days</div>-->
-      <!--</div>-->
-      <!--<div flex="5"></div>-->
-      <!--<div flex="30">-->
-      <!--<md-input-container class="md-block">-->
-      <!--<label>Payment Option</label>-->
-      <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
-      <!--<md-select ng-required="true" flex ng-model="content.paymentOption">-->
-      <!--<md-option value="Online" selected>Online</md-option>-->
-      <!--<md-option value="Offline">Offline</md-option>-->
-      <!--</md-select>-->
-      <!--</md-input-container>-->
-      <!--</div>-->
-      <!--<div flex="5"></div>-->
-      <!--<div layout="row" flex="30">-->
-      <!--<div layout="column" flex>-->
-      <!--<md-input-container>-->
-      <!--<label>Tax</label>-->
-      <!--<md-select ng-required="content.apply_tax" ng-model="content.taxID" ng-disabled="!content.apply_tax">-->
-      <!--<md-option ng-repeat="value in taxGroup" value="{{value.taxgroupid}}">-->
-      <!--{{value.taxgroupcode}}-->
-      <!--</md-option>-->
-      <!--</md-select>-->
-      <!--</md-input-container>-->
-      <!--<md-checkbox ng-model="content.apply_tax" aria-label="Apply Tax" class="md-primary dep-checkbox" style="top:0;width: 100px;">Apply Tax</md-checkbox>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</md-card-content>-->
-      <!--</md-card>-->
-
-      <!--&lt;!&ndash;<div layout="row" layout-align="space-between center" class="checkbox-bar" md-whiteframe="1dp">&ndash;&gt;-->
-
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-      <!--<md-card flex class="input-block-gen">-->
-      <!--<md-card-title>-->
-      <!--<div layout="row" layout-align="space-between center" flex>-->
-      <!--&lt;!&ndash;<md-checkbox ng-model="content.add_pricingScheme" aria-label="Pricing Scheme" class="md-primary dep-checkbox" style="top:10px;"></md-checkbox>&ndash;&gt;-->
-      <!--<div layout="row" flex>-->
-      <!--<md-checkbox layout="row" flex ng-model="content.add_pricingScheme" ng-change="calcUnitPrice(features,content.unitPrice,content.default_price,content.add_pricingScheme,'add')" aria-label="Pricing Scheme" class="m-0 md-accent dep-checkbox"> <h3>Add pricing scheme</h3></md-checkbox>-->
-      <!--</div>-->
-      <!--<md-icon ng-class="content.add_pricingScheme ? 'icon-chevron-up' : 'icon-chevron-down'"></md-icon>-->
-      <!--</div>-->
-      <!--</md-card-title>-->
-      <!--<md-card-content ng-if="content.add_pricingScheme==true">-->
-      <!--&lt;!&ndash;<div layout="row" layout-align="start center">&ndash;&gt;-->
-      <!--&lt;!&ndash;<md-checkbox ng-model="vm.editSelectedPlan.default_price" ng-change="changeDefaultPrice(vm.editSelectedPlan.priceScheme,vm.editSelectedPlan.unitPrice,vm.editSelectedPlan.default_price,vm.editSelectedPlan.add_pricingScheme,'update')" aria-label="Default UnitPrice" class="md-primary dep-checkbox" ng-class="{'black-text':vm.editSelectedPlan.default_price}">Get default price</md-checkbox><span class="fs-12" ng-if="!vm.editSelectedPlan.add_pricingScheme"> (Add pricing scheme to set a default price)</span>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-      <!--<div class="group-sub-head mt-0"><b>Features</b></div>-->
-
-      <!--<div>-->
-      <!--<div layout="row" layout-align="start center" ng-repeat="row in features" class="highlight-blue solid h-auto" >-->
-      <!--<div layout="column" flex class="v-rule-blue">-->
-      <!--<div layout="row" class="h-80">-->
-      <!--<div flex="30">-->
-      <!--<md-input-container class="md-block" id="invProdQty">-->
-      <!--<label>Feature</label>-->
-      <!--<input type="text" ng-required="true" min="1" ng-model="row.feature">-->
-      <!--</md-input-container>-->
-      <!--</div>-->
-
-      <!--<div flex="5"></div>-->
-
-      <!--<div flex="30">-->
-      <!--<md-input-container class="md-block" id="invProdQty8">-->
-      <!--<label>Feature code</label>-->
-      <!--<input type="text" ng-required="true" min="1" ng-model="row.featureCode">-->
-      <!--</md-input-container>-->
-      <!--</div>-->
-
-      <!--<div flex="5"></div>-->
-
-      <!--<div flex="20" layout="row" layout-align="start center">-->
-      <!--<md-button layout="row" layout-align="start center" ng-if="!row.showAdvanceFeatures" ng-click="setAdvanceFeatures(row);" class="md-accent fs-14">-->
-      <!--<md-icon md-font-icon="icon-plus-circle" class="md-primary fs-18 mr-5" ng-class=""></md-icon>-->
-      <!--Add rating-->
-      <!--</md-button>-->
-      <!--</div>-->
-
-      <!--<div id="stop-subscription" layout="column" ng-if="row.showAdvanceFeatures" ng-hide="row.advancedFeaturesConfirmed" class="w-480 animate-slide-down" md-whiteframe="4dp" style="top: -60px;">-->
-      <!--<div class="header-bar text-right" layout="row" layout-align="space-between center">-->
-      <!--<h3>Rating</h3>-->
-      <!--<md-button class="md-icon-button" ng-click="closeAdvanceFeatures(row)"><md-icon md-font-icon="icon-close"></md-icon> </md-button>-->
-      <!--</div>-->
-      <!--<div class="p-20">-->
-      <!--<div>-->
-      <!--<div layout="row" layout-align="space-between center">-->
-      <!--<div layout="column" layout-align="start start">-->
-      <!--<div layout="row" layout-align="start center" class="title">-->
-      <!--<md-icon md-font-icon="icon-book"></md-icon> <span flex>Fixed</span>-->
-      <!--</div>-->
-      <!--<div class="mt-10">Fixed rating will be added</div>-->
-      <!--</div>-->
-      <!--<md-button class="md-accent md-raised" ng-click="setFeature(row, 'FIXED')">Choose this</md-button>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<md-divider class="mv-20"></md-divider>-->
-      <!--<div>-->
-      <!--<div layout="row" layout-align="space-between center">-->
-      <!--<div layout="column" layout-align="start start">-->
-      <!--<div layout="row" layout-align="start center" class="title">-->
-      <!--<md-icon md-font-icon="icon-book-multiple"></md-icon> <span flex>Slab</span>-->
-      <!--</div>-->
-      <!--<div class="mt-10">Slab ratings will be added</div>-->
-      <!--</div>-->
-      <!--<md-button class="md-accent md-raised" ng-click="setFeature(row, 'SLAB')">Choose this</md-button>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<div ng-show="row.advancedFeaturesConfirmed">-->
-      <!--<div flex layout="row" layout-align="space-between center">-->
-      <!--&lt;!&ndash;<div flex ng-hide="row.showAdvanceFeatures"></div>&ndash;&gt;-->
-      <!--<md-input-container class="animate-fade-in-out" ng-show="row.showAdvanceFeatures" flex="30">-->
-      <!--<label>Type</label>-->
-      <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
-      <!--<md-select ng-required="true" id="createFeatureType" flex ng-model="row.type" ng-init="row.type=''">-->
-      <!--&lt;!&ndash;<md-option value="optional" selected>&#45;&#45;Select Type&#45;&#45;</md-option>&ndash;&gt;-->
-      <!--<md-option value="optional" ng-hide="true" selected>optional</md-option>-->
-      <!--<md-option value="FIXED">FIXED</md-option>-->
-      <!--<md-option value="SLAB">SLAB</md-option>-->
-      <!--</md-select>-->
-      <!--</md-input-container>-->
-      <!--<md-button layout="row" layout-align="start center" ng-if="row.showAdvanceFeatures" ng-click="closeAdvanceFeatures(row);" class="md-primary fs-12"> <md-icon md-font-icon="icon-close" class="md-primary fs-16" ng-class=""></md-icon> Close rating</md-button>-->
-      <!--</div>-->
-      <!--<div class="highlight-white solid p-5" layout="row" ng-if="row.type=='FIXED' && row.showAdvanceFeatures">-->
-      <!--<div layout-align-md="start center" layout-md="column" flex="30">-->
-      <!--<div flex>-->
-      <!--<md-input-container class="md-block" id="invProdQty2">-->
-      <!--<label>Unit Quantity</label>-->
-      <!--<input type="number" ng-required="true" min="1" ng-model="row.unitsTo">-->
-      <!--</md-input-container>-->
-      <!--</div>-->
-      <!--<div flex>-->
-      <!--<md-input-container class="md-block" id="invProdQty3">-->
-      <!--<label>Unit UOM</label>-->
-      <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
-      <!--<md-select ng-required="true" flex ng-model="row.unitUom">-->
-      <!--<md-option value="Units" selected>Units</md-option>-->
-      <!--<md-option value="GB">GB</md-option>-->
-      <!--</md-select>-->
-      <!--</md-input-container>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<div flex="5"></div>-->
-      <!--<div layout-align-md="start center" layout-md="column" flex="30">-->
-      <!--<div flex>-->
-      <!--<md-input-container class="md-block" id="invProdQty4">-->
-      <!--<label>Unit Price</label>-->
-      <!--<input type="number" ng-required="true" min="1" ng-change="calcUnitPrice(features,content.unitPrice,content.default_price,content.add_pricingScheme,'add')" ng-model="row.price">-->
-      <!--</md-input-container>-->
-      <!--</div>-->
-      <!--<div flex>-->
-      <!--<md-input-container class="md-block" id="invProdQty5">-->
-      <!--<label>UOM</label>-->
-      <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
-      <!--<md-select ng-required="true" flex ng-model="row.uom">-->
-      <!--<md-option value="OneTime" selected>One time</md-option>-->
-      <!--<md-option value="Months" ng-disabled="content.billEvery=='Days'">Months</md-option>-->
-      <!--<md-option value="Years" ng-disabled="content.billEvery!='Years'">Years</md-option>-->
-      <!--<md-option value="Days">Days</md-option>-->
-      <!--</md-select>-->
-      <!--</md-input-container>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<div flex="5"></div>-->
-      <!--<div flex layout="column" layout-align="center start" flex="30">-->
-      <!--<md-input-container fill-width class="mt-40" id="invProdQty7" ng-if="!row.autoTermination">-->
-      <!--<label>Additional charge per unit</label>-->
-      <!--<input type="number" ng-disabled="row.autoTermination" ng-required="true" min="1" ng-model="row.costPerUnitAdd">-->
-      <!--</md-input-container>-->
-      <!--<md-checkbox ng-model="row.autoTermination" aria-label="Auto Terminate" class="md-primary dep-checkbox" ng-class="{'offset-top':!row.autoTermination}">Auto terminate</md-checkbox>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<div ng-if="row.type=='SLAB'" layout="column">-->
-      <!--<div layout="row" ng-repeat="slab in row.scheme" class="highlight-white solid p-5 mb-10">-->
-      <!--<div layout-align-md="start center" layout-md="column" flex="30">-->
-      <!--<md-input-container class="mb-0" id="invProdQty2" fill-width>-->
-      <!--<label>Starting quantity</label>-->
-      <!--<input type="number" ng-required="true" min="0" ng-model="slab.unitsFrom">-->
-      <!--</md-input-container>-->
-      <!--<md-input-container class="mb-0" id="invProdQty2" fill-width>-->
-      <!--<label>Ending Quantity</label>-->
-      <!--<input type="number" ng-required="true" min="1" ng-model="slab.unitsTo">-->
-      <!--</md-input-container>-->
-      <!--</div>-->
-      <!--<div flex="5"></div>-->
-      <!--<div layout-align-md="start center" layout-md="column" flex="30">-->
-      <!--<md-input-container class="md-block" id="invProdQty4" flex>-->
-      <!--<label>Unit price</label>-->
-      <!--<input type="number" ng-required="true" min="1" ng-change="calcUnitPrice(features,content.unitPrice,content.default_price,content.add_pricingScheme,'add')" ng-model="slab.price">-->
-      <!--</md-input-container>-->
-      <!--<div layout="row" layout-align="start center" flex>-->
-      <!--<md-input-container class="m-0" id="invProdQty5" flex>-->
-      <!--<label>UOM</label>-->
-      <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
-      <!--<md-select ng-required="true" flex ng-model="slab.uom">-->
-      <!--<md-option value="OneTime" selected>One time</md-option>-->
-      <!--<md-option value="Months" ng-disabled="content.billEvery=='Days'">Months</md-option>-->
-      <!--<md-option value="Years" ng-disabled="content.billEvery!='Years'">Years</md-option>-->
-      <!--<md-option value="Days">Days</md-option>-->
-      <!--</md-select>-->
-      <!--</md-input-container>-->
-      <!--<div class="w-10"></div>-->
-      <!--<md-input-container class="m-0" id="invProdQty3">-->
-      <!--<label>Unit UOM</label>-->
-      <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
-      <!--<md-select ng-required="true" flex ng-model="slab.unitUom">-->
-      <!--<md-option value="Units" selected>Units</md-option>-->
-      <!--<md-option value="GB">GB</md-option>-->
-      <!--</md-select>-->
-      <!--</md-input-container>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<div flex="5"></div>-->
-      <!--<div flex="30" layout="column" layout-align="center start">-->
-      <!--<md-input-container fill-width class="mt-40" id="invProdQty7" ng-if="slab.autoTermination==false">-->
-      <!--<label>Additional charge per unit</label>-->
-      <!--<input type="number" ng-required="true" min="1" ng-model="slab.costPerUnitAdd">-->
-      <!--</md-input-container>-->
-      <!--<md-checkbox ng-model="slab.autoTermination" aria-label="Auto Terminate" class="md-primary dep-checkbox" ng-class="{'offset-top':!slab.autoTermination}">Auto terminate</md-checkbox>-->
-      <!--</div>-->
-      <!--<div class="w-5"></div>-->
-      <!--<div layout="column" layout-align="center center" class="v-rule-gray">-->
-      <!--<md-button ng-click="removerow($index,row.scheme,$parent.$index);" class="md-icon-button md-warn"><md-icon md-font-icon="icon-close-circle"></md-icon><md-tooltip>Remove slab</md-tooltip> </md-button>-->
-      <!--</div>-->
-      <!--</div>-->
-
-      <!--<div layout="row" layout-align="end center">-->
-      <!--<md-button ng-click="addNewSlab(row);" class="md-accent md-icon-button mr-10"><md-icon md-font-icon="icon-plus-circle"></md-icon><md-tooltip>Add slab</md-tooltip></md-button>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-
-      <!--<div layout="row" layout-align="center center" class="w-60">-->
-      <!--<md-button ng-if="features.length > 1" ng-click="removerow($index,features,$index);" class="md-icon-button md-warn h-45 w-45 mr-10"><md-icon md-font-icon="icon-close-circle" class="fs-34 w-35 h-35"></md-icon><md-tooltip>Remove feature</md-tooltip> </md-button>-->
-      <!--</div>-->
-
-      <!--</div>-->
-      <!--</div>-->
-
-      <!--<div layout="row" layout-align="end center" class="h-60">-->
-      <!--<md-button ng-click="addNewRow(features);" class="md-accent md-icon-button mr-20 h-45 w-45"><md-icon md-font-icon="icon-plus-circle" class="fs-34 w-35 h-35"></md-icon><md-tooltip>Add feature</md-tooltip> </md-button>-->
-      <!--</div>-->
-      <!--</md-card-content>-->
-      <!--</md-card>-->
-      <!--&lt;!&ndash;CREATE NEW INVOICE _ CARDED=================================================&ndash;&gt;-->
-      <!--</form>-->
-      <!--</md-content>-->
-
-      <!--</div>-->
-      <!--&lt;!&ndash; / CONTENT WRAPPER &ndash;&gt;-->
-      <!--<div md-whiteframe="8dp" layout="row" layout-align="space-between center" class="bottom-fixed-bar">-->
-      <!--<div layout="row"></div>-->
-
-      <!--<div layout="row" class="layout-row">-->
-      <!--<md-button ng-click="clearform()">Clear</md-button>-->
-      <!--<md-button ng-disabled="vm.submitted" type="submit" form="changePlanForm" class="md-raised md-warn">Submit</md-button>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--&lt;!&ndash; / CONTENT CARD &ndash;&gt;-->
-      <!--</div>-->
-      <!--</div>-->
-      <!-- / EDIT PLAN -->
     </div>
+    <!-- / CONTENT CARD -->
+    <!-- EDIT PLAN -->
+    <!--<div ng-if="editOff" class="content-card" layout="column" flex>-->
+    <!--<div layout="column" flex>-->
+    <!--&lt;!&ndash; CONTENT CARD &ndash;&gt;-->
+    <!--<div layout="column" flex>-->
+    <!--&lt;!&ndash; CONTENT WRAPPER &ndash;&gt;-->
+    <!--<div class="content-wrapper" ms-scroll flex>-->
+
+    <!--<md-content class="overflow-hidden">-->
+    <!--<form id="changePlanForm" name="vm.changePlanForm" ng-submit="submitPlan('changePlanForm')" novalidate>-->
+    <!--&lt;!&ndash;CREATE NEW INVOICE _ CARDED=================================================&ndash;&gt;-->
+    <!--<md-card flex class="input-block-gen">-->
+    <!--<md-card-title>-->
+    <!--<div layout="row" layout-align="start center">-->
+    <!--<md-icon md-font-icon="icon-cog"></md-icon> <h3>General Details</h3>-->
+    <!--</div>-->
+    <!--</md-card-title>-->
+    <!--<md-card-content>-->
+    <!--<div layout="row">-->
+    <!--<md-input-container flex="30">-->
+    <!--<label>Plan type</label>-->
+    <!--<md-select flex ng-required="true" ng-model="content.type">-->
+    <!--&lt;!&ndash;<md-option value="Services" ng-selected="true">Services</md-option>&ndash;&gt;-->
+    <!--<md-option ng-repeat="type in planTypeList" ng-value="type.RecordFieldData">{{type.RecordFieldData}}</md-option>-->
+    <!--</md-select>-->
+    <!--</md-input-container>-->
+    <!--<div flex="5"></div>-->
+    <!--<md-input-container flex="30">-->
+    <!--<label>Plan name</label>-->
+    <!--<input type="text" ng-required="true" min="" name="planName" ng-maxlength="30" ng-model="content.name">-->
+    <!--<div ng-messages="vm.changePlanForm.planName.$error">-->
+    <!--<div ng-message="maxlength">Plan name must be between 1-30 characters</div>-->
+    <!--</div>-->
+    <!--</md-input-container>-->
+    <!--<div flex="5"></div>-->
+    <!--<md-input-container flex="30">-->
+    <!--<label>Plan code</label>-->
+    <!--<input type="text" ng-required="true" ng-maxlength="15" name="planCode" ng-model="content.code">-->
+    <!--<div ng-messages="vm.changePlanForm.planCode.$error">-->
+    <!--<div ng-message="maxlength">Plan code must be between 1-15 characters</div>-->
+    <!--</div>-->
+    <!--</md-input-container>-->
+    <!--</div>-->
+    <!--<div layout="row">-->
+    <!--<md-input-container flex>-->
+    <!--<label>Description</label>-->
+    <!--<input type="text" ng-required="false" ng-maxlength="300" md-maxlength="300" name="planDescription" ng-model="content.description">-->
+    <!--<div ng-messages="vm.changePlanForm.planDescription.$error">-->
+    <!--<div ng-message="maxlength">Plan description must be between 1-300 characters</div>-->
+    <!--</div>-->
+    <!--</md-input-container>-->
+    <!--</div>-->
+
+    <!--</md-card-content>-->
+    <!--</md-card>-->
+
+    <!--<md-card flex class="input-block-gen" ng-if="content.type=='Add-on'">-->
+    <!--<md-card-title>-->
+    <!--<div layout="row" layout-align="start center">-->
+    <!--<md-icon md-font-icon="icon-cog"></md-icon> <h3>Add-on Configuration</h3>-->
+    <!--</div>-->
+    <!--</md-card-title>-->
+    <!--<md-card-content layout="row">-->
+    <!--<md-checkbox ng-model="content.allBasePlansSelected" aria-label="Event" class="md-primary">Select All Base Plans</md-checkbox>-->
+    <!--</md-card-content>-->
+    <!--<md-card-content layout="row" ng-if="!content.allBasePlansSelected">-->
+    <!--<md-card flex class="input-block-gen" layout="column">-->
+    <!--<div flex class="inpage-listpane">-->
+    <!--<md-card-title>-->
+    <!--<div layout="row" layout-align="start center">-->
+    <!--<md-icon md-font-icon="icon-account-multiple"></md-icon> <h3>Base Plan List</h3>-->
+    <!--</div>-->
+    <!--</md-card-title>-->
+    <!--<div>-->
+    <!--<div class="search" flex layout="row" layout-align="start center">-->
+    <!--<md-icon md-font-icon="icon-magnify" class="icon s24"></md-icon>-->
+    <!--<input flex ng-model="vm.searchBasePlans" type="text" placeholder="Search for Base Plans">-->
+    <!--</div>-->
+    <!--<div class="subheaded-list-content" flex>-->
+    <!--<md-content ms-scroll>-->
+    <!--&lt;!&ndash;<md-progress-circular md-mode='indeterminate' md-diameter="150" class="progress-circle-loader" ng-show="loading"></md-progress-circular>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;<div id="draggblePlan" class="not-shared-user" draggable-data="s" draggable="true" effect-allowed="copy" draggable-type="custom-object" ng-repeat="s in basePlanList | filter : vm.searchBasePlans">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div layout="row" layout-align="space-between center">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div layout="row" layout-align="start center">&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<md-icon md-font-icon="icon-account"></md-icon>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<img ng-src="{{getCatLetter(s.name)}}" class="md-avatar"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<p>{{s.name}}</p>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<md-icon md-font-icon="icon-cursor-move"></md-icon>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--<div class="carded-list-group" style="padding: 0;">-->
+    <!--<md-list flex class="carded-dashboard-list">-->
+    <!--<md-list-item layout="row" ng-repeat="s in basePlanList | filter : vm.searchBasePlans" ng-click="null">-->
+    <!--<span flex>-->
+    <!--<md-checkbox ng-model="s.isSelected" aria-label="Event" class="md-primary">{{s.name}}</md-checkbox>-->
+    <!--</span>-->
+    <!--</md-list-item>-->
+    <!--</md-list>-->
+    <!--</div>-->
+
+    <!--</md-content>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</md-card>-->
+
+    <!--&lt;!&ndash;<div flex layout="column" layout-align="start center" style="padding-right: 20px">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div layout="column" layout-align="center center" class="shared-app">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div layout="row" layout-align="center center">&ndash;&gt;-->
+    <!--&lt;!&ndash;<h3>Selected Base Plans</h3>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div drop="onDropOne($data, $event)" drop-effect="copy" drop-accept="'json/custom-object'" drag-over="onDragOver($event)" drag-over-class="drag-over-accept" flex class="drag-n-drop-area">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div ng-show="selectedBasePlans.length<1" class="watermark" layout="column" layout-align="center center">&ndash;&gt;-->
+    <!--&lt;!&ndash;<md-icon md-font-icon="icon-account-multiple"></md-icon>&ndash;&gt;-->
+    <!--&lt;!&ndash;<span>Drop BasePlan Here</span>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<md-card class="shared-user" ng-repeat="plan in selectedBasePlans">&ndash;&gt;-->
+    <!--&lt;!&ndash;<div layout="row" layout-align="space-between center">&ndash;&gt;-->
+    <!--&lt;!&ndash;<md-icon md-font-icon="icon-account"></md-icon>&ndash;&gt;-->
+    <!--&lt;!&ndash;<p>{{plan.name}}</p>&ndash;&gt;-->
+    <!--&lt;!&ndash;<md-button class="md-icon-button" ng-click="deleteSelectedBasePlan($event,plan)" aria-label="delete">&ndash;&gt;-->
+    <!--&lt;!&ndash;<md-icon md-font-icon="icon-close-circle md-warn"></md-icon>&ndash;&gt;-->
+    <!--&lt;!&ndash;</md-button>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</md-card>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--</md-card-content>-->
+
+    <!--</md-card>-->
+
+    <!--<md-card flex class="input-block-gen">-->
+    <!--<md-card-title>-->
+    <!--<div layout="row" layout-align="start center">-->
+    <!--<md-icon md-font-icon="icon-credit-card-multiple"></md-icon> <h3>Billing Details</h3>-->
+    <!--</div>-->
+    <!--</md-card-title>-->
+    <!--<md-card-content>-->
+    <!--<div class="group-sub-head" style="margin-top: 0"><b>Billing frequency</b></div>-->
+    <!--<div layout="row" class="row-offset">-->
+    <!--<div flex="5" layout="column" id="billingFrqCurrency" layout-align="center start">-->
+    <!--{{0| isoCurrency: BaseCurrency:0}}-->
+    <!--</div>-->
+    <!--<md-input-container ng-hide="true" flex>-->
+    <!--<input type="text" ng-min="" ng-max="" name="currency" ng-init="content.currency=BaseCurrency" ng-model="content.currency">-->
+    <!--</md-input-container>-->
+    <!--&lt;!&ndash;<md-input-container flex="10">&ndash;&gt;-->
+    <!--&lt;!&ndash;<label>Currency</label>&ndash;&gt;-->
+    <!--&lt;!&ndash;<input type="text" ng-required="false" min="1" ng-maxlength="300" name="currency" ng-init="content.currency=BaseCurrency | isoCurrency: vm.editSelectedPlan.currency:0" ng-model="content.currency" ng-disabled="true">&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<md-select ng-required="true" flex ng-model="content.currency">&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<md-option ng-value="BaseCurrency" selected>{{BaseCurrency}}</md-option>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<md-option ng-repeat="curr in prefferedCurrencies" ng-value="curr">{{curr}}</md-option>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;</md-select>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;</md-input-container>&ndash;&gt;-->
+    <!--<div class="w-20"></div>-->
+
+    <!--<div layout="column" flex="30">-->
+    <!--<md-input-container flex>-->
+    <!--<label>Unit price</label>-->
+    <!--<input type="number" ng-required="!content.default_price || !content.add_pricingScheme" ng-min="1" ng-max="100000000000000000" name="unitPrice" ng-disabled="content.default_price && content.add_pricingScheme" ng-model="content.unitPrice" style="text-align: right">-->
+    <!--<div ng-messages="vm.changePlanForm.unitPrice.$error">-->
+    <!--<div ng-message="max">Unit price must be between 1-18 digits</div>-->
+    <!--<div ng-message="min">Unit price must be between 1-18 digits</div>-->
+    <!--</div>-->
+    <!--</md-input-container>-->
+    <!--&lt;!&ndash;<md-checkbox ng-disabled="!content.add_pricingScheme" ng-model="content.default_price" ng-change="changeDefaultPrice(features,content.unitPrice,content.default_price,content.add_pricingScheme,'add')" aria-label="Default UnitPrice" class="md-primary dep-checkbox" ng-class="{'black-text':content.default_price}">Get default price</md-checkbox><span class="fs-12" ng-if="!content.add_pricingScheme"> (Add pricing scheme to set a default price)</span>&ndash;&gt;-->
+    <!--</div>-->
+
+    <!--<div flex="5"></div>-->
+    <!--<md-input-container flex="30">-->
+    <!--<label>Occurrence</label>-->
+    <!--<input ng-required="true" type="number" min="1" max="100000000000000000" name="frequency" ng-model="content.billingInterval" ng-init="content.billingInterval" style="text-align: right">-->
+    <!--<div ng-messages="vm.changePlanForm.frequency.$error">-->
+    <!--<div ng-message="max">Occurrence must be between 1-18 digits</div>-->
+    <!--<div ng-message="min">Occurrence must be between 1-18 digits</div>-->
+    <!--</div>-->
+    <!--</md-input-container>-->
+    <!--<div class="w-20"></div>-->
+    <!--<md-input-container flex="15">-->
+    <!--<md-select ng-required="true" flex ng-model="content.billEvery">-->
+    <!--<md-option value="Months" selected>Months</md-option>-->
+    <!--<md-option value="Years">Years</md-option>-->
+    <!--<md-option value="Days">Days</md-option>-->
+    <!--</md-select>-->
+    <!--</md-input-container>-->
+    <!--</div>-->
+
+    <!--<div layout="column" layout-align="center center" class="p-10" style="border:solid 1px #ddd">-->
+    <!--<div ng-if="content.billEvery == 'Months'" layout="row" layout-align="start center">-->
+    <!--<div>(<b>{{content.unitPrice | isoCurrency:content.currency}}</b> invoice will generate once every <b>{{content.billingInterval}} month<span ng-if="content.billingInterval>1">s</span></b>)</div>-->
+    <!--</div>-->
+    <!--<div ng-if="content.billEvery == 'Years'" layout="row" layout-align="start center">-->
+    <!--<div>(<b>{{content.unitPrice | isoCurrency:content.currency}}</b> invoice will generate once every <b>{{content.billingInterval}} year<span ng-if="content.billingInterval>1">s</span></b>)</div>-->
+    <!--</div>-->
+    <!--<div ng-if="content.billEvery == 'Days'" layout="row" layout-align="start center">-->
+    <!--<div>(<b>{{content.unitPrice | isoCurrency:content.currency}}</b> invoice will generate once every <b>{{content.billingInterval}} day<span ng-if="content.billingInterval>1">s</span></b>)</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<div style="margin-top: 50px">-->
+    <!--<div class="group-sub-head"><b>Billing cycles</b></div>-->
+    <!--<div layout="row" layout-align="start center">-->
+    <!--<md-input-container flex="30">-->
+    <!--<md-radio-group ng-model="content.billingCycleType" ng-init="content.billingCycleType='auto'" ng-change="vm.billingCycleHandler(content.billingCycleType)">-->
+    <!--<md-radio-button value="auto" class="md-primary">Auto renewed until cancelled</md-radio-button>-->
+    <!--<md-radio-button value="fixed" class="md-primary">Fixed number billing cycles</md-radio-button>-->
+    <!--</md-radio-group>-->
+    <!--</md-input-container>-->
+    <!--<div flex="5"></div>-->
+    <!--<div layout="row" style="position: relative;top: 20px;" ng-if="showNoOfCycles" flex="30">-->
+    <!--<md-input-container flex>-->
+    <!--<label>Number of billing cycles</label>-->
+    <!--<input ng-required="true" type="number" min="1" name="no_of_cycles" ng-model="content.billingCycle" style="text-align: right">-->
+    <!--</md-input-container>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<div layout="row" style="margin-bottom: 10px">-->
+    <!--<div flex="30" layout="row">-->
+    <!--<md-input-container flex>-->
+    <!--<label>Trial</label>-->
+    <!--<input ng-required="false" type="number" name="note" ng-init="content.trailDays=30" ng-model="content.trailDays" style="text-align: right">-->
+    <!--</md-input-container>-->
+    <!--<div layout="row" layout-align="start center">days</div>-->
+    <!--</div>-->
+    <!--<div flex="5"></div>-->
+    <!--<div flex="30">-->
+    <!--<md-input-container class="md-block">-->
+    <!--<label>Payment Option</label>-->
+    <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
+    <!--<md-select ng-required="true" flex ng-model="content.paymentOption">-->
+    <!--<md-option value="Online" selected>Online</md-option>-->
+    <!--<md-option value="Offline">Offline</md-option>-->
+    <!--</md-select>-->
+    <!--</md-input-container>-->
+    <!--</div>-->
+    <!--<div flex="5"></div>-->
+    <!--<div layout="row" flex="30">-->
+    <!--<div layout="column" flex>-->
+    <!--<md-input-container>-->
+    <!--<label>Tax</label>-->
+    <!--<md-select ng-required="content.apply_tax" ng-model="content.taxID" ng-disabled="!content.apply_tax">-->
+    <!--<md-option ng-repeat="value in taxGroup" value="{{value.taxgroupid}}">-->
+    <!--{{value.taxgroupcode}}-->
+    <!--</md-option>-->
+    <!--</md-select>-->
+    <!--</md-input-container>-->
+    <!--<md-checkbox ng-model="content.apply_tax" aria-label="Apply Tax" class="md-primary dep-checkbox" style="top:0;width: 100px;">Apply Tax</md-checkbox>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</md-card-content>-->
+    <!--</md-card>-->
+
+    <!--&lt;!&ndash;<div layout="row" layout-align="space-between center" class="checkbox-bar" md-whiteframe="1dp">&ndash;&gt;-->
+
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+    <!--<md-card flex class="input-block-gen">-->
+    <!--<md-card-title>-->
+    <!--<div layout="row" layout-align="space-between center" flex>-->
+    <!--&lt;!&ndash;<md-checkbox ng-model="content.add_pricingScheme" aria-label="Pricing Scheme" class="md-primary dep-checkbox" style="top:10px;"></md-checkbox>&ndash;&gt;-->
+    <!--<div layout="row" flex>-->
+    <!--<md-checkbox layout="row" flex ng-model="content.add_pricingScheme" ng-change="calcUnitPrice(features,content.unitPrice,content.default_price,content.add_pricingScheme,'add')" aria-label="Pricing Scheme" class="m-0 md-accent dep-checkbox"> <h3>Add pricing scheme</h3></md-checkbox>-->
+    <!--</div>-->
+    <!--<md-icon ng-class="content.add_pricingScheme ? 'icon-chevron-up' : 'icon-chevron-down'"></md-icon>-->
+    <!--</div>-->
+    <!--</md-card-title>-->
+    <!--<md-card-content ng-if="content.add_pricingScheme==true">-->
+    <!--&lt;!&ndash;<div layout="row" layout-align="start center">&ndash;&gt;-->
+    <!--&lt;!&ndash;<md-checkbox ng-model="vm.editSelectedPlan.default_price" ng-change="changeDefaultPrice(vm.editSelectedPlan.priceScheme,vm.editSelectedPlan.unitPrice,vm.editSelectedPlan.default_price,vm.editSelectedPlan.add_pricingScheme,'update')" aria-label="Default UnitPrice" class="md-primary dep-checkbox" ng-class="{'black-text':vm.editSelectedPlan.default_price}">Get default price</md-checkbox><span class="fs-12" ng-if="!vm.editSelectedPlan.add_pricingScheme"> (Add pricing scheme to set a default price)</span>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+    <!--<div class="group-sub-head mt-0"><b>Features</b></div>-->
+
+    <!--<div>-->
+    <!--<div layout="row" layout-align="start center" ng-repeat="row in features" class="highlight-blue solid h-auto" >-->
+    <!--<div layout="column" flex class="v-rule-blue">-->
+    <!--<div layout="row" class="h-80">-->
+    <!--<div flex="30">-->
+    <!--<md-input-container class="md-block" id="invProdQty">-->
+    <!--<label>Feature</label>-->
+    <!--<input type="text" ng-required="true" min="1" ng-model="row.feature">-->
+    <!--</md-input-container>-->
+    <!--</div>-->
+
+    <!--<div flex="5"></div>-->
+
+    <!--<div flex="30">-->
+    <!--<md-input-container class="md-block" id="invProdQty8">-->
+    <!--<label>Feature code</label>-->
+    <!--<input type="text" ng-required="true" min="1" ng-model="row.featureCode">-->
+    <!--</md-input-container>-->
+    <!--</div>-->
+
+    <!--<div flex="5"></div>-->
+
+    <!--<div flex="20" layout="row" layout-align="start center">-->
+    <!--<md-button layout="row" layout-align="start center" ng-if="!row.showAdvanceFeatures" ng-click="setAdvanceFeatures(row);" class="md-accent fs-14">-->
+    <!--<md-icon md-font-icon="icon-plus-circle" class="md-primary fs-18 mr-5" ng-class=""></md-icon>-->
+    <!--Add rating-->
+    <!--</md-button>-->
+    <!--</div>-->
+
+    <!--<div id="stop-subscription" layout="column" ng-if="row.showAdvanceFeatures" ng-hide="row.advancedFeaturesConfirmed" class="w-480 animate-slide-down" md-whiteframe="4dp" style="top: -60px;">-->
+    <!--<div class="header-bar text-right" layout="row" layout-align="space-between center">-->
+    <!--<h3>Rating</h3>-->
+    <!--<md-button class="md-icon-button" ng-click="closeAdvanceFeatures(row)"><md-icon md-font-icon="icon-close"></md-icon> </md-button>-->
+    <!--</div>-->
+    <!--<div class="p-20">-->
+    <!--<div>-->
+    <!--<div layout="row" layout-align="space-between center">-->
+    <!--<div layout="column" layout-align="start start">-->
+    <!--<div layout="row" layout-align="start center" class="title">-->
+    <!--<md-icon md-font-icon="icon-book"></md-icon> <span flex>Fixed</span>-->
+    <!--</div>-->
+    <!--<div class="mt-10">Fixed rating will be added</div>-->
+    <!--</div>-->
+    <!--<md-button class="md-accent md-raised" ng-click="setFeature(row, 'FIXED')">Choose this</md-button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<md-divider class="mv-20"></md-divider>-->
+    <!--<div>-->
+    <!--<div layout="row" layout-align="space-between center">-->
+    <!--<div layout="column" layout-align="start start">-->
+    <!--<div layout="row" layout-align="start center" class="title">-->
+    <!--<md-icon md-font-icon="icon-book-multiple"></md-icon> <span flex>Slab</span>-->
+    <!--</div>-->
+    <!--<div class="mt-10">Slab ratings will be added</div>-->
+    <!--</div>-->
+    <!--<md-button class="md-accent md-raised" ng-click="setFeature(row, 'SLAB')">Choose this</md-button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div ng-show="row.advancedFeaturesConfirmed">-->
+    <!--<div flex layout="row" layout-align="space-between center">-->
+    <!--&lt;!&ndash;<div flex ng-hide="row.showAdvanceFeatures"></div>&ndash;&gt;-->
+    <!--<md-input-container class="animate-fade-in-out" ng-show="row.showAdvanceFeatures" flex="30">-->
+    <!--<label>Type</label>-->
+    <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
+    <!--<md-select ng-required="true" id="createFeatureType" flex ng-model="row.type" ng-init="row.type=''">-->
+    <!--&lt;!&ndash;<md-option value="optional" selected>&#45;&#45;Select Type&#45;&#45;</md-option>&ndash;&gt;-->
+    <!--<md-option value="optional" ng-hide="true" selected>optional</md-option>-->
+    <!--<md-option value="FIXED">FIXED</md-option>-->
+    <!--<md-option value="SLAB">SLAB</md-option>-->
+    <!--</md-select>-->
+    <!--</md-input-container>-->
+    <!--<md-button layout="row" layout-align="start center" ng-if="row.showAdvanceFeatures" ng-click="closeAdvanceFeatures(row);" class="md-primary fs-12"> <md-icon md-font-icon="icon-close" class="md-primary fs-16" ng-class=""></md-icon> Close rating</md-button>-->
+    <!--</div>-->
+    <!--<div class="highlight-white solid p-5" layout="row" ng-if="row.type=='FIXED' && row.showAdvanceFeatures">-->
+    <!--<div layout-align-md="start center" layout-md="column" flex="30">-->
+    <!--<div flex>-->
+    <!--<md-input-container class="md-block" id="invProdQty2">-->
+    <!--<label>Unit Quantity</label>-->
+    <!--<input type="number" ng-required="true" min="1" ng-model="row.unitsTo">-->
+    <!--</md-input-container>-->
+    <!--</div>-->
+    <!--<div flex>-->
+    <!--<md-input-container class="md-block" id="invProdQty3">-->
+    <!--<label>Unit UOM</label>-->
+    <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
+    <!--<md-select ng-required="true" flex ng-model="row.unitUom">-->
+    <!--<md-option value="Units" selected>Units</md-option>-->
+    <!--<md-option value="GB">GB</md-option>-->
+    <!--</md-select>-->
+    <!--</md-input-container>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div flex="5"></div>-->
+    <!--<div layout-align-md="start center" layout-md="column" flex="30">-->
+    <!--<div flex>-->
+    <!--<md-input-container class="md-block" id="invProdQty4">-->
+    <!--<label>Unit Price</label>-->
+    <!--<input type="number" ng-required="true" min="1" ng-change="calcUnitPrice(features,content.unitPrice,content.default_price,content.add_pricingScheme,'add')" ng-model="row.price">-->
+    <!--</md-input-container>-->
+    <!--</div>-->
+    <!--<div flex>-->
+    <!--<md-input-container class="md-block" id="invProdQty5">-->
+    <!--<label>UOM</label>-->
+    <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
+    <!--<md-select ng-required="true" flex ng-model="row.uom">-->
+    <!--<md-option value="OneTime" selected>One time</md-option>-->
+    <!--<md-option value="Months" ng-disabled="content.billEvery=='Days'">Months</md-option>-->
+    <!--<md-option value="Years" ng-disabled="content.billEvery!='Years'">Years</md-option>-->
+    <!--<md-option value="Days">Days</md-option>-->
+    <!--</md-select>-->
+    <!--</md-input-container>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div flex="5"></div>-->
+    <!--<div flex layout="column" layout-align="center start" flex="30">-->
+    <!--<md-input-container fill-width class="mt-40" id="invProdQty7" ng-if="!row.autoTermination">-->
+    <!--<label>Additional charge per unit</label>-->
+    <!--<input type="number" ng-disabled="row.autoTermination" ng-required="true" min="1" ng-model="row.costPerUnitAdd">-->
+    <!--</md-input-container>-->
+    <!--<md-checkbox ng-model="row.autoTermination" aria-label="Auto Terminate" class="md-primary dep-checkbox" ng-class="{'offset-top':!row.autoTermination}">Auto terminate</md-checkbox>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div ng-if="row.type=='SLAB'" layout="column">-->
+    <!--<div layout="row" ng-repeat="slab in row.scheme" class="highlight-white solid p-5 mb-10">-->
+    <!--<div layout-align-md="start center" layout-md="column" flex="30">-->
+    <!--<md-input-container class="mb-0" id="invProdQty2" fill-width>-->
+    <!--<label>Starting quantity</label>-->
+    <!--<input type="number" ng-required="true" min="0" ng-model="slab.unitsFrom">-->
+    <!--</md-input-container>-->
+    <!--<md-input-container class="mb-0" id="invProdQty2" fill-width>-->
+    <!--<label>Ending Quantity</label>-->
+    <!--<input type="number" ng-required="true" min="1" ng-model="slab.unitsTo">-->
+    <!--</md-input-container>-->
+    <!--</div>-->
+    <!--<div flex="5"></div>-->
+    <!--<div layout-align-md="start center" layout-md="column" flex="30">-->
+    <!--<md-input-container class="md-block" id="invProdQty4" flex>-->
+    <!--<label>Unit price</label>-->
+    <!--<input type="number" ng-required="true" min="1" ng-change="calcUnitPrice(features,content.unitPrice,content.default_price,content.add_pricingScheme,'add')" ng-model="slab.price">-->
+    <!--</md-input-container>-->
+    <!--<div layout="row" layout-align="start center" flex>-->
+    <!--<md-input-container class="m-0" id="invProdQty5" flex>-->
+    <!--<label>UOM</label>-->
+    <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
+    <!--<md-select ng-required="true" flex ng-model="slab.uom">-->
+    <!--<md-option value="OneTime" selected>One time</md-option>-->
+    <!--<md-option value="Months" ng-disabled="content.billEvery=='Days'">Months</md-option>-->
+    <!--<md-option value="Years" ng-disabled="content.billEvery!='Years'">Years</md-option>-->
+    <!--<md-option value="Days">Days</md-option>-->
+    <!--</md-select>-->
+    <!--</md-input-container>-->
+    <!--<div class="w-10"></div>-->
+    <!--<md-input-container class="m-0" id="invProdQty3">-->
+    <!--<label>Unit UOM</label>-->
+    <!--&lt;!&ndash;<input type="text" ng-required="true" min="1" ng-model="row.unitUom">&ndash;&gt;-->
+    <!--<md-select ng-required="true" flex ng-model="slab.unitUom">-->
+    <!--<md-option value="Units" selected>Units</md-option>-->
+    <!--<md-option value="GB">GB</md-option>-->
+    <!--</md-select>-->
+    <!--</md-input-container>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div flex="5"></div>-->
+    <!--<div flex="30" layout="column" layout-align="center start">-->
+    <!--<md-input-container fill-width class="mt-40" id="invProdQty7" ng-if="slab.autoTermination==false">-->
+    <!--<label>Additional charge per unit</label>-->
+    <!--<input type="number" ng-required="true" min="1" ng-model="slab.costPerUnitAdd">-->
+    <!--</md-input-container>-->
+    <!--<md-checkbox ng-model="slab.autoTermination" aria-label="Auto Terminate" class="md-primary dep-checkbox" ng-class="{'offset-top':!slab.autoTermination}">Auto terminate</md-checkbox>-->
+    <!--</div>-->
+    <!--<div class="w-5"></div>-->
+    <!--<div layout="column" layout-align="center center" class="v-rule-gray">-->
+    <!--<md-button ng-click="removerow($index,row.scheme,$parent.$index);" class="md-icon-button md-warn"><md-icon md-font-icon="icon-close-circle"></md-icon><md-tooltip>Remove slab</md-tooltip> </md-button>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<div layout="row" layout-align="end center">-->
+    <!--<md-button ng-click="addNewSlab(row);" class="md-accent md-icon-button mr-10"><md-icon md-font-icon="icon-plus-circle"></md-icon><md-tooltip>Add slab</md-tooltip></md-button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<div layout="row" layout-align="center center" class="w-60">-->
+    <!--<md-button ng-if="features.length > 1" ng-click="removerow($index,features,$index);" class="md-icon-button md-warn h-45 w-45 mr-10"><md-icon md-font-icon="icon-close-circle" class="fs-34 w-35 h-35"></md-icon><md-tooltip>Remove feature</md-tooltip> </md-button>-->
+    <!--</div>-->
+
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<div layout="row" layout-align="end center" class="h-60">-->
+    <!--<md-button ng-click="addNewRow(features);" class="md-accent md-icon-button mr-20 h-45 w-45"><md-icon md-font-icon="icon-plus-circle" class="fs-34 w-35 h-35"></md-icon><md-tooltip>Add feature</md-tooltip> </md-button>-->
+    <!--</div>-->
+    <!--</md-card-content>-->
+    <!--</md-card>-->
+    <!--&lt;!&ndash;CREATE NEW INVOICE _ CARDED=================================================&ndash;&gt;-->
+    <!--</form>-->
+    <!--</md-content>-->
+
+    <!--</div>-->
+    <!--&lt;!&ndash; / CONTENT WRAPPER &ndash;&gt;-->
+    <!--<div md-whiteframe="8dp" layout="row" layout-align="space-between center" class="bottom-fixed-bar">-->
+    <!--<div layout="row"></div>-->
+
+    <!--<div layout="row" class="layout-row">-->
+    <!--<md-button ng-click="clearform()">Clear</md-button>-->
+    <!--<md-button ng-disabled="vm.submitted" type="submit" form="changePlanForm" class="md-raised md-warn">Submit</md-button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--&lt;!&ndash; / CONTENT CARD &ndash;&gt;-->
+    <!--</div>-->
+    <!--</div>-->
+    <!-- / EDIT PLAN -->
   </div>
-  <!-- / CENTER -->
+</div>
+<!-- / CENTER -->
 
 </div>
